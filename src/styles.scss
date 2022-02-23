@@ -1,1 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --bg-color: rgb(255, 255, 255);
+  --font-color: #18191a;
+  --nav-color: #f6f7f8;
+  --inline-code-bg: #f6f7f8;
+  --inline-code-border: rgb(220, 220, 220);
+  --box-shadow: rgba(0, 0, 0, 0.1);
+  --footer-color: #f6f7f8;
+}
+
+.lightmode {
+  --bg-color: #18191a;
+  --font-color: rgb(255, 255, 255);
+  --nav-color: rgb(45, 45, 45);
+  --inline-code-bg: rgb(60, 60, 60);
+  --inline-code-border: rgb(90, 90, 90);
+  --box-shadow: rgba(255, 255, 255, 0.1);
+  --footer-color: #37404a;
+}
+
+* {
+  font-family: 'Segoe UI';
+  word-break: break-word;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', 'Open Sans', sans-serif;
+  background-color: rgb(247, 247, 247);
+  color: var(--font-color);
+}

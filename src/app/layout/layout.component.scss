@@ -1,0 +1,26 @@
+.main-content-container {
+  padding: 4em;
+  border-radius: 15px;
+  background-color: var(--bg-color);
+  box-shadow: 0 0 3px 0.5px rgb(200, 200, 200);
+}
+
+.main {
+  padding: 5em 15em;
+}
+
+@media screen and (max-width: 1500px) {
+  .main {
+    padding: 5em 2em;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .main {
+    padding: 2em 0.5em;
+  }
+
+  .main-content-container {
+    padding: 2em;
+  }
+}
