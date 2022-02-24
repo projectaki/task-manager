@@ -1,0 +1,28 @@
+.button-group {
+  position: absolute;
+  top: 2em;
+  right: 2em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1em;
+}
+
+.btn {
+  width: 12em;
+  height: 3em;
+}
+
+.lamify {
+  box-shadow: none;
+}
+
+@media screen and (max-width: 500px) {
+  .button-group {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    column-gap: 1em;
+  }
+}

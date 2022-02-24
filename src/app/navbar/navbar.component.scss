@@ -4,4 +4,18 @@
   height: 60px;
   background-color: var(--bg-color);
   box-shadow: 0 0 1px 1px rgb(230, 230, 230);
+  position: fixed;
+}
+
+.nav-links {
+  display: grid;
+  column-gap: 2em;
+  grid-template-columns: repeat(1, 1fr);
+  position: absolute;
+  right: 2em;
+  top: 1em;
+}
+
+.btn {
+  //--btn-theme: blue;
 }
