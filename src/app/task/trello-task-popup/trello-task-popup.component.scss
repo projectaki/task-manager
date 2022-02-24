@@ -1,0 +1,15 @@
+.popup {
+  width: 600px;
+  height: 400px;
+  position: relative;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  margin: 2em;
+}
+
+.submit {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}

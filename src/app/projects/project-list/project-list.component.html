@@ -1,5 +1,13 @@
-<div class="project-card-container">
-  <ng-container *ngFor="let item of projects">
+<button (click)="toggle(true)">My Projects</button>
+<button (click)="toggle(false)">Client Projects</button>
+
+<div class="project-card-container" *ngIf="showMyprojects">
+  <ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+    <app-project-card></app-project-card>
+  </ng-container>
+</div>
+<div class="project-card-container" *ngIf="!showMyprojects">
+  <ng-container *ngFor="let item of [1, 2]">
     <app-project-card></app-project-card>
   </ng-container>
 </div>

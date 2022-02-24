@@ -6,9 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent implements OnInit {
-  public projects = new Array(5).fill(0);
+  showMyprojects = true;
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  toggle(val: boolean) {
+    this.showMyprojects = val;
+  }
 }

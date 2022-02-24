@@ -1,0 +1,7 @@
+<p>Description</p>
+
+<div *ngFor="let item of [1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5]">item</div>
+
+<button (click)="toggle()">Create scrum task</button>
+
+<app-trello-task-popup *ngIf="showPopup"></app-trello-task-popup>

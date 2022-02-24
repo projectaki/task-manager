@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ProjectListComponent } from './projects/project-list/project-list.component';
 import { ProjectComponent } from './projects/project/project.component';
+import { TaskViewComponent } from './task/task-view/task-view.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'projects/:id',
         component: ProjectComponent,
+      },
+      {
+        path: 'projects/:id/task/:id',
+        component: TaskViewComponent,
       },
     ],
   },
