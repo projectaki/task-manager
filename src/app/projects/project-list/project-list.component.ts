@@ -6,13 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent implements OnInit {
-  showMyprojects = true;
-
+  public currentTabIndex = 0;
   constructor() {}
 
   ngOnInit(): void {}
 
-  toggle(val: boolean) {
-    this.showMyprojects = val;
+  handleChange(e: any) {
+    this.currentTabIndex = e.index;
   }
 }

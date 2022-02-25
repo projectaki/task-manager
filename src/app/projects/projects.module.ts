@@ -5,9 +5,10 @@ import { ProjectComponent } from './project/project.component';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { RouterModule } from '@angular/router';
 import { TaskModule } from '../task/task.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [ProjectListComponent, ProjectComponent, ProjectCardComponent],
-  imports: [CommonModule, RouterModule, TaskModule],
+  imports: [CommonModule, RouterModule, TaskModule, SharedModule],
 })
 export class ProjectsModule {}

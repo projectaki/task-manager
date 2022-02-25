@@ -1,13 +1,27 @@
-<button (click)="toggle(true)">My Projects</button>
-<button (click)="toggle(false)">Client Projects</button>
+<div class="cont">
+  <button *ngIf="currentTabIndex === 0" class="create-project-button fancy-button">Create Project</button>
 
-<div class="project-card-container" *ngIf="showMyprojects">
-  <ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6]">
-    <app-project-card></app-project-card>
-  </ng-container>
-</div>
-<div class="project-card-container" *ngIf="!showMyprojects">
-  <ng-container *ngFor="let item of [1, 2]">
-    <app-project-card></app-project-card>
-  </ng-container>
+  <p-tabView (onChange)="handleChange($event)">
+    <p-tabPanel header="My Projects">
+      <div class="project-card-container">
+        <ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+          <app-project-card></app-project-card>
+        </ng-container>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Invited Projects">
+      <div class="project-card-container">
+        <ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+          <app-project-card></app-project-card>
+        </ng-container>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Client Projects"
+      ><div class="project-card-container">
+        <ng-container *ngFor="let item of [1, 2]">
+          <app-project-card></app-project-card>
+        </ng-container>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
 </div>
