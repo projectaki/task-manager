@@ -25,6 +25,12 @@
 @media screen and (max-width: 1100px) {
   .project-card-container {
     grid-template-columns: repeat(2, 1fr);
+    column-gap: 0.5em;
+    row-gap: 0.5em;
+  }
+
+  .cont {
+    padding: 4em 5%;
   }
 }
 

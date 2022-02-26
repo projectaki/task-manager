@@ -78,3 +78,34 @@ body {
 }
 
 // scroll bar 👆
+
+// Primeng 👇
+
+.p-tabview-nav {
+  justify-content: start;
+  width: 100%;
+}
+
+// tabview mobile
+@media screen and (max-width: 700px) {
+  .p-tabview-nav {
+    justify-content: center;
+    width: 100%;
+  }
+  .p-tabview-nav > li {
+    width: 33%;
+  }
+
+  .p-tabview-panels {
+    padding: 20px 5px !important;
+  }
+
+  .p-tabview-nav-link {
+    font-size: 10px;
+    padding: 1em !important;
+    justify-content: center;
+    overflow: hidden;
+  }
+}
+
+// Primeng 👆

@@ -1,26 +1,32 @@
-<button (click)="toggle('showTask')">Tasks</button>
-<button (click)="toggle('showHistory')">History</button>
-<button (click)="toggle('showMembers')">Members</button>
+<div class="cont">
+  <button class="create-project-button fancy-button">Create Task</button>
 
-<div class="task-container" *ngIf="obj['showTask']">
-  <app-task *ngFor="let item of [1, 2, 3, 4, 5]"></app-task>
-</div>
-
-<div class="task-container" *ngIf="obj['showHistory']">
-  <app-task *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"></app-task>
-</div>
-
-<div class="task-container" *ngIf="obj['showMembers']">
-  <div>
-    Owners
-    <div *ngFor="let item of [1]">Member {{ item }}</div>
-  </div>
-  <div>
-    Clients
-    <div *ngFor="let item of [1, 2, 3]">Member {{ item }}</div>
-  </div>
-  <div>
-    Invited
-    <div *ngFor="let item of [1, 2, 3, 4, 5]">Member {{ item }}</div>
-  </div>
+  <p-tabView>
+    <p-tabPanel header="Tasks">
+      <div class="task-container">
+        <app-task *ngFor="let item of [1, 2, 3, 4, 5]"></app-task>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Completed Tasks">
+      <div class="task-container">
+        <app-task *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"></app-task>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Members">
+      <div class="task-container">
+        <div>
+          Owners
+          <div *ngFor="let item of [1]">Member {{ item }}</div>
+        </div>
+        <div>
+          Clients
+          <div *ngFor="let item of [1, 2, 3]">Member {{ item }}</div>
+        </div>
+        <div>
+          Invited
+          <div *ngFor="let item of [1, 2, 3, 4, 5]">Member {{ item }}</div>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
 </div>
