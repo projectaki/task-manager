@@ -1,0 +1,25 @@
+.member-item {
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.member-item-name {
+  font-weight: 700;
+  padding-left: 1em;
+  color: black;
+}
+
+.member-item-email {
+  padding-left: 1em;
+  color: grey;
+}
+
+.member-item-company {
+  padding-left: 1em;
+  color: grey;
+}
+
+.avatar {
+  display: grid;
+  align-items: center;
+}

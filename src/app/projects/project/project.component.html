@@ -13,18 +13,18 @@
       </div>
     </p-tabPanel>
     <p-tabPanel header="Members">
-      <div class="task-container">
-        <div>
-          Owners
-          <div *ngFor="let item of [1]">Member {{ item }}</div>
+      <div fxLayout="row wrap" fxLayoutGap="20px grid">
+        <div fxFlex.gt-lg="calc(33% - 20px)" fxFlex.lt-lg="0 0 calc(50% - 20px)" fxFlex.lt-md="calc(100% - 20px)">
+          <p-chip label="Owner"></p-chip>
+          <app-member-list></app-member-list>
         </div>
-        <div>
-          Clients
-          <div *ngFor="let item of [1, 2, 3]">Member {{ item }}</div>
+        <div fxFlex.gt-lg="calc(33% - 20px)" fxFlex.lt-lg="0 0 calc(50% - 20px)" fxFlex.lt-md="calc(100% - 20px)">
+          <p-chip label="Invited"></p-chip>
+          <app-member-list></app-member-list>
         </div>
-        <div>
-          Invited
-          <div *ngFor="let item of [1, 2, 3, 4, 5]">Member {{ item }}</div>
+        <div fxFlex.gt-lg="calc(33% - 20px)" fxFlex.lt-lg="0 0 calc(50% - 20px)" fxFlex.lt-md="calc(100% - 20px)">
+          <p-chip label="Clients"></p-chip>
+          <app-member-list></app-member-list>
         </div>
       </div>
     </p-tabPanel>

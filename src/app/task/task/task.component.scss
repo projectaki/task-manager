@@ -1,7 +1,9 @@
 .task {
-  width: 200px;
-  height: 200px;
-  background-color: blue;
-  margin: 2em;
-  cursor: pointer;
+  border-radius: 15px;
+  background-color: var(--bg-color);
+  box-shadow: 0 0 3px 0.5px rgb(200, 200, 200);
+  height: 20em;
+  padding: 3em;
+  margin: 0;
+  overflow: hidden;
 }

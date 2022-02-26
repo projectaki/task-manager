@@ -6,12 +6,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ProjectsModule } from './projects/projects.module';
 import { HomeModule } from './home/home.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MembersModule } from './members/members.module';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, LayoutComponent],
-  imports: [BrowserModule, FlexLayoutModule, BrowserAnimationsModule, AppRoutingModule, ProjectsModule, HomeModule],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ProjectsModule, HomeModule, MembersModule],
   providers: [],
   bootstrap: [AppComponent],
 })
