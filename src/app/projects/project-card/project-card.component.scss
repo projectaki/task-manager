@@ -1,13 +1,17 @@
 .project-card {
-  border-radius: 15px;
   background-color: var(--bg-color);
   box-shadow: 0 0 3px 0.5px rgb(200, 200, 200);
-  height: 20em;
-  padding: 3em;
+  padding: 1em;
   margin: 0;
+  min-height: 200px;
 }
 
 .project-card:hover {
   background-color: rgb(245, 245, 245);
   cursor: pointer;
+}
+
+h2 {
+  margin: 0;
+  font-weight: 500;
 }

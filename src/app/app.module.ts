@@ -8,10 +8,19 @@ import { ProjectsModule } from './projects/projects.module';
 import { HomeModule } from './home/home.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MembersModule } from './members/members.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, LayoutComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ProjectsModule, HomeModule, MembersModule],
+  imports: [
+    BrowserModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ProjectsModule,
+    HomeModule,
+    MembersModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

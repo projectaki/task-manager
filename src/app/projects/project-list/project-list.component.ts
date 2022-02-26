@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectListComponent implements OnInit {
   public currentTabIndex = 0;
+  public readonly gridGap = 40;
+
   constructor() {}
 
   ngOnInit(): void {}

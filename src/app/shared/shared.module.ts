@@ -8,6 +8,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DividerModule } from 'primeng/divider';
 import { ChipModule } from 'primeng/chip';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [TabViewComponent],
@@ -20,7 +21,17 @@ import { ChipModule } from 'primeng/chip';
     FlexLayoutModule,
     DividerModule,
     ChipModule,
+    ButtonModule,
   ],
-  exports: [TabViewModule, DragDropModule, CardModule, AvatarModule, FlexLayoutModule, DividerModule, ChipModule],
+  exports: [
+    TabViewModule,
+    DragDropModule,
+    CardModule,
+    AvatarModule,
+    FlexLayoutModule,
+    DividerModule,
+    ChipModule,
+    ButtonModule,
+  ],
 })
 export class SharedModule {}

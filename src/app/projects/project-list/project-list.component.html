@@ -1,26 +1,40 @@
 <div class="cont">
-  <button class="create-project-button fancy-button">Create Project</button>
+  <div class="create-project-button">
+    <button pButton class="p-button-raised" type="button" icon="pi pi-plus"></button>
+  </div>
 
   <p-tabView (onChange)="handleChange($event)">
-    <p-tabPanel header="My Projects">
-      <div class="project-card-container">
-        <ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+    <p-tabPanel header="Owned">
+      <div fxLayout="row wrap" fxLayoutGap.gt-xs="{{ gridGap }}px grid" fxLayoutGap.xs="{{ gridGap / 2 }}px grid">
+        <div
+          fxFlex="0 0 calc(33.3%)"
+          fxFlex.lt-lg="0 0 calc(50%)"
+          fxFlex.lt-md="calc(100%)"
+          *ngFor="let item of [1, 2, 3, 4, 5]">
           <app-project-card></app-project-card>
-        </ng-container>
+        </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Invited Projects">
-      <div class="project-card-container">
-        <ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+    <p-tabPanel header="Participant">
+      <div fxLayout="row wrap" fxLayoutGap.gt-xs="{{ gridGap }}px grid" fxLayoutGap.xs="{{ gridGap / 2 }}px grid">
+        <div
+          fxFlex="0 0 calc(33.3%)"
+          fxFlex.lt-lg="0 0 calc(50%)"
+          fxFlex.lt-md="calc(100%)"
+          *ngFor="let item of [1, 2, 3, 4, 5]">
           <app-project-card></app-project-card>
-        </ng-container>
+        </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Client Projects"
-      ><div class="project-card-container">
-        <ng-container *ngFor="let item of [1, 2]">
+    <p-tabPanel header="Client"
+      ><div fxLayout="row wrap" fxLayoutGap.gt-xs="{{ gridGap }}px grid" fxLayoutGap.xs="{{ gridGap / 2 }}px grid">
+        <div
+          fxFlex="0 0 calc(33.3%)"
+          fxFlex.lt-lg="0 0 calc(50%)"
+          fxFlex.lt-md="calc(100%)"
+          *ngFor="let item of [1, 2, 3, 4, 5]">
           <app-project-card></app-project-card>
-        </ng-container>
+        </div>
       </div>
     </p-tabPanel>
   </p-tabView>

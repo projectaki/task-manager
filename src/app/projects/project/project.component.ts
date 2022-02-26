@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project.component.scss'],
 })
 export class ProjectComponent implements OnInit {
+  public readonly gridGap = 40;
   constructor() {}
 
   ngOnInit(): void {}
