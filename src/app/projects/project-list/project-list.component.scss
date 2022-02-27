@@ -1,19 +1,12 @@
-.cont {
-  padding: 4em;
-  position: relative;
-}
+@import 'src/styles.scss';
 
 .create-project-button {
   position: absolute;
   top: 1em;
   right: 1em;
+  z-index: 1;
 }
 
-@media screen and (max-width: 1100px) {
-  .cont {
-    padding: 4em 5%;
-  }
-}
-
-@media screen and (max-width: 700px) {
+.cont {
+  @include main-cont;
 }

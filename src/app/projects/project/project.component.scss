@@ -1,3 +1,5 @@
+@import 'src/styles.scss';
+
 .task-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -6,12 +8,12 @@
 }
 
 .cont {
-  padding: 4em;
-  position: relative;
+  @include main-cont;
 }
 
 .create-project-button {
   position: absolute;
   top: 1em;
   right: 1em;
+  z-index: 1;
 }

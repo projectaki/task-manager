@@ -3,13 +3,13 @@
 
   <p-tabView>
     <p-tabPanel header="Tasks">
-      <div class="task-container">
-        <app-task *ngFor="let item of [1, 2, 3, 4, 5]"></app-task>
+      <div fxLayout="column">
+        <app-task fxFlex *ngFor="let item of [1, 2, 3, 4, 5]"></app-task>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Completed Tasks">
-      <div class="task-container">
-        <app-task *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"></app-task>
+      <div fxLayout="column">
+        <app-task fxFlex *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"></app-task>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Members">

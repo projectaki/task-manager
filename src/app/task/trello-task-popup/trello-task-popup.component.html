@@ -1,6 +1,17 @@
-<div class="popup">
-  <input type="" placeholder="board" />
-  <input type="text" placeholder="type" />
-  <input type="text" placeholder="content" />
-  <button class="submit">create</button>
-</div>
+<app-modal [showPopup]="showPopup" (closed)="onClose()">
+  <div fxLayout="column" fxLayoutGap="40px">
+    <p-dropdown
+      [options]="boards"
+      formControlName="selectedBoard"
+      optionLabel="name"
+      [style]="{ width: '270px' }"></p-dropdown>
+    <p-dropdown
+      [options]="types"
+      formControlName="selectedTypes"
+      optionLabel="name"
+      [style]="{ width: '270px' }"></p-dropdown>
+
+    <textarea pInputTextarea formControlName="text"></textarea>
+    <button pButton type="button" label="Submit"></button>
+  </div>
+</app-modal>

@@ -1,0 +1,9 @@
+<p-dialog
+  [draggable]="false"
+  [breakpoints]="{ '500px': '90vw' }"
+  [modal]="true"
+  header="Title"
+  [(visible)]="showPopup"
+  (onHide)="onClose()"
+  ><ng-content></ng-content
+></p-dialog>

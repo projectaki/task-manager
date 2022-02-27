@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TabViewComponent } from './tab-view.component';
+import { TaskCardComponent } from './task-card.component';
 
-describe('TabViewComponent', () => {
-  let component: TabViewComponent;
-  let fixture: ComponentFixture<TabViewComponent>;
+describe('TaskComponent', () => {
+  let component: TaskCardComponent;
+  let fixture: ComponentFixture<TaskCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TabViewComponent ]
-    })
-    .compileComponents();
+      declarations: [TaskCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TabViewComponent);
+    fixture = TestBed.createComponent(TaskCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabViewModule } from 'primeng/tabview';
-import { TabViewComponent } from './tab-view/tab-view.component';
 import { DragDropModule } from 'primeng/dragdrop';
 import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
@@ -9,9 +8,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DividerModule } from 'primeng/divider';
 import { ChipModule } from 'primeng/chip';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { ModalComponent } from './modal/modal.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
-  declarations: [TabViewComponent],
+  declarations: [ModalComponent],
   imports: [
     CommonModule,
     TabViewModule,
@@ -22,6 +26,10 @@ import { ButtonModule } from 'primeng/button';
     DividerModule,
     ChipModule,
     ButtonModule,
+    DialogModule,
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
   ],
   exports: [
     TabViewModule,
@@ -32,6 +40,11 @@ import { ButtonModule } from 'primeng/button';
     DividerModule,
     ChipModule,
     ButtonModule,
+    DialogModule,
+    ModalComponent,
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
   ],
 })
 export class SharedModule {}

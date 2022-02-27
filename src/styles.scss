@@ -81,6 +81,14 @@ body {
 
 // scroll bar 👆
 
+@mixin main-cont {
+  padding: 2em;
+  position: relative;
+  @media screen and (max-width: 1100px) {
+    padding: 2em 5%;
+  }
+}
+
 // Primeng 👇
 
 .p-tabview-nav {

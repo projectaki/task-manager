@@ -1,9 +1,16 @@
 .task {
-  border-radius: 15px;
   background-color: var(--bg-color);
   box-shadow: 0 0 3px 0.5px rgb(200, 200, 200);
-  height: 20em;
-  padding: 3em;
+  padding: 1em;
   margin: 0;
+  height: 5em;
   overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    background-color: lightgray;
+  }
+}
+
+h2 {
+  margin: 0;
 }
