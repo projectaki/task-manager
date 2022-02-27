@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProjectListComponent implements OnInit {
   public currentTabIndex = 0;
   public readonly gridGap = 40;
+  public showPopup = false;
 
   constructor() {}
 
@@ -15,5 +16,9 @@ export class ProjectListComponent implements OnInit {
 
   handleChange(e: any) {
     this.currentTabIndex = e.index;
+  }
+
+  toggleModal() {
+    this.showPopup = !this.showPopup;
   }
 }

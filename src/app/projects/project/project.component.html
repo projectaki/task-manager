@@ -1,38 +1,51 @@
 <div class="cont">
-  <button class="create-project-button fancy-button">Create Task</button>
+  <div class="create-project-button">
+    <button
+      pButton
+      class="p-button-raised"
+      type="button"
+      icon="pi pi-plus"
+      style="width: 30px; height: 30px"
+      (click)="toggleCreateTaskModal()"></button>
+    <app-task-create [showModal]="showCreateTaskModal" (closed)="toggleCreateTaskModal()"></app-task-create>
+  </div>
 
   <p-tabView>
     <p-tabPanel header="Tasks">
-      <div fxLayout="column">
+      <div fxLayout="column" fxLayoutGap="10px">
         <app-task fxFlex *ngFor="let item of [1, 2, 3, 4, 5]"></app-task>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Completed Tasks">
-      <div fxLayout="column">
+    <p-tabPanel header="Completed">
+      <div fxLayout="column" fxLayoutGap="10px">
         <app-task fxFlex *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"></app-task>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Members">
       <div fxLayout="row wrap" fxLayoutGap="{{ gridGap }}px grid">
+        <div fxFlex="100%" class="button-cont">
+          <button class="button" pButton type="button" label="Invite" (click)="toggleInviteModal()"></button>
+          <app-member-create [showModal]="showInviteModal" (closed)="toggleInviteModal()"></app-member-create>
+        </div>
         <div
           fxFlex.gt-md="calc(33% - {{ gridGap }}px)"
           fxFlex.lt-lg="0 0 calc(50% - {{ gridGap }}px)"
           fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
-          <p-chip label="Owner"></p-chip>
+          <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Owners"></p-chip>
           <app-member-list></app-member-list>
         </div>
         <div
           fxFlex.gt-md="calc(33% - {{ gridGap }}px)"
           fxFlex.lt-lg="0 0 calc(50% - {{ gridGap }}px)"
           fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
-          <p-chip label="Invited"></p-chip>
+          <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Invited"></p-chip>
           <app-member-list></app-member-list>
         </div>
         <div
           fxFlex.gt-md="calc(33% - {{ gridGap }}px)"
           fxFlex.lt-lg="0 0 calc(50% - {{ gridGap }}px)"
           fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
-          <p-chip label="Clients"></p-chip>
+          <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Clients"></p-chip>
           <app-member-list></app-member-list>
         </div>
       </div>

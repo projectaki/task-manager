@@ -1,6 +1,7 @@
 <div class="cont">
   <div class="create-project-button">
-    <button pButton class="p-button-raised" type="button" icon="pi pi-plus"></button>
+    <button pButton class="p-button-raised btn" type="button" icon="pi pi-plus" (click)="toggleModal()"></button>
+    <app-project-create [showModal]="showPopup" (closed)="toggleModal()"></app-project-create>
   </div>
 
   <p-tabView (onChange)="handleChange($event)">

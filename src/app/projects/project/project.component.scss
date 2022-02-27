@@ -17,3 +17,14 @@
   right: 1em;
   z-index: 1;
 }
+
+.button-cont {
+  position: relative;
+}
+
+.button {
+  position: absolute;
+  top: 0;
+  right: 2em;
+  height: 2em;
+}

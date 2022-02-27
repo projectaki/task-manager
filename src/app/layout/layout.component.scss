@@ -1,7 +1,6 @@
 .main-content-container {
-  border-radius: 15px;
-  background-color: var(--bg-color);
-  box-shadow: 0 0 3px 0.5px rgb(200, 200, 200);
+  border-radius: 0;
+  // box-shadow: 0 0 3px 0.5px rgb(200, 200, 200);
   margin: 5em auto;
   width: 80vw;
   min-height: calc(100% - (2 * 4em) - (2 * 5em));

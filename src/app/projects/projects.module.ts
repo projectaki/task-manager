@@ -7,9 +7,10 @@ import { RouterModule } from '@angular/router';
 import { TaskModule } from '../task/task.module';
 import { SharedModule } from '../shared/shared.module';
 import { MembersModule } from '../members/members.module';
+import { ProjectCreateComponent } from './project-create/project-create.component';
 
 @NgModule({
-  declarations: [ProjectListComponent, ProjectComponent, ProjectCardComponent],
+  declarations: [ProjectListComponent, ProjectComponent, ProjectCardComponent, ProjectCreateComponent],
   imports: [CommonModule, RouterModule, TaskModule, SharedModule, MembersModule],
 })
 export class ProjectsModule {}

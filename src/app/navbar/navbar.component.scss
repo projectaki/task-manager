@@ -2,8 +2,8 @@
   display: flex;
   width: 100vw;
   height: 60px;
-  background-color: var(--bg-color);
-  box-shadow: 0 0 1px 1px rgb(230, 230, 230);
+  background-color: var(--bg-color-2);
+  box-shadow: 0 0 1px 1px rgb(200, 200, 200);
   position: fixed;
   z-index: 999;
 }
@@ -35,7 +35,7 @@
   height: 100%;
   display: inline-block;
   position: relative;
-  color: var(--font-color);
+  color: var(--accent);
 }
 
 .hover-underline-animation:after {

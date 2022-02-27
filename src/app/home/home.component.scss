@@ -19,8 +19,9 @@
 @media screen and (max-width: 500px) {
   .button-group {
     position: absolute;
-    top: 2em;
-    right: 2em;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     column-gap: 1em;
