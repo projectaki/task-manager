@@ -1,29 +1,30 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { LoadingState } from 'src/app/core/models/loading-state.enum';
 import { ProjectPageStoreService } from '../project-page-store.service';
 import { Project } from '../project.interface';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
   styleUrls: ['./project-page.component.scss'],
-  providers: [ProjectPageStoreService],
+  providers: [ProjectPageStoreService, MessageService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectPageComponent implements OnInit, OnDestroy {
   public currentTabIndex = 0;
   public readonly gridGap = 40;
   public showPopup = false;
-  public projects$ = this.store.projects$;
-  public projectAddLoading = false;
+  public readonly vm$ = this.store.vm$;
 
   private unsub$ = new Subject<void>();
 
-  constructor(private store: ProjectPageStoreService) {}
+  constructor(private store: ProjectPageStoreService, private messageService: MessageService) {}
 
   ngOnInit(): void {
-    this.store.getProjectsAsync('1');
-    this.initSubscriptions();
+    this.store.listProjectsAsync('1');
+    this.initObservables();
   }
 
   ngOnDestroy() {
@@ -31,15 +32,16 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     this.unsub$.complete();
   }
 
-  initSubscriptions() {
-    this.store.projectAddSuccess$.pipe(takeUntil(this.unsub$)).subscribe(() => {
-      this.projectAddLoading = false;
-      this.closeModal();
+  initObservables() {
+    this.store.addLoadingState$.pipe(takeUntil(this.unsub$)).subscribe(x => {
+      if (x === LoadingState.LOADED) {
+        this.closeModal();
+      }
     });
-    this.store.projectAddError$.pipe(takeUntil(this.unsub$)).subscribe(() => {
-      this.projectAddLoading = false;
-      alert('error');
-    });
+
+    this.store.errors$
+      .pipe(takeUntil(this.unsub$))
+      .subscribe(x => this.messageService.add({ severity: 'error', summary: x, life: 3000 }));
   }
 
   handleChange(e: any) {
@@ -55,8 +57,14 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   onProjectCreate(project: Project) {
-    this.projectAddLoading = true;
-
     this.store.addProjectAsync(project);
+  }
+
+  onProjectDelete(id: string) {
+    this.store.removeProjectAsync(id);
+  }
+
+  onProjectEdit(project: Project) {
+    alert('edit modal open');
   }
 }

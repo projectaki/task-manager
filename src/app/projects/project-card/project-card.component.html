@@ -1,4 +1,27 @@
-<div class="project-card" [routerLink]="['/projects/1']">
-  <h2>{{ title }}</h2>
-  <p>{{ description }}</p>
+<div class="project-card">
+  <h2>{{ project?.name }}</h2>
+  <p>{{ project?.description }}</p>
+  <div class="actions" fxLayout="row" fxLayoutGap="5px">
+    <button
+      style="color: var(--primary)"
+      pButton
+      type="button"
+      icon="pi pi-eye"
+      class="p-button-outlined p-button-rounded"
+      [routerLink]="['/projects/1']"></button>
+    <button
+      style="color: var(--accent)"
+      pButton
+      type="button"
+      icon="pi pi-pencil"
+      class="p-button-outlined p-button-rounded"
+      (click)="onEdit()"></button>
+    <button
+      style="color: var(--warn)"
+      pButton
+      type="button"
+      icon="pi pi-times"
+      class="p-button-outlined p-button-rounded"
+      (click)="onDelete()"></button>
+  </div>
 </div>

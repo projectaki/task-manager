@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, from, Observable, of, throwError } from 'rxjs';
+import { delay, from, Observable, of, switchMap, throwError } from 'rxjs';
 import { Project } from '../projects/project.interface';
 
 @Injectable({
@@ -27,12 +27,14 @@ export class ProjectService {
   }
 
   add(project: Project): Observable<Project> {
-    //return throwError(() => new Error('erropr'));
-    return of(project).pipe(delay(500));
+    return of(project).pipe(
+      delay(500),
+      switchMap(() => throwError(() => new Error('erropr')))
+    );
   }
 
-  update(project: Project): Observable<string> {
-    return of(project.id);
+  update(project: Project): Observable<Project> {
+    return of(project);
   }
 
   delete(id: string): Observable<string> {

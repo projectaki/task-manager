@@ -1,9 +1,10 @@
-<div class="cont">
+<div class="cont" *ngIf="vm$ | async as vm">
+  <p-toast position="top-right"></p-toast>
   <div class="create-project-button">
     <button pButton class="p-button-raised btn" type="button" icon="pi pi-plus" (click)="toggleModal()"></button>
     <app-project-create
       [showModal]="showPopup"
-      [isLoading]="projectAddLoading"
+      [isLoading]="vm.isAddLoading | loadingState"
       (closed)="closeModal()"
       (submit)="onProjectCreate($event)"></app-project-create>
   </div>
@@ -11,13 +12,16 @@
   <p-tabView (onChange)="handleChange($event)">
     <p-tabPanel header="Owned">
       <div fxLayout="row wrap" fxLayoutGap.gt-xs="{{ gridGap }}px grid" fxLayoutGap.xs="{{ gridGap / 2 }}px grid">
-        <ng-container *ngIf="projects$ | async as projects; else skeleton">
+        <ng-container *ngIf="!(vm.isListLoading | loadingState); else skeleton">
           <div
             fxFlex="0 0 calc(33.3%)"
             fxFlex.lt-lg="0 0 calc(50%)"
             fxFlex.lt-md="calc(100%)"
-            *ngFor="let project of projects">
-            <app-project-card [title]="project.name" [description]="project.description"></app-project-card>
+            *ngFor="let project of vm.projects">
+            <app-project-card
+              [project]="project"
+              (delete)="onProjectDelete(project.id)"
+              (edit)="onProjectEdit(project)"></app-project-card>
           </div>
         </ng-container>
         <ng-template #skeleton> Loading... </ng-template>

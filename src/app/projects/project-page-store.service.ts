@@ -1,80 +1,143 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { BehaviorSubject, catchError, EMPTY, Observable, Subject, switchMap, tap } from 'rxjs';
+import { LoadingState } from '../core/models/loading-state.enum';
 import { ProjectService } from '../core/project.service';
 import { Project } from './project.interface';
 
 export interface ProjectPageState {
   projects: Project[];
+  projectAddLoadingState: LoadingState;
+  projectRemoveLoadingState: LoadingState;
+  projectListLoadingState: LoadingState;
+  projectUpdateLoadingState: LoadingState;
+  errorMessage: string;
 }
+
+const initialState: ProjectPageState = {
+  errorMessage: '',
+  projectAddLoadingState: LoadingState.LOADED,
+  projectListLoadingState: LoadingState.LOADED,
+  projectRemoveLoadingState: LoadingState.LOADED,
+  projectUpdateLoadingState: LoadingState.LOADED,
+  projects: [],
+};
 
 @Injectable()
 export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   readonly projects$: Observable<Project[]> = this.select(state => state.projects);
-  private projectAddSuccess = new Subject();
-  private projectAddError = new Subject();
-  public readonly projectAddSuccess$ = this.projectAddSuccess.asObservable();
-  public readonly projectAddError$ = this.projectAddError.asObservable();
+  readonly errors$: Observable<string> = this.select(state => state.errorMessage);
+  readonly addLoadingState$: Observable<LoadingState> = this.select(state => state.projectAddLoadingState);
+  readonly listLoadingState$: Observable<LoadingState> = this.select(state => state.projectListLoadingState);
+  readonly removeLoadingState$: Observable<LoadingState> = this.select(state => state.projectRemoveLoadingState);
+  readonly updateLoadingState$: Observable<LoadingState> = this.select(state => state.projectUpdateLoadingState);
+
+  readonly vm$ = this.select(
+    this.projects$,
+    this.errors$,
+    this.addLoadingState$,
+    this.listLoadingState$,
+    this.removeLoadingState$,
+    this.updateLoadingState$,
+    (projects, errors, isAddLoading, isListLoading, isRemoveLoading, isUpdateLoading) => ({
+      projects,
+      errors,
+      isAddLoading,
+      isListLoading,
+      isRemoveLoading,
+      isUpdateLoading,
+    })
+  );
 
   constructor(private projectService: ProjectService) {
-    super();
+    super(initialState);
   }
 
   readonly addProjectAsync = this.effect((project$: Observable<Project>) => {
     return project$.pipe(
-      switchMap(p =>
-        this.projectService.add(p).pipe(tapResponse(this.projectAddSuccessCallback, this.projectAddErrorCallback))
-      )
+      tap(() => this.patchState({ projectAddLoadingState: LoadingState.LOADING })),
+      switchMap(p => this.projectService.add(p).pipe(tapResponse(this.onProjectAddSuccess, this.onProjectAddError)))
     );
   });
 
   readonly removeProjectAsync = this.effect((projectId$: Observable<string>) => {
     return projectId$.pipe(
-      // 👇 Handle race condition with the proper choice of the flattening operator.
+      tap(() => this.patchState({ projectRemoveLoadingState: LoadingState.LOADING })),
       switchMap(id =>
-        this.projectService.delete(id).pipe(
-          //👇 Act on the result within inner pipe.
-          tapResponse(
-            pid => this.deleteProject(pid),
-            e => console.log(e)
-          )
-        )
+        this.projectService.delete(id).pipe(tapResponse(this.onRemoveProjectSuccess, this.onRemoveProjectError))
       )
     );
   });
 
-  readonly getProjectsAsync = this.effect((userId$: Observable<string>) => {
+  readonly listProjectsAsync = this.effect((userId$: Observable<string>) => {
     return userId$.pipe(
+      tap(() => this.patchState({ projectListLoadingState: LoadingState.LOADING })),
       switchMap(id =>
-        this.projectService.list(id).pipe(
-          tapResponse(
-            projects => this.setState({ projects }),
-            e => console.log(e)
-          )
-        )
+        this.projectService.list(id).pipe(tapResponse(this.onListProjectSuccess, this.onListProjectError))
+      )
+    );
+  });
+
+  readonly updateProjectsAsync = this.effect((project$: Observable<Project>) => {
+    return project$.pipe(
+      tap(() => this.patchState({ projectUpdateLoadingState: LoadingState.LOADING })),
+      switchMap(p =>
+        this.projectService.update(p).pipe(tapResponse(this.onUpdateProjectSuccess, this.onUpdateProjectError))
       )
     );
   });
 
   private readonly addProject = this.updater((state, project: Project) => ({
+    ...state,
     projects: [...state.projects, project],
   }));
 
-  // private readonly updateProject = this.updateProject((state, project: Project) => ({
-
-  // }))
+  private readonly updateProject = this.updater((state, project: Project) => {
+    const index = state.projects.findIndex(x => x.id === project.id);
+    return {
+      ...state,
+      projects: [...state.projects.slice(0, index), project, ...state.projects.slice(index + 1)],
+    };
+  });
 
   private readonly deleteProject = this.updater((state, id: string) => ({
+    ...state,
     projects: state.projects.filter(x => x.id !== id),
   }));
 
-  private projectAddSuccessCallback = (project: Project) => {
+  private onProjectAddSuccess = (project: Project) => {
     this.addProject(project);
-    this.projectAddSuccess.next(true);
+    this.patchState({ projectAddLoadingState: LoadingState.LOADED });
   };
 
-  private projectAddErrorCallback = (e: Error) => {
-    console.log(e);
-    this.projectAddError.next(true);
+  private onProjectAddError = (e: Error) => {
+    console.log('hello');
+    this.patchState({ projectAddLoadingState: LoadingState.ERROR, errorMessage: e.message });
+  };
+
+  private onRemoveProjectSuccess = (id: string) => {
+    this.deleteProject(id);
+    this.patchState({ projectRemoveLoadingState: LoadingState.LOADED });
+  };
+
+  private onRemoveProjectError = (e: Error) => {
+    this.patchState({ projectRemoveLoadingState: LoadingState.ERROR, errorMessage: e.message });
+  };
+
+  private onListProjectSuccess = (projects: Project[]) => {
+    this.patchState({ projects, projectListLoadingState: LoadingState.LOADED });
+  };
+
+  private onListProjectError = (e: Error) => {
+    this.patchState({ projectListLoadingState: LoadingState.ERROR, errorMessage: e.message });
+  };
+
+  private onUpdateProjectSuccess = (project: Project) => {
+    this.updateProject(project);
+    this.patchState({ projectUpdateLoadingState: LoadingState.LOADED });
+  };
+
+  private onUpdateProjectError = (e: Error) => {
+    this.patchState({ projectUpdateLoadingState: LoadingState.ERROR, errorMessage: e.message });
   };
 }

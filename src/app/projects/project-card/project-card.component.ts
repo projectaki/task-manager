@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Project } from '../project.interface';
 
 @Component({
   selector: 'app-project-card',
@@ -7,10 +8,20 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectCardComponent implements OnInit {
-  @Input() title!: string;
-  @Input() description!: string;
+  @Input() project!: Project;
+
+  @Output() delete = new EventEmitter();
+  @Output() edit = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  onDelete() {
+    this.delete.emit();
+  }
+
+  onEdit() {
+    this.edit.emit();
+  }
 }

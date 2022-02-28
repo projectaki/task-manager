@@ -16,9 +16,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { LoadingStatePipe } from './pipes/loading-state.pipe';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
-  declarations: [ModalComponent],
+  declarations: [ModalComponent, LoadingStatePipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -36,6 +38,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     DropdownModule,
     SkeletonModule,
     ProgressSpinnerModule,
+    ToastModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -54,6 +57,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     DropdownModule,
     SkeletonModule,
     ProgressSpinnerModule,
+    LoadingStatePipe,
+    ToastModule,
   ],
 })
 export class SharedModule {}
