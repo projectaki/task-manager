@@ -1,19 +1,26 @@
 <div class="cont">
   <div class="create-project-button">
     <button pButton class="p-button-raised btn" type="button" icon="pi pi-plus" (click)="toggleModal()"></button>
-    <app-project-create [showModal]="showPopup" (closed)="toggleModal()"></app-project-create>
+    <app-project-create
+      [showModal]="showPopup"
+      [isLoading]="projectAddLoading"
+      (closed)="closeModal()"
+      (submit)="onProjectCreate($event)"></app-project-create>
   </div>
-
+  <h1>Projects</h1>
   <p-tabView (onChange)="handleChange($event)">
     <p-tabPanel header="Owned">
       <div fxLayout="row wrap" fxLayoutGap.gt-xs="{{ gridGap }}px grid" fxLayoutGap.xs="{{ gridGap / 2 }}px grid">
-        <div
-          fxFlex="0 0 calc(33.3%)"
-          fxFlex.lt-lg="0 0 calc(50%)"
-          fxFlex.lt-md="calc(100%)"
-          *ngFor="let item of [1, 2, 3, 4, 5]">
-          <app-project-card></app-project-card>
-        </div>
+        <ng-container *ngIf="projects$ | async as projects; else skeleton">
+          <div
+            fxFlex="0 0 calc(33.3%)"
+            fxFlex.lt-lg="0 0 calc(50%)"
+            fxFlex.lt-md="calc(100%)"
+            *ngFor="let project of projects">
+            <app-project-card [title]="project.name" [description]="project.description"></app-project-card>
+          </div>
+        </ng-container>
+        <ng-template #skeleton> Loading... </ng-template>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Participant">

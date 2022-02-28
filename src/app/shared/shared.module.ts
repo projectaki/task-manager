@@ -13,11 +13,15 @@ import { ModalComponent } from './modal/modal.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [ModalComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     TabViewModule,
     DragDropModule,
     CardModule,
@@ -30,8 +34,11 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     InputTextareaModule,
     DropdownModule,
+    SkeletonModule,
+    ProgressSpinnerModule,
   ],
   exports: [
+    ReactiveFormsModule,
     TabViewModule,
     DragDropModule,
     CardModule,
@@ -45,6 +52,8 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     InputTextareaModule,
     DropdownModule,
+    SkeletonModule,
+    ProgressSpinnerModule,
   ],
 })
 export class SharedModule {}

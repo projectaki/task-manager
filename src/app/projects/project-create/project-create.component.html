@@ -1,8 +1,27 @@
 <app-modal [showPopup]="showModal" (closed)="onClose()">
-  <div fxLayout="column" fxLayoutGap="40px">
-    <input type="text" pInputText style="width: 270px" />
-
-    <textarea pInputTextarea formControlName="text"></textarea>
-    <button pButton type="button" label="Submit"></button>
-  </div>
+  <form [formGroup]="projectCreateForm">
+    <div fxLayout="column" fxLayoutGap="40px">
+      <input type="text" pInputText style="width: 270px" formControlName="name" />
+      <textarea pInputTextarea formControlName="description"></textarea>
+      <ng-container *ngIf="!isLoading; else loading">
+        <button
+          (click)="onSubmit()"
+          pButton
+          type="button"
+          label="Submit"
+          [disabled]="!projectCreateForm.valid"></button>
+      </ng-container>
+      <ng-template #loading>
+        <button
+          pButton
+          class="p-button-raised"
+          type="button"
+          icon="pi pi-spin pi-spinner"
+          (click)="onSubmit()"
+          style="width: 100%"
+          [disabled]="true"></button>
+      </ng-template>
+    </div>
+  </form>
+  <pre>{{ projectCreateForm.value | json }}</pre>
 </app-modal>
