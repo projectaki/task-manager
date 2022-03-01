@@ -9,34 +9,55 @@ import { Project } from '../project.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectCreateComponent implements OnInit {
-  @Input() showModal = false;
   @Input() set isLoading(val: boolean) {
     this._isLoading = val;
   }
-  @Output() closed = new EventEmitter();
-  @Output() submit = new EventEmitter<Project>();
-
   private _isLoading = false;
   public get isLoading() {
     return this._isLoading;
   }
+  @Input() showModal = false;
+  @Input() set project(val: Project | undefined) {
+    this._project = val;
+    this.initForm();
+  }
+  get project() {
+    return this._project;
+  }
+  private _project?: Project;
+
+  @Output() closed = new EventEmitter();
+  @Output() submit = new EventEmitter<Project>();
 
   projectCreateForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {
     this.projectCreateForm = fb.group({
+      id: [''],
       name: ['', Validators.required],
       description: [''],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  initForm() {
+    if (this.project) {
+      this.projectCreateForm.patchValue({
+        id: this.project.id,
+        name: this.project.name,
+        description: this.project.description,
+      });
+    }
+  }
 
   onClose() {
     this.closed.emit();
   }
 
   onSubmit() {
-    this.submit.emit({ ...this.projectCreateForm.value, id: '99' });
+    this.submit.emit(this.projectCreateForm.value);
   }
 }

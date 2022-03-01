@@ -7,30 +7,33 @@ import { Project } from './project.interface';
 
 export interface ProjectPageState {
   projects: Project[];
+  selectedProject: Project | null;
   projectAddLoadingState: LoadingState;
   projectRemoveLoadingState: LoadingState;
   projectListLoadingState: LoadingState;
   projectUpdateLoadingState: LoadingState;
-  error: Error;
+  error: Error | null;
 }
 
 const initialState: ProjectPageState = {
-  error: new Error(),
-  projectAddLoadingState: LoadingState.LOADED,
-  projectListLoadingState: LoadingState.LOADED,
-  projectRemoveLoadingState: LoadingState.LOADED,
-  projectUpdateLoadingState: LoadingState.LOADED,
+  error: null,
+  projectAddLoadingState: LoadingState.INITIAL,
+  projectListLoadingState: LoadingState.INITIAL,
+  projectRemoveLoadingState: LoadingState.INITIAL,
+  projectUpdateLoadingState: LoadingState.INITIAL,
   projects: [],
+  selectedProject: null,
 };
 
 @Injectable()
 export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   readonly projects$: Observable<Project[]> = this.select(state => state.projects);
-  readonly errors$: Observable<Error> = this.select(state => state.error);
+  readonly errors$: Observable<Error | null> = this.select(state => state.error);
   readonly addLoadingState$: Observable<LoadingState> = this.select(state => state.projectAddLoadingState);
   readonly listLoadingState$: Observable<LoadingState> = this.select(state => state.projectListLoadingState);
   readonly removeLoadingState$: Observable<LoadingState> = this.select(state => state.projectRemoveLoadingState);
   readonly updateLoadingState$: Observable<LoadingState> = this.select(state => state.projectUpdateLoadingState);
+  readonly selectedProject$: Observable<Project | null> = this.select(state => state.selectedProject);
 
   readonly vm$ = this.select(
     this.projects$,
@@ -39,13 +42,15 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     this.listLoadingState$,
     this.removeLoadingState$,
     this.updateLoadingState$,
-    (projects, errors, isAddLoading, isListLoading, isRemoveLoading, isUpdateLoading) => ({
+    this.selectedProject$,
+    (projects, errors, isAddLoading, isListLoading, isRemoveLoading, isUpdateLoading, selectedProject) => ({
       projects,
       errors,
       isAddLoading,
       isListLoading,
       isRemoveLoading,
       isUpdateLoading,
+      selectedProject,
     })
   );
 
@@ -78,7 +83,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
-  readonly updateProjectsAsync = this.effect((project$: Observable<Project>) => {
+  readonly updateProjectAsync = this.effect((project$: Observable<Project>) => {
     return project$.pipe(
       tap(() => this.patchState({ projectUpdateLoadingState: LoadingState.LOADING })),
       switchMap(p =>
@@ -86,6 +91,11 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
       )
     );
   });
+
+  public readonly selectProject = this.updater((state, id: string) => ({
+    ...state,
+    selectedProject: { ...state.projects.find(x => x.id === id)! },
+  }));
 
   private readonly addProject = this.updater((state, project: Project) => ({
     ...state,

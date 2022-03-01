@@ -15,12 +15,13 @@
       type="button"
       icon="pi pi-pencil"
       class="p-button-outlined p-button-rounded"
-      (click)="onEdit()"></button>
+      (click)="onEdit(project.id)"></button>
     <button
       style="color: var(--warn)"
       pButton
       type="button"
-      icon="pi pi-times"
+      [icon]="isDeleteLoading ? 'pi pi-spin pi-spinner' : 'pi pi-times'"
+      [disabled]="isDeleteLoading"
       class="p-button-outlined p-button-rounded"
       (click)="onDelete($event)"></button>
   </div>

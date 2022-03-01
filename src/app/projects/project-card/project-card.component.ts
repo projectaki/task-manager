@@ -9,6 +9,7 @@ import { Project } from '../project.interface';
 })
 export class ProjectCardComponent implements OnInit {
   @Input() project!: Project;
+  @Input() isDeleteLoading!: boolean;
 
   @Output() delete = new EventEmitter();
   @Output() edit = new EventEmitter();
@@ -21,7 +22,7 @@ export class ProjectCardComponent implements OnInit {
     this.delete.emit($event);
   }
 
-  onEdit() {
-    this.edit.emit();
+  onEdit(id: string) {
+    this.edit.emit(id);
   }
 }

@@ -16,7 +16,8 @@ import { ConfirmationService } from 'primeng/api';
 export class ProjectPageComponent implements OnInit, OnDestroy {
   public currentTabIndex = 0;
   public readonly gridGap = 40;
-  public showPopup = false;
+  public showCreateModal = false;
+  public showEditModal = false;
   public readonly vm$ = this.store.vm$;
 
   private unsub$ = new Subject<void>();
@@ -40,25 +41,32 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   initObservables() {
     this.store.addLoadingState$.pipe(takeUntil(this.unsub$)).subscribe(x => {
       if (x === LoadingState.LOADED) {
-        this.closeModal();
+        this.openCreateModal(false);
       }
     });
 
-    this.store.errors$
-      .pipe(takeUntil(this.unsub$))
-      .subscribe(x => this.messageService.add({ severity: 'error', summary: x.message, life: 3000 }));
+    this.store.updateLoadingState$.pipe(takeUntil(this.unsub$)).subscribe(x => {
+      if (x === LoadingState.LOADED) {
+        this.openEditModal(false);
+      }
+    });
+
+    this.store.errors$.pipe(takeUntil(this.unsub$)).subscribe(x => {
+      if (x) this.messageService.add({ severity: 'error', summary: x.message, life: 3000 });
+    });
   }
 
-  handleChange(e: any) {
-    this.currentTabIndex = e.index;
+  openCreateModal(val: boolean = true) {
+    this.showCreateModal = val;
   }
 
-  toggleModal() {
-    this.showPopup = !this.showPopup;
+  openEditModal(val: boolean = true) {
+    this.showEditModal = val;
   }
 
-  closeModal() {
-    this.showPopup = false;
+  editEditModal(id: string) {
+    this.store.selectProject(id);
+    this.openEditModal();
   }
 
   onProjectCreate(project: Project) {
@@ -66,6 +74,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   onProjectDelete($event: Event, id: string) {
+    this.store.selectProject(id);
     this.confirmationService.confirm({
       target: $event.target!,
       message: 'Are you sure that you want to delete this project?',
@@ -78,6 +87,6 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   onProjectEdit(project: Project) {
-    alert('edit modal open');
+    this.store.updateProjectAsync(project);
   }
 }

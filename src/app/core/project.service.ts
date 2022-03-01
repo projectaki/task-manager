@@ -13,7 +13,7 @@ export class ProjectService {
       id: '1',
       name: 'Project 1',
       description: 'This is a test project',
-    });
+    }).pipe(delay(500));
   }
 
   list(id: string): Observable<Project[]> {
@@ -23,7 +23,9 @@ export class ProjectService {
       { id: '3', name: 'Project 3', description: 'This is a test project' },
       { id: '4', name: 'Project 4', description: 'This is a test project' },
       { id: '5', name: 'Project 5', description: 'This is a test project' },
-    ]).pipe(delay(500));
+    ])
+      .pipe(delay(500))
+      .pipe(delay(500));
   }
 
   add(project: Project): Observable<Project> {
@@ -34,10 +36,10 @@ export class ProjectService {
   }
 
   update(project: Project): Observable<Project> {
-    return of(project);
+    return of(project).pipe(delay(500));
   }
 
   delete(id: string): Observable<string> {
-    return of(id);
+    return of(id).pipe(delay(500));
   }
 }
