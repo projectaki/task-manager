@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingStatePipe } from './pipes/loading-state.pipe';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [ModalComponent, LoadingStatePipe],
@@ -39,6 +40,7 @@ import { ToastModule } from 'primeng/toast';
     SkeletonModule,
     ProgressSpinnerModule,
     ToastModule,
+    ConfirmDialogModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -59,6 +61,7 @@ import { ToastModule } from 'primeng/toast';
     ProgressSpinnerModule,
     LoadingStatePipe,
     ToastModule,
+    ConfirmDialogModule,
   ],
 })
 export class SharedModule {}

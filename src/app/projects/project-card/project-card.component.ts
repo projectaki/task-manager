@@ -17,8 +17,8 @@ export class ProjectCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onDelete() {
-    this.delete.emit();
+  onDelete($event: Event) {
+    this.delete.emit($event);
   }
 
   onEdit() {

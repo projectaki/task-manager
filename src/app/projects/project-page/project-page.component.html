@@ -20,9 +20,11 @@
             *ngFor="let project of vm.projects">
             <app-project-card
               [project]="project"
-              (delete)="onProjectDelete(project.id)"
-              (edit)="onProjectEdit(project)"></app-project-card>
+              (delete)="onProjectDelete($event, project.id)"
+              (edit)="onProjectEdit(project)">
+            </app-project-card>
           </div>
+          <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
         </ng-container>
         <ng-template #skeleton> Loading... </ng-template>
       </div>

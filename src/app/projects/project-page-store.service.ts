@@ -11,11 +11,11 @@ export interface ProjectPageState {
   projectRemoveLoadingState: LoadingState;
   projectListLoadingState: LoadingState;
   projectUpdateLoadingState: LoadingState;
-  errorMessage: string;
+  error: Error;
 }
 
 const initialState: ProjectPageState = {
-  errorMessage: '',
+  error: new Error(),
   projectAddLoadingState: LoadingState.LOADED,
   projectListLoadingState: LoadingState.LOADED,
   projectRemoveLoadingState: LoadingState.LOADED,
@@ -26,7 +26,7 @@ const initialState: ProjectPageState = {
 @Injectable()
 export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   readonly projects$: Observable<Project[]> = this.select(state => state.projects);
-  readonly errors$: Observable<string> = this.select(state => state.errorMessage);
+  readonly errors$: Observable<Error> = this.select(state => state.error);
   readonly addLoadingState$: Observable<LoadingState> = this.select(state => state.projectAddLoadingState);
   readonly listLoadingState$: Observable<LoadingState> = this.select(state => state.projectListLoadingState);
   readonly removeLoadingState$: Observable<LoadingState> = this.select(state => state.projectRemoveLoadingState);
@@ -111,8 +111,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   };
 
   private onProjectAddError = (e: Error) => {
-    console.log('hello');
-    this.patchState({ projectAddLoadingState: LoadingState.ERROR, errorMessage: e.message });
+    this.patchState({ projectAddLoadingState: LoadingState.ERROR, error: e });
   };
 
   private onRemoveProjectSuccess = (id: string) => {
@@ -121,7 +120,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   };
 
   private onRemoveProjectError = (e: Error) => {
-    this.patchState({ projectRemoveLoadingState: LoadingState.ERROR, errorMessage: e.message });
+    this.patchState({ projectRemoveLoadingState: LoadingState.ERROR, error: e });
   };
 
   private onListProjectSuccess = (projects: Project[]) => {
@@ -129,7 +128,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   };
 
   private onListProjectError = (e: Error) => {
-    this.patchState({ projectListLoadingState: LoadingState.ERROR, errorMessage: e.message });
+    this.patchState({ projectListLoadingState: LoadingState.ERROR, error: e });
   };
 
   private onUpdateProjectSuccess = (project: Project) => {
@@ -138,6 +137,6 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   };
 
   private onUpdateProjectError = (e: Error) => {
-    this.patchState({ projectUpdateLoadingState: LoadingState.ERROR, errorMessage: e.message });
+    this.patchState({ projectUpdateLoadingState: LoadingState.ERROR, error: e });
   };
 }
