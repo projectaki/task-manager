@@ -3,7 +3,7 @@
   //box-shadow: 0 0 3px 0.5px rgb(200, 200, 200);
   padding: 1em;
   margin: 0;
-  min-height: 200px;
+  height: 200px;
   position: relative;
 }
 
@@ -11,10 +11,6 @@
   position: absolute;
   bottom: 0.5em;
   right: 0.5em;
-}
-
-.project-card:hover {
-  cursor: pointer;
 }
 
 h2 {
@@ -37,3 +33,12 @@ h2 {
 //   color: var(--warn);
 //   border: 1px solid;
 // }
+
+.title {
+  width: 70%;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+}

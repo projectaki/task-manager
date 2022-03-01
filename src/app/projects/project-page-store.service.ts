@@ -3,11 +3,11 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { BehaviorSubject, catchError, EMPTY, Observable, Subject, switchMap, tap } from 'rxjs';
 import { LoadingState } from '../core/models/loading-state.enum';
 import { ProjectService } from '../core/project.service';
-import { Project } from './project.interface';
+import { ProjectListItem } from './project.interface';
 
 export interface ProjectPageState {
-  projects: Project[];
-  selectedProject: Project | null;
+  projects: ProjectListItem[];
+  selectedProject: ProjectListItem | null;
   projectAddLoadingState: LoadingState;
   projectRemoveLoadingState: LoadingState;
   projectListLoadingState: LoadingState;
@@ -27,13 +27,13 @@ const initialState: ProjectPageState = {
 
 @Injectable()
 export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
-  readonly projects$: Observable<Project[]> = this.select(state => state.projects);
+  readonly projects$: Observable<ProjectListItem[]> = this.select(state => state.projects);
   readonly errors$: Observable<Error | null> = this.select(state => state.error);
   readonly addLoadingState$: Observable<LoadingState> = this.select(state => state.projectAddLoadingState);
   readonly listLoadingState$: Observable<LoadingState> = this.select(state => state.projectListLoadingState);
   readonly removeLoadingState$: Observable<LoadingState> = this.select(state => state.projectRemoveLoadingState);
   readonly updateLoadingState$: Observable<LoadingState> = this.select(state => state.projectUpdateLoadingState);
-  readonly selectedProject$: Observable<Project | null> = this.select(state => state.selectedProject);
+  readonly selectedProject$: Observable<ProjectListItem | null> = this.select(state => state.selectedProject);
 
   readonly vm$ = this.select(
     this.projects$,
@@ -58,14 +58,14 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     super(initialState);
   }
 
-  readonly addProjectAsync = this.effect((project$: Observable<Project>) => {
+  public readonly addProjectAsync = this.effect((project$: Observable<ProjectListItem>) => {
     return project$.pipe(
       tap(() => this.patchState({ projectAddLoadingState: LoadingState.LOADING })),
       switchMap(p => this.projectService.add(p).pipe(tapResponse(this.onProjectAddSuccess, this.onProjectAddError)))
     );
   });
 
-  readonly removeProjectAsync = this.effect((projectId$: Observable<string>) => {
+  public readonly removeProjectAsync = this.effect((projectId$: Observable<string>) => {
     return projectId$.pipe(
       tap(() => this.patchState({ projectRemoveLoadingState: LoadingState.LOADING })),
       switchMap(id =>
@@ -74,7 +74,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
-  readonly listProjectsAsync = this.effect((userId$: Observable<string>) => {
+  public readonly listProjectsAsync = this.effect((userId$: Observable<string>) => {
     return userId$.pipe(
       tap(() => this.patchState({ projectListLoadingState: LoadingState.LOADING })),
       switchMap(id =>
@@ -83,7 +83,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
-  readonly updateProjectAsync = this.effect((project$: Observable<Project>) => {
+  public readonly updateProjectAsync = this.effect((project$: Observable<ProjectListItem>) => {
     return project$.pipe(
       tap(() => this.patchState({ projectUpdateLoadingState: LoadingState.LOADING })),
       switchMap(p =>
@@ -92,30 +92,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
-  public readonly selectProject = this.updater((state, id: string) => ({
-    ...state,
-    selectedProject: { ...state.projects.find(x => x.id === id)! },
-  }));
-
-  private readonly addProject = this.updater((state, project: Project) => ({
-    ...state,
-    projects: [...state.projects, project],
-  }));
-
-  private readonly updateProject = this.updater((state, project: Project) => {
-    const index = state.projects.findIndex(x => x.id === project.id);
-    return {
-      ...state,
-      projects: [...state.projects.slice(0, index), project, ...state.projects.slice(index + 1)],
-    };
-  });
-
-  private readonly deleteProject = this.updater((state, id: string) => ({
-    ...state,
-    projects: state.projects.filter(x => x.id !== id),
-  }));
-
-  private onProjectAddSuccess = (project: Project) => {
+  private onProjectAddSuccess = (project: ProjectListItem) => {
     this.addProject(project);
     this.patchState({ projectAddLoadingState: LoadingState.LOADED });
   };
@@ -133,7 +110,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     this.patchState({ projectRemoveLoadingState: LoadingState.ERROR, error: e });
   };
 
-  private onListProjectSuccess = (projects: Project[]) => {
+  private onListProjectSuccess = (projects: ProjectListItem[]) => {
     this.patchState({ projects, projectListLoadingState: LoadingState.LOADED });
   };
 
@@ -141,7 +118,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     this.patchState({ projectListLoadingState: LoadingState.ERROR, error: e });
   };
 
-  private onUpdateProjectSuccess = (project: Project) => {
+  private onUpdateProjectSuccess = (project: ProjectListItem) => {
     this.updateProject(project);
     this.patchState({ projectUpdateLoadingState: LoadingState.LOADED });
   };
@@ -149,4 +126,27 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
   private onUpdateProjectError = (e: Error) => {
     this.patchState({ projectUpdateLoadingState: LoadingState.ERROR, error: e });
   };
+
+  public readonly selectProject = this.updater((state, id: string) => ({
+    ...state,
+    selectedProject: { ...state.projects.find(x => x.id === id)! },
+  }));
+
+  private readonly addProject = this.updater((state, project: ProjectListItem) => ({
+    ...state,
+    projects: [...state.projects, project],
+  }));
+
+  private readonly updateProject = this.updater((state, project: ProjectListItem) => {
+    const index = state.projects.findIndex(x => x.id === project.id);
+    return {
+      ...state,
+      projects: [...state.projects.slice(0, index), project, ...state.projects.slice(index + 1)],
+    };
+  });
+
+  private readonly deleteProject = this.updater((state, id: string) => ({
+    ...state,
+    projects: state.projects.filter(x => x.id !== id),
+  }));
 }

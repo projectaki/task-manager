@@ -15,8 +15,8 @@ const routes: Routes = [
     component: ProjectComponent,
   },
   {
-    path: ':projectId/task/:taskId',
-    component: TaskViewComponent,
+    path: ':projectId/task',
+    loadChildren: () => import('../task/task.module').then(m => m.TaskModule),
   },
 ];
 

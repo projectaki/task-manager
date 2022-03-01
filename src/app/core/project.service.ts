@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { delay, from, Observable, of, switchMap, throwError } from 'rxjs';
-import { Project } from '../projects/project.interface';
+import { ProjectListItem } from '../projects/project.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -8,34 +8,33 @@ import { Project } from '../projects/project.interface';
 export class ProjectService {
   constructor() {}
 
-  get(id: string): Observable<Project> {
+  get(id: string): Observable<ProjectListItem> {
     return of({
       id: '1',
       name: 'Project 1',
-      description: 'This is a test project',
     }).pipe(delay(500));
   }
 
-  list(id: string): Observable<Project[]> {
+  list(id: string): Observable<ProjectListItem[]> {
     return of([
-      { id: '1', name: 'Project 1', description: 'This is a test project' },
-      { id: '2', name: 'Project 2', description: 'This is a test project' },
-      { id: '3', name: 'Project 3', description: 'This is a test project' },
-      { id: '4', name: 'Project 4', description: 'This is a test project' },
-      { id: '5', name: 'Project 5', description: 'This is a test project' },
+      { id: '1', name: 'Project 1' },
+      { id: '2', name: 'Project 2' },
+      { id: '3', name: 'Project 3' },
+      { id: '4', name: 'Project 4' },
+      { id: '5', name: 'Project 5' },
     ])
       .pipe(delay(500))
       .pipe(delay(500));
   }
 
-  add(project: Project): Observable<Project> {
+  add(project: ProjectListItem): Observable<ProjectListItem> {
     return of(project).pipe(
-      delay(500),
-      switchMap(() => throwError(() => new Error('erropr')))
+      delay(500)
+      //switchMap(() => throwError(() => new Error('erropr')))
     );
   }
 
-  update(project: Project): Observable<Project> {
+  update(project: ProjectListItem): Observable<ProjectListItem> {
     return of(project).pipe(delay(500));
   }
 

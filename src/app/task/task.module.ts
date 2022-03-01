@@ -6,10 +6,11 @@ import { RouterModule } from '@angular/router';
 import { TrelloTaskPopupComponent } from './trello-task-popup/trello-task-popup.component';
 import { SharedModule } from '../shared/shared.module';
 import { TaskCreateComponent } from './task-create/task-create.component';
+import { TaskRoutingModule } from './task-routing.module';
 
 @NgModule({
   declarations: [TaskCardComponent, TaskViewComponent, TrelloTaskPopupComponent, TaskCreateComponent],
-  imports: [CommonModule, RouterModule, SharedModule],
+  imports: [CommonModule, RouterModule, SharedModule, TaskRoutingModule],
   exports: [TaskCardComponent, TaskCreateComponent],
 })
 export class TaskModule {}

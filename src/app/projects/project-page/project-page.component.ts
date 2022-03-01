@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { Subject, takeUntil } from 'rxjs';
 import { LoadingState } from 'src/app/core/models/loading-state.enum';
 import { ProjectPageStoreService } from '../project-page-store.service';
-import { Project } from '../project.interface';
+import { ProjectListItem } from '../project.interface';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
@@ -14,8 +14,6 @@ import { ConfirmationService } from 'primeng/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectPageComponent implements OnInit, OnDestroy {
-  public currentTabIndex = 0;
-  public readonly gridGap = 40;
   public showCreateModal = false;
   public showEditModal = false;
   public readonly vm$ = this.store.vm$;
@@ -42,12 +40,20 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     this.store.addLoadingState$.pipe(takeUntil(this.unsub$)).subscribe(x => {
       if (x === LoadingState.LOADED) {
         this.openCreateModal(false);
+        this.messageService.add({ severity: 'success', summary: 'Project created successfully!', life: 2000 });
       }
     });
 
     this.store.updateLoadingState$.pipe(takeUntil(this.unsub$)).subscribe(x => {
       if (x === LoadingState.LOADED) {
         this.openEditModal(false);
+        this.messageService.add({ severity: 'success', summary: 'Project updated successfully!', life: 2000 });
+      }
+    });
+
+    this.store.removeLoadingState$.pipe(takeUntil(this.unsub$)).subscribe(x => {
+      if (x === LoadingState.LOADED) {
+        this.messageService.add({ severity: 'success', summary: 'Project deleted successfully!', life: 2000 });
       }
     });
 
@@ -61,15 +67,17 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   openEditModal(val: boolean = true) {
+    console.log('trigger2');
     this.showEditModal = val;
   }
 
   editEditModal(id: string) {
+    console.log('trigger');
     this.store.selectProject(id);
     this.openEditModal();
   }
 
-  onProjectCreate(project: Project) {
+  onProjectCreate(project: ProjectListItem) {
     this.store.addProjectAsync(project);
   }
 
@@ -86,7 +94,11 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  onProjectEdit(project: Project) {
+  onProjectEdit(project: ProjectListItem) {
     this.store.updateProjectAsync(project);
+  }
+
+  drop(e: any) {
+    console.log(e);
   }
 }

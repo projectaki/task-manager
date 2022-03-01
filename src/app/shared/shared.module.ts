@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabViewModule } from 'primeng/tabview';
-import { DragDropModule } from 'primeng/dragdrop';
 import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -19,9 +18,11 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingStatePipe } from './pipes/loading-state.pipe';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TileFlexGridComponent } from './tile-flex-grid/tile-flex-grid.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  declarations: [ModalComponent, LoadingStatePipe],
+  declarations: [ModalComponent, LoadingStatePipe, TileFlexGridComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -41,6 +42,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ProgressSpinnerModule,
     ToastModule,
     ConfirmDialogModule,
+    DragDropModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -62,6 +64,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     LoadingStatePipe,
     ToastModule,
     ConfirmDialogModule,
+    TileFlexGridComponent,
+    DragDropModule,
   ],
 })
 export class SharedModule {}

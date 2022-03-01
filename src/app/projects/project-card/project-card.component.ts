@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Project } from '../project.interface';
+import { ProjectListItem } from '../project.interface';
 
 @Component({
   selector: 'app-project-card',
@@ -8,7 +8,7 @@ import { Project } from '../project.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectCardComponent implements OnInit {
-  @Input() project!: Project;
+  @Input() project!: ProjectListItem;
   @Input() isDeleteLoading!: boolean;
 
   @Output() delete = new EventEmitter();

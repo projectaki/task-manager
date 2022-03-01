@@ -1,27 +1,22 @@
-<app-modal [showPopup]="showModal" (closed)="onClose()">
-  <form [formGroup]="projectCreateForm">
-    <div fxLayout="column" fxLayoutGap="40px">
-      <input type="text" pInputText style="width: 270px" formControlName="name" />
-      <textarea pInputTextarea formControlName="description"></textarea>
+<app-modal [showPopup]="showModal" [title]="title" (closed)="onClose()">
+  <form [formGroup]="projectCreateForm" (ngSubmit)="onSubmit($event)">
+    <div fxLayout="column" fxLayoutGap="40px" class="form-cont">
+      <span class="p-float-label username">
+        <input id="float-input" type="text" pInputText style="width: 270px" formControlName="name" />
+        <label for="float-input">Title</label>
+      </span>
       <ng-container *ngIf="!isLoading; else loading">
-        <button
-          (click)="onSubmit()"
-          pButton
-          type="button"
-          label="Submit"
-          [disabled]="!projectCreateForm.valid"></button>
+        <button pButton type="submit" label="Submit" [disabled]="!projectCreateForm.valid"></button>
       </ng-container>
       <ng-template #loading>
         <button
           pButton
           class="p-button-raised"
-          type="button"
           icon="pi pi-spin pi-spinner"
-          (click)="onSubmit()"
           style="width: 100%"
           [disabled]="true"></button>
       </ng-template>
     </div>
   </form>
-  <pre>{{ projectCreateForm.value | json }}</pre>
+  <!-- <pre>{{ projectCreateForm.value | json }}</pre> -->
 </app-modal>
