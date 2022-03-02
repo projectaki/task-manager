@@ -9,15 +9,16 @@ import { HomeModule } from './home/home.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MembersModule } from './members/members.module';
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, LayoutComponent],
   imports: [
+    CoreModule,
     BrowserModule,
     SharedModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    ProjectsModule,
     HomeModule,
     MembersModule,
   ],
