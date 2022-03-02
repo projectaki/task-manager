@@ -3,6 +3,7 @@
 
   <div class="actions" fxLayout="row" fxLayoutGap="5px">
     <button
+      *ngIf="options.showView"
       style="color: var(--primary)"
       pButton
       type="button"
@@ -10,6 +11,7 @@
       class="p-button-outlined p-button-rounded"
       [routerLink]="['/projects/1']"></button>
     <button
+      *ngIf="options.showEdit"
       style="color: var(--accent)"
       pButton
       type="button"
@@ -17,6 +19,7 @@
       class="p-button-outlined p-button-rounded"
       (click)="onEdit(project.id)"></button>
     <button
+      *ngIf="options.showDelete"
       style="color: var(--warn)"
       pButton
       type="button"

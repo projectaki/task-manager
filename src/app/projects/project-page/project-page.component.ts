@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { Subject, takeUntil } from 'rxjs';
 import { LoadingState } from 'src/app/core/models/loading-state.enum';
 import { ProjectPageStoreService } from '../project-page-store.service';
-import { ProjectListItem } from '../project.interface';
+import { ProjectListItem } from '../project-list-item.interface';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { ProjectType } from '../project-type.enum';
 
 @Component({
   selector: 'app-project-page',
@@ -17,6 +18,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   public showCreateModal = false;
   public showEditModal = false;
   public readonly vm$ = this.store.vm$;
+  ProjectType = ProjectType;
 
   private unsub$ = new Subject<void>();
 
@@ -67,18 +69,17 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   openEditModal(val: boolean = true) {
-    console.log('trigger2');
     this.showEditModal = val;
   }
 
   editEditModal(id: string) {
-    console.log('trigger');
     this.store.selectProject(id);
     this.openEditModal();
   }
 
   onProjectCreate(project: ProjectListItem) {
-    this.store.addProjectAsync(project);
+    const ownedProject = { ...project, projectType: ProjectType.OWNER };
+    this.store.addProjectAsync(ownedProject);
   }
 
   onProjectDelete($event: Event, id: string) {
@@ -96,9 +97,5 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   onProjectEdit(project: ProjectListItem) {
     this.store.updateProjectAsync(project);
-  }
-
-  drop(e: any) {
-    console.log(e);
   }
 }

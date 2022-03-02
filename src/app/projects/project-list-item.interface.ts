@@ -1,7 +1,7 @@
 import { ProjectType } from './project-type.enum';
 
-export interface Project {
+export interface ProjectListItem {
   id: string;
   name: string;
-  role: ProjectType;
+  projectType: ProjectType;
 }

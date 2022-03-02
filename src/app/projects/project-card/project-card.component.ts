@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProjectListItem } from '../project.interface';
+import { ProjectListItem } from '../project-list-item.interface';
+import { ProjectCardOptions } from './project-card-options.interface.';
 
 @Component({
   selector: 'app-project-card',
@@ -10,6 +11,7 @@ import { ProjectListItem } from '../project.interface';
 export class ProjectCardComponent implements OnInit {
   @Input() project!: ProjectListItem;
   @Input() isDeleteLoading!: boolean;
+  @Input() options!: ProjectCardOptions;
 
   @Output() delete = new EventEmitter();
   @Output() edit = new EventEmitter();

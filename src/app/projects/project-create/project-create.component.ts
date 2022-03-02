@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProjectListItem } from '../project.interface';
+import { ProjectListItem } from '../project-list-item.interface';
+import { ProjectType } from '../project-type.enum';
 
 @Component({
   selector: 'app-project-create',
@@ -36,6 +37,7 @@ export class ProjectCreateComponent implements OnInit {
     this.projectCreateForm = fb.group({
       id: [''],
       name: ['', Validators.required],
+      projectType: [''],
     });
   }
 
@@ -46,6 +48,7 @@ export class ProjectCreateComponent implements OnInit {
       this.projectCreateForm.patchValue({
         id: this.project.id,
         name: this.project.name,
+        projectType: this.project.projectType,
       });
     }
   }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { delay, from, Observable, of, switchMap, throwError } from 'rxjs';
-import { ProjectListItem } from '../projects/project.interface';
+import { ProjectListItem } from '../projects/project-list-item.interface';
+import { ProjectType } from '../projects/project-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -12,19 +13,18 @@ export class ProjectService {
     return of({
       id: '1',
       name: 'Project 1',
+      projectType: ProjectType.OWNER,
     }).pipe(delay(500));
   }
 
   list(id: string): Observable<ProjectListItem[]> {
     return of([
-      { id: '1', name: 'Project 1' },
-      { id: '2', name: 'Project 2' },
-      { id: '3', name: 'Project 3' },
-      { id: '4', name: 'Project 4' },
-      { id: '5', name: 'Project 5' },
-    ])
-      .pipe(delay(500))
-      .pipe(delay(500));
+      { id: '1', name: 'Project 1', projectType: ProjectType.OWNER },
+      { id: '2', name: 'Project 2', projectType: ProjectType.OWNER },
+      { id: '3', name: 'Project 3', projectType: ProjectType.PARTICIPANT },
+      { id: '4', name: 'Project 4', projectType: ProjectType.PARTICIPANT },
+      { id: '5', name: 'Project 5', projectType: ProjectType.CLIENT },
+    ]).pipe(delay(500));
   }
 
   add(project: ProjectListItem): Observable<ProjectListItem> {

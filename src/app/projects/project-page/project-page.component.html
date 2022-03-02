@@ -16,6 +16,14 @@
     </app-project-create>
   </div>
   <h1>Projects</h1>
+  <app-project-create
+    [project]="vm.selectedProject!"
+    [showModal]="showEditModal"
+    [isLoading]="vm.isUpdateLoading | loadingState"
+    title="Update Project"
+    (closed)="openEditModal(false)"
+    (submitted)="onProjectEdit($event)"></app-project-create>
+  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
   <p-tabView>
     <p-tabPanel header="Owned">
       <div fxLayout="row wrap" fxLayoutGap.gt-xs="40px grid" fxLayoutGap.xs="20px grid">
@@ -24,22 +32,15 @@
             fxFlex="0 0 calc(33.3%)"
             fxFlex.lt-lg="0 0 calc(50%)"
             fxFlex.lt-md="calc(100%)"
-            *ngFor="let project of vm.projects">
+            *ngFor="let project of vm.projects | filterProject: ProjectType.OWNER">
             <app-project-card
+              [options]="{ showEdit: true, showView: true, showDelete: true }"
               [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"
               [project]="project"
               (delete)="onProjectDelete($event, project.id)"
               (edit)="editEditModal($event)">
             </app-project-card>
           </div>
-          <app-project-create
-            [project]="vm.selectedProject!"
-            [showModal]="showEditModal"
-            [isLoading]="vm.isUpdateLoading | loadingState"
-            title="Update Project"
-            (closed)="openEditModal(false)"
-            (submitted)="onProjectEdit($event)"></app-project-create>
-          <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
         </ng-container>
         <ng-template #skeleton> Loading... </ng-template>
       </div>
@@ -50,8 +51,9 @@
           fxFlex="0 0 calc(33.3%)"
           fxFlex.lt-lg="0 0 calc(50%)"
           fxFlex.lt-md="calc(100%)"
-          *ngFor="let project of vm.projects">
+          *ngFor="let project of vm.projects | filterProject: ProjectType.PARTICIPANT">
           <app-project-card
+            [options]="{ showEdit: false, showView: true, showDelete: false }"
             [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"
             [project]="project"
             (delete)="onProjectDelete($event, project.id)"
@@ -65,8 +67,9 @@
           fxFlex="0 0 calc(33.3%)"
           fxFlex.lt-lg="0 0 calc(50%)"
           fxFlex.lt-md="calc(100%)"
-          *ngFor="let project of vm.projects">
+          *ngFor="let project of vm.projects | filterProject: ProjectType.CLIENT">
           <app-project-card
+            [options]="{ showEdit: false, showView: true, showDelete: false }"
             [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"
             [project]="project"
             (delete)="onProjectDelete($event, project.id)"
