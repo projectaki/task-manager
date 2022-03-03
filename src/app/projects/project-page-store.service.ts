@@ -92,6 +92,11 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
+  public readonly selectProject = this.updater((state, id: string) => ({
+    ...state,
+    selectedProject: { ...state.projects.find(x => x.id === id)! },
+  }));
+
   private onProjectAddSuccess = (project: ProjectListItem) => {
     this.addProject(project);
     this.patchState({ projectAddLoadingState: LoadingState.LOADED });
@@ -127,11 +132,6 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     this.patchState({ projectUpdateLoadingState: LoadingState.ERROR, error: e });
   };
 
-  public readonly selectProject = this.updater((state, id: string) => ({
-    ...state,
-    selectedProject: { ...state.projects.find(x => x.id === id)! },
-  }));
-
   private readonly addProject = this.updater((state, project: ProjectListItem) => ({
     ...state,
     projects: [...state.projects, project],
@@ -139,6 +139,7 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
 
   private readonly updateProject = this.updater((state, project: ProjectListItem) => {
     const index = state.projects.findIndex(x => x.id === project.id);
+    if (index < 0) throw new Error('Cannot be updated');
     return {
       ...state,
       projects: [...state.projects.slice(0, index), project, ...state.projects.slice(index + 1)],
