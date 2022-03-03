@@ -139,7 +139,6 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
 
   private readonly updateProject = this.updater((state, project: ProjectListItem) => {
     const index = state.projects.findIndex(x => x.id === project.id);
-    if (index < 0) throw new Error('Cannot be updated');
     return {
       ...state,
       projects: [...state.projects.slice(0, index), project, ...state.projects.slice(index + 1)],
