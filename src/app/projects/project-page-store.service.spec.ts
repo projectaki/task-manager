@@ -6,7 +6,7 @@ import { ProjectService } from '../core/project.service';
 import { ProjectPageStoreService } from './project-page-store.service';
 import { ProjectType } from './project-type.enum';
 
-fdescribe('ProjectPageStoreService', () => {
+describe('ProjectPageStoreService', () => {
   let service: ProjectPageStoreService;
   let projectService: ProjectService;
 
