@@ -1,7 +1,7 @@
 import { FilterProjectPipe } from './filter-project.pipe';
 import { ProjectType } from './project-type.enum';
 
-fdescribe('FilterProjectPipe', () => {
+describe('FilterProjectPipe', () => {
   it('create an instance', () => {
     const pipe = new FilterProjectPipe();
     expect(pipe).toBeTruthy();
@@ -17,5 +17,6 @@ fdescribe('FilterProjectPipe', () => {
 
     const res = pipe.transform(projects, ProjectType.OWNER);
     expect(res.length).toBe(2);
+    res.forEach(x => expect(x.projectType).toBe(ProjectType.OWNER));
   });
 });

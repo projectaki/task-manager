@@ -8,14 +8,18 @@ describe('ProjectCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProjectCardComponent ]
-    })
-    .compileComponents();
+      declarations: [ProjectCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectCardComponent);
     component = fixture.componentInstance;
+    component.options = {
+      showDelete: true,
+      showEdit: true,
+      showView: true,
+    };
     fixture.detectChanges();
   });
 
