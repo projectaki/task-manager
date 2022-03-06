@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProjectComponent } from './project/project.component';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { TaskModule } from '../task/task.module';
 import { SharedModule } from '../shared/shared.module';
@@ -11,7 +10,7 @@ import { ProjectPageComponent } from './project-page/project-page.component';
 import { FilterProjectPipe } from './filter-project.pipe';
 
 @NgModule({
-  declarations: [ProjectPageComponent, ProjectComponent, ProjectCardComponent, ProjectCreateComponent, FilterProjectPipe],
-  imports: [CommonModule, ProjectRoutingModule, SharedModule, MembersModule, TaskModule],
+  declarations: [ProjectPageComponent, ProjectCardComponent, ProjectCreateComponent, FilterProjectPipe],
+  imports: [CommonModule, ProjectRoutingModule, SharedModule, MembersModule],
 })
-export class ProjectsModule {}
+export class ProjectsDashboardModule {}

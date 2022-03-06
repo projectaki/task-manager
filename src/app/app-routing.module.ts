@@ -14,7 +14,8 @@ const routes: Routes = [
     children: [
       {
         path: 'projects',
-        loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule),
+        loadChildren: () =>
+          import('./projects-dashboard/projects-dashboard.module').then(m => m.ProjectsDashboardModule),
       },
     ],
   },

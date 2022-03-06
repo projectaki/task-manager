@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { delay, from, Observable, of, switchMap, throwError } from 'rxjs';
-import { ProjectListItem } from '../projects/project-list-item.interface';
-import { ProjectType } from '../projects/project-type.enum';
+import { ProjectListItem } from '../projects-dashboard/project-list-item.interface';
+import { ProjectType } from '../projects-dashboard/project-type.enum';
 
 @Injectable({
   providedIn: 'root',
