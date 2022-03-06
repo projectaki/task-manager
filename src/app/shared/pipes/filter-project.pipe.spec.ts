@@ -1,5 +1,5 @@
 import { FilterProjectPipe } from './filter-project.pipe';
-import { ProjectType } from './project-type.enum';
+import { ProjectType } from '../core/enums/project-type.enum';
 
 describe('FilterProjectPipe', () => {
   it('create an instance', () => {

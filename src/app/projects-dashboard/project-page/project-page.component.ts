@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { LoadingState } from 'src/app/core/models/loading-state.enum';
+import { LoadingState } from 'src/app/core/enums/loading-state.enum';
 import { ProjectPageStoreService } from '../project-page-store.service';
-import { ProjectListItem } from '../project-list-item.interface';
+import { ProjectListItem } from '../../core/models/project-list-item.interface';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-import { ProjectType } from '../project-type.enum';
+import { ProjectType } from '../../core/enums/project-type.enum';
 
 @Component({
   selector: 'app-project-page',

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LoadingState } from 'src/app/core/models/loading-state.enum';
+import { LoadingState } from 'src/app/core/enums/loading-state.enum';
 
 @Pipe({
   name: 'loadingState',

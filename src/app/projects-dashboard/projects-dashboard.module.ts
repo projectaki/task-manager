@@ -7,7 +7,7 @@ import { MembersModule } from '../members/members.module';
 import { ProjectCreateComponent } from './project-create/project-create.component';
 import { ProjectRoutingModule } from './project-routing.module';
 import { ProjectPageComponent } from './project-page/project-page.component';
-import { FilterProjectPipe } from './filter-project.pipe';
+import { FilterProjectPipe } from '../shared/pipes/filter-project.pipe';
 
 @NgModule({
   declarations: [ProjectPageComponent, ProjectCardComponent, ProjectCreateComponent, FilterProjectPipe],

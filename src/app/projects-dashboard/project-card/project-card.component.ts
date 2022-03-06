@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProjectListItem } from '../project-list-item.interface';
+import { ProjectListItem } from '../../core/models/project-list-item.interface';
 import { ProjectCardOptions } from './project-card-options.interface.';
 
 @Component({

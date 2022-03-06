@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProjectListItem } from './project-list-item.interface';
-import { ProjectType } from './project-type.enum';
+import { ProjectListItem } from '../../core/models/project-list-item.interface';
+import { ProjectType } from '../../core/enums/project-type.enum';
 
 @Pipe({
   name: 'filterProject',

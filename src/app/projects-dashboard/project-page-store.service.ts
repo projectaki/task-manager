@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { BehaviorSubject, catchError, EMPTY, Observable, Subject, switchMap, tap } from 'rxjs';
-import { LoadingState } from '../core/models/loading-state.enum';
-import { ProjectService } from '../core/project.service';
-import { ProjectListItem } from './project-list-item.interface';
+import { LoadingState } from '../core/enums/loading-state.enum';
+import { ProjectService } from '../core/services/project.service';
+import { ProjectListItem } from '../core/models/project-list-item.interface';
 
 export interface ProjectPageState {
   projects: ProjectListItem[];

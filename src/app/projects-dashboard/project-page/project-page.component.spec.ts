@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { LoadingStatePipe } from 'src/app/shared/pipes/loading-state.pipe';
-import { FilterProjectPipe } from '../filter-project.pipe';
+import { FilterProjectPipe } from '../../shared/pipes/filter-project.pipe';
 import { ProjectPageStoreService } from '../project-page-store.service';
 import { ProjectPageComponent } from './project-page.component';
 

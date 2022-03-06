@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProjectListItem } from '../project-list-item.interface';
-import { ProjectType } from '../project-type.enum';
+import { ProjectListItem } from '../../core/models/project-list-item.interface';
+import { ProjectType } from '../../core/enums/project-type.enum';
 
 @Component({
   selector: 'app-project-create',

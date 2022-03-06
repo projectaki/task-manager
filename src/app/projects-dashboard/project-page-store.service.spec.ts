@@ -1,10 +1,10 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Observable, of, skip, switchMap, take, tap, throwError } from 'rxjs';
-import { LoadingState } from '../core/models/loading-state.enum';
-import { ProjectService } from '../core/project.service';
+import { LoadingState } from '../core/enums/loading-state.enum';
+import { ProjectService } from '../core/services/project.service';
 
 import { ProjectPageStoreService } from './project-page-store.service';
-import { ProjectType } from './project-type.enum';
+import { ProjectType } from '../core/enums/project-type.enum';
 
 describe('ProjectPageStoreService', () => {
   let service: ProjectPageStoreService;
