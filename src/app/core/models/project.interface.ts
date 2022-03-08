@@ -1,7 +1,8 @@
-import { ProjectType } from '../enums/project-type.enum';
+import { ProjectRole } from '../enums/project-role.enum';
+import { ProjectUser } from './project-user.interface';
 
 export interface Project {
   id: string;
   name: string;
-  role: ProjectType;
+  projectUsers: ProjectUser[];
 }

@@ -21,7 +21,7 @@
         <app-task fxFlex *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"></app-task>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Members">
+    <p-tabPanel header="Members" [selected]="true">
       <div fxLayout="row wrap" fxLayoutGap="{{ gridGap }}px grid">
         <div fxFlex="100%" class="button-cont">
           <button class="button" pButton type="button" label="Invite" (click)="toggleInviteModal()"></button>
@@ -32,21 +32,26 @@
           fxFlex.lt-lg="0 0 calc(50% - {{ gridGap }}px)"
           fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
           <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Owners"></p-chip>
-          <app-member-list></app-member-list>
+          <app-member-list
+            [members]="projectUsers | filterProjectRole: ProjectRole.OWNER | projectuserToMember"></app-member-list>
         </div>
         <div
           fxFlex.gt-md="calc(33% - {{ gridGap }}px)"
           fxFlex.lt-lg="0 0 calc(50% - {{ gridGap }}px)"
           fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
-          <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Invited"></p-chip>
-          <app-member-list></app-member-list>
+          <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Participant"></p-chip>
+          <app-member-list
+            [members]="
+              projectUsers | filterProjectRole: ProjectRole.PARTICIPANT | projectuserToMember
+            "></app-member-list>
         </div>
         <div
           fxFlex.gt-md="calc(33% - {{ gridGap }}px)"
           fxFlex.lt-lg="0 0 calc(50% - {{ gridGap }}px)"
           fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
           <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Clients"></p-chip>
-          <app-member-list></app-member-list>
+          <app-member-list
+            [members]="projectUsers | filterProjectRole: ProjectRole.CLIENT | projectuserToMember"></app-member-list>
         </div>
       </div>
     </p-tabPanel>

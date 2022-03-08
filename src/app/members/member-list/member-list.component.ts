@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Member } from '../member';
 
 @Component({
   selector: 'app-member-list',
@@ -6,22 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./member-list.component.scss'],
 })
 export class MemberListComponent implements OnInit {
-  colorArray: string[] = [];
-  constructor() {
-    Array(50)
-      .fill(0)
-      .forEach(_ => this.colorArray.push(this.generateRandomVibrantColor()));
-  }
+  @Input() members: Member[] = [];
+
+  @Output() deleted = new EventEmitter<string>();
+  constructor() {}
 
   ngOnInit(): void {}
 
-  private generateRandomVibrantColor = () => {
-    const randomInt = (min: number, max: number) => {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-    var h = randomInt(0, 360);
-    var s = randomInt(42, 98);
-    var l = randomInt(40, 90);
-    return `hsl(${h},${s}%,${l}%)`;
-  };
+  onDelete(id: string) {
+    this.deleted.emit(id);
+  }
 }

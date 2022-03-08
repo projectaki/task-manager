@@ -3,12 +3,27 @@
     <p-avatar
       [style]="{ backgroundColor: avatarColor, color: 'white' }"
       shape="circle"
-      label="J.M"
+      [label]="initials"
       size="large"></p-avatar>
   </div>
-  <div>
-    <div class="member-item-name">John McJon</div>
-    <div class="member-item-email">jmcj@jmcj.comaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
-    <div class="member-item-company">McDonalds</div>
+  <div style="flex-grow: 1">
+    <div class="member-item-name">{{ member?.name }}</div>
+    <div class="member-item-email">{{ member?.email }}</div>
+    <div class="member-item-company">{{ member?.company }}</div>
+  </div>
+
+  <div style="display: grid; align-items: center; padding-left: 1em; padding-right: 1em">
+    <div style="text-align: center">
+      <button
+        pButton
+        class="p-button-raised"
+        type="button"
+        icon="pi pi-user-minus"
+        style="width: 30px; height: 30px"
+        (click)="onDelete(member.id)"></button>
+      <div *ngIf="!member.accepted">
+        <p style="margin: 0">Pending</p>
+      </div>
+    </div>
   </div>
 </div>

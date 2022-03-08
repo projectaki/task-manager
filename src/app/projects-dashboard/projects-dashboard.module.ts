@@ -7,10 +7,10 @@ import { MembersModule } from '../members/members.module';
 import { ProjectCreateComponent } from './project-create/project-create.component';
 import { ProjectRoutingModule } from './project-routing.module';
 import { ProjectPageComponent } from './project-page/project-page.component';
-import { FilterProjectPipe } from '../shared/pipes/filter-project.pipe';
+import { FilterProjectRolePipe } from '../shared/pipes/filter-project-role.pipe';
 
 @NgModule({
-  declarations: [ProjectPageComponent, ProjectCardComponent, ProjectCreateComponent, FilterProjectPipe],
+  declarations: [ProjectPageComponent, ProjectCardComponent, ProjectCreateComponent],
   imports: [CommonModule, ProjectRoutingModule, SharedModule, MembersModule],
 })
 export class ProjectsDashboardModule {}

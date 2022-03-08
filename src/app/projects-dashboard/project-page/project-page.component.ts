@@ -5,7 +5,7 @@ import { ProjectPageStoreService } from '../project-page-store.service';
 import { ProjectListItem } from '../../core/models/project-list-item.interface';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-import { ProjectType } from '../../core/enums/project-type.enum';
+import { ProjectRole } from '../../core/enums/project-role.enum';
 
 @Component({
   selector: 'app-project-page',
@@ -18,7 +18,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   public showCreateModal = false;
   public showEditModal = false;
   public readonly vm$ = this.store.vm$;
-  ProjectType = ProjectType;
+  ProjectRole = ProjectRole;
 
   private unsub$ = new Subject<void>();
 
@@ -78,7 +78,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   onProjectCreate(project: ProjectListItem) {
-    const ownedProject = { ...project, projectType: ProjectType.OWNER };
+    const ownedProject = { ...project, projectType: ProjectRole.OWNER };
     this.store.addProjectAsync(ownedProject);
   }
 
