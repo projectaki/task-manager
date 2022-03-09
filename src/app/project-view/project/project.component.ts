@@ -15,6 +15,7 @@ export class ProjectComponent implements OnInit {
   public readonly gridGap = 40;
   public showCreateTaskModal = false;
   public showInviteModal = false;
+  public roles: ProjectRole[] = [ProjectRole.CLIENT, ProjectRole.OWNER, ProjectRole.PARTICIPANT];
 
   public vm$ = this.store.vm$;
 

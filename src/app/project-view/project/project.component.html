@@ -25,7 +25,12 @@
       <div fxLayout="row wrap" fxLayoutGap="{{ gridGap }}px grid">
         <div fxFlex="100%" class="button-cont">
           <button class="button" pButton type="button" label="Invite" (click)="toggleInviteModal()"></button>
-          <app-member-create [showModal]="showInviteModal" (closed)="toggleInviteModal()"></app-member-create>
+          <app-member-create
+            [roles]="roles"
+            title="Invite Member"
+            [isLoading]="vm.projectUserInviteLoadingState | loadingState"
+            [showModal]="showInviteModal"
+            (closed)="toggleInviteModal()"></app-member-create>
         </div>
         <div
           fxFlex.gt-md="calc(33% - {{ gridGap }}px)"

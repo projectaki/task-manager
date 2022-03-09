@@ -1,5 +1,5 @@
 export enum ProjectRole {
-  OWNER = 'OWNER',
-  PARTICIPANT = 'PARTICIPANT',
-  CLIENT = 'CLIENT',
+  OWNER = 'Owner',
+  PARTICIPANT = 'Participant',
+  CLIENT = 'Client',
 }
