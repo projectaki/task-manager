@@ -8,11 +8,18 @@ import { Member } from '../member';
 })
 export class MemberItemComponent implements OnInit {
   @Input() member!: Member;
+  @Input() set isDeleteLoading(val: boolean) {
+    this._isDeleteLoading = val;
+  }
+  public get isDeleteLoading() {
+    return this._isDeleteLoading;
+  }
 
   @Output() delete = new EventEmitter<any>();
 
   public initials!: string;
   public avatarColor!: string;
+  private _isDeleteLoading!: boolean;
 
   ngOnInit(): void {
     this.avatarColor = this.generateRandomVibrantColorFromName(this.member.name);

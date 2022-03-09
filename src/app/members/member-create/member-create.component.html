@@ -5,7 +5,11 @@
         <input id="float-input" type="text" pInputText style="width: 270px" formControlName="email" />
         <label for="float-input">Email</label>
       </span>
-      <span class="p-float-label">
+      <span style="position: relative">
+        <label *ngIf="form.controls['role']?.value?.length > 0" class="p-float-label-copy" for="float-dropdown"
+          >Role</label
+        >
+
         <p-dropdown
           appendTo="body"
           [style]="{ width: '270px' }"
@@ -13,7 +17,6 @@
           [options]="roles"
           formControlName="role"
           placeholder="Select a role"></p-dropdown>
-        <label for="float-dropdown">Role</label>
       </span>
 
       <button [loading]="isLoading" pButton type="submit" label="Submit" [disabled]="!form.valid"></button>

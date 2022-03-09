@@ -19,6 +19,7 @@ export abstract class CreateModalBase<T> {
 
   onClose() {
     this.closed.emit();
+    this.form.reset();
   }
 
   onSubmit(event: Event) {

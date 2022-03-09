@@ -8,6 +8,21 @@ import { Member } from '../member';
 })
 export class MemberListComponent implements OnInit {
   @Input() members: Member[] = [];
+  @Input() set isDeleteLoading(val: boolean) {
+    this._isDeleteLoading = val;
+  }
+  @Input() set selectedProjectUserId(val: string) {
+    this._selectedProjectUserId = val;
+  }
+
+  public get isDeleteLoading() {
+    return this._isDeleteLoading;
+  }
+  public get selectedProjectUserId() {
+    return this._selectedProjectUserId;
+  }
+  private _isDeleteLoading!: boolean;
+  private _selectedProjectUserId!: string;
 
   @Output() deleted = new EventEmitter<any>();
   constructor() {}

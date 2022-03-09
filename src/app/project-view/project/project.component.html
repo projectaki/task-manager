@@ -42,6 +42,8 @@
           <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Owners"></p-chip>
           <app-member-list
             [members]="vm.projectUsers | filterProjectRole: ProjectRole.OWNER | projectuserToMember"
+            [isDeleteLoading]="vm.projectUserRemoveLoadingState | loadingState"
+            [selectedProjectUserId]="vm.selectedProjectUser?.id!"
             (deleted)="onProjectUserDelete($event)"></app-member-list>
         </div>
         <div
@@ -51,6 +53,8 @@
           <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Participant"></p-chip>
           <app-member-list
             [members]="vm.projectUsers | filterProjectRole: ProjectRole.PARTICIPANT | projectuserToMember"
+            [isDeleteLoading]="vm.projectUserRemoveLoadingState | loadingState"
+            [selectedProjectUserId]="vm.selectedProjectUser?.id!"
             (deleted)="onProjectUserDelete($event)"></app-member-list>
         </div>
         <div
@@ -60,6 +64,8 @@
           <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Clients"></p-chip>
           <app-member-list
             [members]="vm.projectUsers | filterProjectRole: ProjectRole.CLIENT | projectuserToMember"
+            [isDeleteLoading]="vm.projectUserRemoveLoadingState | loadingState"
+            [selectedProjectUserId]="vm.selectedProjectUser?.id!"
             (deleted)="onProjectUserDelete($event)"></app-member-list>
         </div>
       </div>
