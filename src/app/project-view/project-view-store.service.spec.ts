@@ -6,7 +6,7 @@ import { ProjectService } from '../core/services/project.service';
 
 import { ProjectViewStoreService } from './project-view-store.service';
 
-fdescribe('ProjectViewStoreService', () => {
+describe('ProjectViewStoreService', () => {
   let service: ProjectViewStoreService;
   let projectService: ProjectService;
 

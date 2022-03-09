@@ -46,7 +46,7 @@ export class ProjectService {
   }
 
   add(project: ProjectListItem): Observable<ProjectListItem> {
-    return of(project).pipe(
+    return of({ ...project, id: '99' }).pipe(
       delay(500)
       //switchMap(() => throwError(() => new Error('erropr')))
     );

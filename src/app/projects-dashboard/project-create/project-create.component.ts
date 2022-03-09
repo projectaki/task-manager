@@ -37,7 +37,6 @@ export class ProjectCreateComponent implements OnInit {
     this.projectCreateForm = fb.group({
       id: [''],
       name: ['', Validators.required],
-      projectType: [''],
     });
   }
 
@@ -48,7 +47,6 @@ export class ProjectCreateComponent implements OnInit {
       this.projectCreateForm.patchValue({
         id: this.project.id,
         name: this.project.name,
-        projectType: this.project.role,
       });
     }
   }

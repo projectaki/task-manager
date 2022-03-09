@@ -31,6 +31,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.listProjectsAsync('1');
     this.initObservables();
+    this.store.projects$.subscribe(x => console.log(x));
   }
 
   ngOnDestroy() {
@@ -78,7 +79,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   onProjectCreate(project: ProjectListItem) {
-    const ownedProject = { ...project, projectType: ProjectRole.OWNER };
+    const ownedProject: ProjectListItem = { ...project, role: ProjectRole.OWNER };
     this.store.addProjectAsync(ownedProject);
   }
 
