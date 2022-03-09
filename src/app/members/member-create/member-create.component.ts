@@ -9,7 +9,7 @@ import { Member } from '../member';
   templateUrl: './member-create.component.html',
   styleUrls: ['./member-create.component.scss'],
 })
-export class MemberCreateComponent extends CreateModalBase<Member> {
+export class MemberCreateComponent extends CreateModalBase<{ email: string; role: ProjectRole }> {
   @Input() roles: ProjectRole[] = [];
 
   constructor(private fb: FormBuilder) {

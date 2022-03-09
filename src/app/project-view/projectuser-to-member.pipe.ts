@@ -7,12 +7,15 @@ import { Member } from '../members/member';
 })
 export class ProjectuserToMemberPipe implements PipeTransform {
   transform(value: ProjectUser[], ...args: unknown[]): Member[] {
-    return value.map(({ id, name, email, company, accepted }) => ({
-      id,
-      name,
-      email,
-      company,
-      accepted,
-    }));
+    return value.map(
+      ({ id, name, email, company, accepted }) =>
+        <Member>{
+          id,
+          name,
+          email,
+          company,
+          accepted,
+        }
+    );
   }
 }

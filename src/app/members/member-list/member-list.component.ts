@@ -9,12 +9,12 @@ import { Member } from '../member';
 export class MemberListComponent implements OnInit {
   @Input() members: Member[] = [];
 
-  @Output() deleted = new EventEmitter<string>();
+  @Output() deleted = new EventEmitter<any>();
   constructor() {}
 
   ngOnInit(): void {}
 
-  onDelete(id: string) {
-    this.deleted.emit(id);
+  onDelete($event: any) {
+    this.deleted.emit($event);
   }
 }

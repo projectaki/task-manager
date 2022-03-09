@@ -9,7 +9,7 @@ import { Member } from '../member';
 export class MemberItemComponent implements OnInit {
   @Input() member!: Member;
 
-  @Output() delete = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<any>();
 
   public initials!: string;
   public avatarColor!: string;
@@ -19,8 +19,8 @@ export class MemberItemComponent implements OnInit {
     this.initials = this.member.name[0].toUpperCase();
   }
 
-  onDelete(id: string) {
-    this.delete.emit(id);
+  onDelete($event: Event, id: string) {
+    this.delete.emit({ event: $event, id });
   }
 
   private generateInitials(name: string) {

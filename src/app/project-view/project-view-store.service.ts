@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, tap } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
+import { ProjectRole } from '../core/enums/project-role.enum';
 import { ProjectUser } from '../core/models/project-user.interface';
 import { ProjectService } from '../core/services/project.service';
 
@@ -74,17 +75,19 @@ export class ProjectViewStoreService extends ComponentStore<ProjectViewState> {
     super(initialState);
   }
 
-  public readonly inviteProjectUserAsync = this.effect((project$: Observable<{ user: ProjectUser; id: string }>) => {
-    return project$.pipe(
-      tap(() => this.patchState({ projectUserInviteLoadingState: LoadingState.LOADING })),
+  public readonly inviteProjectUserAsync = this.effect(
+    (project$: Observable<{ email: string; role: ProjectRole; id: string }>) => {
+      return project$.pipe(
+        tap(() => this.patchState({ projectUserInviteLoadingState: LoadingState.LOADING })),
 
-      switchMap(({ user, id }) =>
-        this.projectService
-          .addProjectUser(id!, user)
-          .pipe(tapResponse(this.onProjectUserInviteSuccess, this.onProjectUserInviteError))
-      )
-    );
-  });
+        switchMap(({ email, id, role }) =>
+          this.projectService
+            .addProjectUser(id!, email, role)
+            .pipe(tapResponse(this.onProjectUserInviteSuccess, this.onProjectUserInviteError))
+        )
+      );
+    }
+  );
 
   public readonly removeProjectUserAsync = this.effect((project$: Observable<{ userId: string; id: string }>) => {
     return project$.pipe(
@@ -147,6 +150,6 @@ export class ProjectViewStoreService extends ComponentStore<ProjectViewState> {
 
   private readonly deleteProjectUser = this.updater((state, id: string) => ({
     ...state,
-    projects: state.projectUsers.filter(x => x.id !== id),
+    projectUsers: state.projectUsers.filter(x => x.id !== id),
   }));
 }

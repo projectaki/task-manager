@@ -20,7 +20,7 @@
         type="button"
         icon="pi pi-user-minus"
         style="width: 30px; height: 30px"
-        (click)="onDelete(member.id)"></button>
+        (click)="onDelete($event, member.id)"></button>
       <div *ngIf="!member.accepted">
         <p style="margin: 0">Pending</p>
       </div>

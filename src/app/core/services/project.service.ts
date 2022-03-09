@@ -60,8 +60,15 @@ export class ProjectService {
     return of(id).pipe(delay(500));
   }
 
-  addProjectUser(projectId: string, projectUser: ProjectUser): Observable<ProjectUser> {
-    return of(projectUser).pipe(delay(500));
+  addProjectUser(projectId: string, email: string, role: ProjectRole): Observable<ProjectUser> {
+    return of(<ProjectUser>{
+      id: '1',
+      accepted: false,
+      company: 'Test',
+      email,
+      name: email,
+      role,
+    }).pipe(delay(500));
   }
 
   removeProjectUser(projectId: string, projectUserId: string): Observable<string> {
