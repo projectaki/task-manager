@@ -32,7 +32,7 @@
             fxFlex="0 0 calc(33.3%)"
             fxFlex.lt-lg="0 0 calc(50%)"
             fxFlex.lt-md="calc(100%)"
-            *ngFor="let project of vm.projects | filterProject: ProjectType.OWNER">
+            *ngFor="let project of vm.projects | filterProjectRole: ProjectRole.OWNER">
             <app-project-card
               [options]="{ showEdit: true, showView: true, showDelete: true }"
               [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"
@@ -51,7 +51,7 @@
           fxFlex="0 0 calc(33.3%)"
           fxFlex.lt-lg="0 0 calc(50%)"
           fxFlex.lt-md="calc(100%)"
-          *ngFor="let project of vm.projects | filterProject: ProjectType.PARTICIPANT">
+          *ngFor="let project of vm.projects | filterProjectRole: ProjectRole.PARTICIPANT">
           <app-project-card
             [options]="{ showEdit: false, showView: true, showDelete: false }"
             [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"
@@ -67,7 +67,7 @@
           fxFlex="0 0 calc(33.3%)"
           fxFlex.lt-lg="0 0 calc(50%)"
           fxFlex.lt-md="calc(100%)"
-          *ngFor="let project of vm.projects | filterProject: ProjectType.CLIENT">
+          *ngFor="let project of vm.projects | filterProjectRole: ProjectRole.CLIENT">
           <app-project-card
             [options]="{ showEdit: false, showView: true, showDelete: false }"
             [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Member } from '../member';
 
 @Component({
   selector: 'app-member-list',
@@ -6,22 +7,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./member-list.component.scss'],
 })
 export class MemberListComponent implements OnInit {
-  colorArray: string[] = [];
-  constructor() {
-    Array(50)
-      .fill(0)
-      .forEach(_ => this.colorArray.push(this.generateRandomVibrantColor()));
+  @Input() members: Member[] = [];
+  @Input() set isDeleteLoading(val: boolean) {
+    this._isDeleteLoading = val;
   }
+  @Input() set selectedProjectUserId(val: string) {
+    this._selectedProjectUserId = val;
+  }
+
+  public get isDeleteLoading() {
+    return this._isDeleteLoading;
+  }
+  public get selectedProjectUserId() {
+    return this._selectedProjectUserId;
+  }
+  private _isDeleteLoading!: boolean;
+  private _selectedProjectUserId!: string;
+
+  @Output() deleted = new EventEmitter<any>();
+  constructor() {}
 
   ngOnInit(): void {}
 
-  private generateRandomVibrantColor = () => {
-    const randomInt = (min: number, max: number) => {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-    var h = randomInt(0, 360);
-    var s = randomInt(42, 98);
-    var l = randomInt(40, 90);
-    return `hsl(${h},${s}%,${l}%)`;
-  };
+  onDelete($event: any) {
+    this.deleted.emit($event);
+  }
 }

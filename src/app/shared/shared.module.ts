@@ -20,9 +20,10 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TileFlexGridComponent } from './tile-flex-grid/tile-flex-grid.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FilterProjectRolePipe } from './pipes/filter-project-role.pipe';
 
 @NgModule({
-  declarations: [ModalComponent, LoadingStatePipe, TileFlexGridComponent],
+  declarations: [ModalComponent, LoadingStatePipe, TileFlexGridComponent, FilterProjectRolePipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -66,6 +67,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ConfirmDialogModule,
     TileFlexGridComponent,
     DragDropModule,
+    FilterProjectRolePipe,
   ],
 })
 export class SharedModule {}

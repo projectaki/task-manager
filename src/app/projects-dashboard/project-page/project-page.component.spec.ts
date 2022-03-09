@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { LoadingStatePipe } from 'src/app/shared/pipes/loading-state.pipe';
-import { FilterProjectPipe } from '../../shared/pipes/filter-project.pipe';
+import { FilterProjectRolePipe } from '../../shared/pipes/filter-project-role.pipe';
 import { ProjectPageStoreService } from '../project-page-store.service';
 import { ProjectPageComponent } from './project-page.component';
 
@@ -14,7 +14,7 @@ describe('ProjectPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProjectPageComponent, FilterProjectPipe, LoadingStatePipe],
+      declarations: [ProjectPageComponent, FilterProjectRolePipe, LoadingStatePipe],
       providers: [
         {
           provide: ProjectPageStoreService,

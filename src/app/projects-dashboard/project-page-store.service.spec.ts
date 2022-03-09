@@ -4,7 +4,7 @@ import { LoadingState } from '../core/enums/loading-state.enum';
 import { ProjectService } from '../core/services/project.service';
 
 import { ProjectPageStoreService } from './project-page-store.service';
-import { ProjectType } from '../core/enums/project-type.enum';
+import { ProjectRole } from '../core/enums/project-role.enum';
 
 describe('ProjectPageStoreService', () => {
   let service: ProjectPageStoreService;
@@ -31,7 +31,7 @@ describe('ProjectPageStoreService', () => {
     );
 
     it('should set loading state to loading', () => {
-      service.addProjectAsync({ id: '1', name: 'a', projectType: ProjectType.OWNER });
+      service.addProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
       service.addLoadingState$.subscribe(x => expect(x).toBe(LoadingState.LOADING));
     });
 
@@ -39,12 +39,12 @@ describe('ProjectPageStoreService', () => {
       'should add project and loaded state to loaded on success',
       waitForAsync(() => {
         const addSpy = spyOn(projectService, 'add').and.returnValue(
-          of({ id: '1', name: 'a', projectType: ProjectType.OWNER })
+          of({ id: '1', name: 'a', role: ProjectRole.OWNER })
         );
 
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.addProjectAsync({ id: '1', name: 'a', projectType: ProjectType.OWNER });
+        service.addProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
         service.projects$.subscribe(x => {
           expect(addSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
@@ -61,7 +61,7 @@ describe('ProjectPageStoreService', () => {
         const addSpy = spyOn(projectService, 'add').and.returnValue(throwError(() => new Error('Error occured')));
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.addProjectAsync({ id: '1', name: 'a', projectType: ProjectType.OWNER });
+        service.addProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
         service.projects$.subscribe(x => {
           expect(addSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
@@ -78,9 +78,9 @@ describe('ProjectPageStoreService', () => {
       waitForAsync(() => {
         service.patchState({
           projects: [
-            { id: '1', name: 'a', projectType: ProjectType.OWNER },
-            { id: '2', name: 'a', projectType: ProjectType.OWNER },
-            { id: '3', name: 'a', projectType: ProjectType.OWNER },
+            { id: '1', name: 'a', role: ProjectRole.OWNER },
+            { id: '2', name: 'a', role: ProjectRole.OWNER },
+            { id: '3', name: 'a', role: ProjectRole.OWNER },
           ],
         });
       })
@@ -94,7 +94,7 @@ describe('ProjectPageStoreService', () => {
     );
 
     it('should set loading state to loading', () => {
-      service.updateProjectAsync({ id: '1', name: 'a', projectType: ProjectType.OWNER });
+      service.updateProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
       service.updateLoadingState$.subscribe(x => expect(x).toBe(LoadingState.LOADING));
     });
 
@@ -102,12 +102,12 @@ describe('ProjectPageStoreService', () => {
       'should update project and loaded state to loaded on success',
       waitForAsync(() => {
         const updateSpy = spyOn(projectService, 'update').and.returnValue(
-          of({ id: '2', name: 'updated', projectType: ProjectType.OWNER })
+          of({ id: '2', name: 'updated', role: ProjectRole.OWNER })
         );
 
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.updateProjectAsync({ id: '2', name: 'updated', projectType: ProjectType.OWNER });
+        service.updateProjectAsync({ id: '2', name: 'updated', role: ProjectRole.OWNER });
         service.projects$.subscribe(x => {
           const proj = x.find(x => x.id === '2');
           expect(updateSpy).toHaveBeenCalled();
@@ -125,7 +125,7 @@ describe('ProjectPageStoreService', () => {
         const updateSpy = spyOn(projectService, 'update').and.returnValue(throwError(() => new Error('Error occured')));
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.updateProjectAsync({ id: '2', name: 'updated', projectType: ProjectType.OWNER });
+        service.updateProjectAsync({ id: '2', name: 'updated', role: ProjectRole.OWNER });
         service.projects$.subscribe(x => {
           expect(updateSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
@@ -142,9 +142,9 @@ describe('ProjectPageStoreService', () => {
       waitForAsync(() => {
         service.patchState({
           projects: [
-            { id: '1', name: 'a', projectType: ProjectType.OWNER },
-            { id: '2', name: 'a', projectType: ProjectType.OWNER },
-            { id: '3', name: 'a', projectType: ProjectType.OWNER },
+            { id: '1', name: 'a', role: ProjectRole.OWNER },
+            { id: '2', name: 'a', role: ProjectRole.OWNER },
+            { id: '3', name: 'a', role: ProjectRole.OWNER },
           ],
         });
       })
@@ -216,9 +216,9 @@ describe('ProjectPageStoreService', () => {
       waitForAsync(() => {
         const updateSpy = spyOn(projectService, 'list').and.returnValue(
           of([
-            { id: '1', name: 'a', projectType: ProjectType.OWNER },
-            { id: '2', name: 'a', projectType: ProjectType.OWNER },
-            { id: '3', name: 'a', projectType: ProjectType.OWNER },
+            { id: '1', name: 'a', role: ProjectRole.OWNER },
+            { id: '2', name: 'a', role: ProjectRole.OWNER },
+            { id: '3', name: 'a', role: ProjectRole.OWNER },
           ])
         );
 
@@ -258,9 +258,9 @@ describe('ProjectPageStoreService', () => {
       waitForAsync(() => {
         service.patchState({
           projects: [
-            { id: '1', name: 'a', projectType: ProjectType.OWNER },
-            { id: '2', name: 'b', projectType: ProjectType.OWNER },
-            { id: '3', name: 'c', projectType: ProjectType.OWNER },
+            { id: '1', name: 'a', role: ProjectRole.OWNER },
+            { id: '2', name: 'b', role: ProjectRole.OWNER },
+            { id: '3', name: 'c', role: ProjectRole.OWNER },
           ],
         });
       })
