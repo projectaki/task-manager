@@ -15,7 +15,7 @@ const authFactory = (config: AppConfig) => {
     redirectUrl: window.location.origin,
     postLogoutRedirectUri: window.location.origin,
     clientId: config.clientId,
-    scope: `openid offline_access email profile ${config.audience}`,
+    scope: `openid offline_access email ${config.audience}`,
     responseType: 'code',
     silentRenew: true,
     useRefreshToken: true,
