@@ -16,4 +16,5 @@ fetch('/assets/config.json')
     platformBrowserDynamic([{ provide: APP_CONFIG, useValue: config }])
       .bootstrapModule(AppModule)
       .catch(err => console.error(err));
-  });
+  })
+  .catch(e => console.log(e));

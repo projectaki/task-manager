@@ -42,18 +42,18 @@ body {
 
 .fancy-button {
   border: none;
-  box-shadow: 0 0 1px 3px var(--accent);
+  box-shadow: 0 0 1px 3px var(--primary);
   padding: 0.5em 1em;
-  background-color: var(--primary);
+  background-color: var(--accent);
   border-radius: 2px;
-  color: var(--accent);
+  color: var(--primary);
   font-weight: 700;
   font-size: 1em;
 }
 
 .fancy-button:hover {
-  background-color: var(--accent);
-  color: var(--primary);
+  background-color: var(--primary);
+  color: var(--accent);
   cursor: pointer;
 }
 
