@@ -4,6 +4,8 @@ import { ProjectListItem } from '../models/project-list-item.interface';
 import { ProjectRole } from '../enums/project-role.enum';
 import { Project } from '../models/project.interface';
 import { ProjectUser } from '../models/project-user.interface';
+import { TaskTag } from '../enums/task-tag.enum';
+import { ProjectTaskItem } from '../models/project-task-item.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -46,14 +48,14 @@ export class ProjectService {
   }
 
   add(project: ProjectListItem): Observable<ProjectListItem> {
-    return of({ ...project, id: '99' }).pipe(
+    return of({ ...project, id: '99', role: ProjectRole.OWNER }).pipe(
       delay(500)
       //switchMap(() => throwError(() => new Error('erropr')))
     );
   }
 
   update(project: ProjectListItem): Observable<ProjectListItem> {
-    return of(project).pipe(delay(500));
+    return of({ ...project, role: ProjectRole.OWNER }).pipe(delay(500));
   }
 
   delete(id: string): Observable<string> {
@@ -100,6 +102,41 @@ export class ProjectService {
         company: 'MY HOSUE',
         accepted: true,
         role: ProjectRole.CLIENT,
+      },
+    ]).pipe(delay(500));
+  }
+
+  addProjectTask(projectId: string, projectTaskItem: ProjectTaskItem): Observable<ProjectTaskItem> {
+    return of({ ...projectTaskItem, completed: false }).pipe(delay(500));
+  }
+
+  updateProjectTask(projectId: string, projectTask: ProjectTaskItem): Observable<ProjectTaskItem> {
+    return of({ ...projectTask, completed: false }).pipe(delay(500));
+  }
+
+  removeProjectTask(projectId: string, projectTaskId: string): Observable<string> {
+    return of(projectTaskId).pipe(delay(500));
+  }
+
+  listProjectTasks(projectId: string): Observable<ProjectTaskItem[]> {
+    return of([
+      {
+        id: '1',
+        title: 'Task 1',
+        completed: false,
+        tag: TaskTag.BUG,
+      },
+      {
+        id: '2',
+        title: 'Task 2',
+        completed: false,
+        tag: TaskTag.FEATURE,
+      },
+      {
+        id: '3',
+        title: 'Task 3',
+        completed: true,
+        tag: TaskTag.BUG,
       },
     ]).pipe(delay(500));
   }

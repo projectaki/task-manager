@@ -4,17 +4,17 @@ import { LoadingState } from '../core/enums/loading-state.enum';
 import { ProjectRole } from '../core/enums/project-role.enum';
 import { ProjectService } from '../core/services/project.service';
 
-import { ProjectViewStoreService } from './project-view-store.service';
+import { ProjectMemberStoreService } from './project-member-store.service';
 
 describe('ProjectViewStoreService', () => {
-  let service: ProjectViewStoreService;
+  let service: ProjectMemberStoreService;
   let projectService: ProjectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProjectViewStoreService, ProjectService],
+      providers: [ProjectMemberStoreService, ProjectService],
     });
-    service = TestBed.inject(ProjectViewStoreService);
+    service = TestBed.inject(ProjectMemberStoreService);
     projectService = TestBed.inject(ProjectService);
   });
 

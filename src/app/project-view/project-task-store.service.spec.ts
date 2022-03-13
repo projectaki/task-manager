@@ -1,20 +1,51 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Observable, of, skip, switchMap, take, tap, throwError } from 'rxjs';
+import { of, take, throwError } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
+import { TaskTag } from '../core/enums/task-tag.enum';
 import { ProjectService } from '../core/services/project.service';
 
-import { ProjectPageStoreService } from './project-page-store.service';
-import { ProjectRole } from '../core/enums/project-role.enum';
+import { ProjectTaskStoreService } from './project-task-store.service';
 
-describe('ProjectPageStoreService', () => {
-  let service: ProjectPageStoreService;
+describe('ProjectTaskStoreService', () => {
+  let service: ProjectTaskStoreService;
   let projectService: ProjectService;
+
+  let mockProjectTaskInput = {
+    id: '1',
+    projectTaskItem: {
+      id: '1',
+      completed: true,
+      tag: TaskTag.BUG,
+      title: 'test',
+    },
+  };
+
+  let mockTaskList = [
+    {
+      id: '1',
+      completed: true,
+      tag: TaskTag.BUG,
+      title: 'test1',
+    },
+    {
+      id: '2',
+      completed: true,
+      tag: TaskTag.BUG,
+      title: 'test2',
+    },
+    {
+      id: '3',
+      completed: true,
+      tag: TaskTag.FEATURE,
+      title: 'test3',
+    },
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProjectPageStoreService, ProjectService],
+      providers: [ProjectTaskStoreService, ProjectService],
     });
-    service = TestBed.inject(ProjectPageStoreService);
+    service = TestBed.inject(ProjectTaskStoreService);
     projectService = TestBed.inject(ProjectService);
   });
 
@@ -31,21 +62,21 @@ describe('ProjectPageStoreService', () => {
     );
 
     it('should set loading state to loading', () => {
-      service.addProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
+      service.addProjectTaskAsync(mockProjectTaskInput);
       service.addLoadingState$.subscribe(x => expect(x).toBe(LoadingState.LOADING));
     });
 
     it(
-      'should add project and loaded state to loaded on success',
+      'should add project task and loaded state to loaded on success',
       waitForAsync(() => {
-        const addSpy = spyOn(projectService, 'add').and.returnValue(
-          of({ id: '1', name: 'a', role: ProjectRole.OWNER })
+        const addSpy = spyOn(projectService, 'addProjectTask').and.returnValue(
+          of(mockProjectTaskInput.projectTaskItem)
         );
 
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.addProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
-        service.projects$.subscribe(x => {
+        service.addProjectTaskAsync(mockProjectTaskInput);
+        service.projectTasks$.subscribe(x => {
           expect(addSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(1);
@@ -58,11 +89,13 @@ describe('ProjectPageStoreService', () => {
     it(
       'should be length 0, push error message and set error state',
       waitForAsync(() => {
-        const addSpy = spyOn(projectService, 'add').and.returnValue(throwError(() => new Error('Error occured')));
+        const addSpy = spyOn(projectService, 'addProjectTask').and.returnValue(
+          throwError(() => new Error('Error occured'))
+        );
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.addProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
-        service.projects$.subscribe(x => {
+        service.addProjectTaskAsync(mockProjectTaskInput);
+        service.projectTasks$.subscribe(x => {
           expect(addSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(0);
@@ -77,11 +110,7 @@ describe('ProjectPageStoreService', () => {
     beforeEach(
       waitForAsync(() => {
         service.patchState({
-          projects: [
-            { id: '1', name: 'a', role: ProjectRole.OWNER },
-            { id: '2', name: 'a', role: ProjectRole.OWNER },
-            { id: '3', name: 'a', role: ProjectRole.OWNER },
-          ],
+          projectTasks: mockTaskList,
         });
       })
     );
@@ -94,26 +123,32 @@ describe('ProjectPageStoreService', () => {
     );
 
     it('should set loading state to loading', () => {
-      service.updateProjectAsync({ id: '1', name: 'a', role: ProjectRole.OWNER });
+      service.updateProjectTaskAsync({
+        ...mockProjectTaskInput,
+        projectTaskItem: { ...mockProjectTaskInput.projectTaskItem, id: '2', title: 'updated' },
+      });
       service.updateLoadingState$.subscribe(x => expect(x).toBe(LoadingState.LOADING));
     });
 
     it(
       'should update project and loaded state to loaded on success',
       waitForAsync(() => {
-        const updateSpy = spyOn(projectService, 'update').and.returnValue(
-          of({ id: '2', name: 'updated', role: ProjectRole.OWNER })
+        const updateSpy = spyOn(projectService, 'updateProjectTask').and.returnValue(
+          of({ ...mockProjectTaskInput.projectTaskItem, id: '2', title: 'updated' })
         );
 
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.updateProjectAsync({ id: '2', name: 'updated', role: ProjectRole.OWNER });
-        service.projects$.subscribe(x => {
+        service.updateProjectTaskAsync({
+          ...mockProjectTaskInput,
+          projectTaskItem: { ...mockProjectTaskInput.projectTaskItem, id: '2', title: 'updated' },
+        });
+        service.projectTasks$.subscribe(x => {
           const proj = x.find(x => x.id === '2');
           expect(updateSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(3);
-          expect(proj!.name).toBe('updated');
+          expect(proj!.title).toBe('updated');
         });
         service.updateLoadingState$.subscribe(x => expect(x).toBe(LoadingState.LOADED));
       })
@@ -122,11 +157,16 @@ describe('ProjectPageStoreService', () => {
     it(
       'should be length 0, push error message and set error state',
       waitForAsync(() => {
-        const updateSpy = spyOn(projectService, 'update').and.returnValue(throwError(() => new Error('Error occured')));
+        const updateSpy = spyOn(projectService, 'updateProjectTask').and.returnValue(
+          throwError(() => new Error('Error occured'))
+        );
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.updateProjectAsync({ id: '2', name: 'updated', role: ProjectRole.OWNER });
-        service.projects$.subscribe(x => {
+        service.updateProjectTaskAsync({
+          ...mockProjectTaskInput,
+          projectTaskItem: { ...mockProjectTaskInput.projectTaskItem, id: '2', title: 'updated' },
+        });
+        service.projectTasks$.subscribe(x => {
           expect(updateSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(3);
@@ -141,11 +181,7 @@ describe('ProjectPageStoreService', () => {
     beforeEach(
       waitForAsync(() => {
         service.patchState({
-          projects: [
-            { id: '1', name: 'a', role: ProjectRole.OWNER },
-            { id: '2', name: 'a', role: ProjectRole.OWNER },
-            { id: '3', name: 'a', role: ProjectRole.OWNER },
-          ],
+          projectTasks: mockTaskList,
         });
       })
     );
@@ -158,19 +194,19 @@ describe('ProjectPageStoreService', () => {
     );
 
     it('should set loading state to loading', () => {
-      service.removeProjectAsync('1');
+      service.removeProjectTaskAsync({ id: '1', projectTaskId: '1' });
       service.removeLoadingState$.subscribe(x => expect(x).toBe(LoadingState.LOADING));
     });
 
     it(
       'should remove project and loaded state to loaded on success',
       waitForAsync(() => {
-        const updateSpy = spyOn(projectService, 'delete').and.returnValue(of('1'));
+        const updateSpy = spyOn(projectService, 'removeProjectTask').and.returnValue(of('1'));
 
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.removeProjectAsync('1');
-        service.projects$.subscribe(x => {
+        service.removeProjectTaskAsync({ id: '1', projectTaskId: '1' });
+        service.projectTasks$.subscribe(x => {
           expect(updateSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(2);
@@ -183,11 +219,13 @@ describe('ProjectPageStoreService', () => {
     it(
       'should be length 0, push error message and set error state',
       waitForAsync(() => {
-        const updateSpy = spyOn(projectService, 'delete').and.returnValue(throwError(() => new Error('Error occured')));
+        const updateSpy = spyOn(projectService, 'removeProjectTask').and.returnValue(
+          throwError(() => new Error('Error occured'))
+        );
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.removeProjectAsync('1');
-        service.projects$.subscribe(x => {
+        service.removeProjectTaskAsync({ id: '1', projectTaskId: '1' });
+        service.projectTasks$.subscribe(x => {
           expect(updateSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(3);
@@ -207,25 +245,19 @@ describe('ProjectPageStoreService', () => {
     );
 
     it('should set loading state to loading', () => {
-      service.listProjectsAsync('1');
+      service.listProjectTasksAsync('1');
       service.listLoadingState$.subscribe(x => expect(x).toBe(LoadingState.LOADING));
     });
 
     it(
       'should list projects and loaded state to loaded on success',
       waitForAsync(() => {
-        const updateSpy = spyOn(projectService, 'list').and.returnValue(
-          of([
-            { id: '1', name: 'a', role: ProjectRole.OWNER },
-            { id: '2', name: 'a', role: ProjectRole.OWNER },
-            { id: '3', name: 'a', role: ProjectRole.OWNER },
-          ])
-        );
+        const updateSpy = spyOn(projectService, 'listProjectTasks').and.returnValue(of(mockTaskList));
 
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.listProjectsAsync('1');
-        service.projects$.subscribe(x => {
+        service.listProjectTasksAsync('1');
+        service.projectTasks$.subscribe(x => {
           expect(updateSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(3);
@@ -238,11 +270,13 @@ describe('ProjectPageStoreService', () => {
     it(
       'should be length 0, push error message and set error state',
       waitForAsync(() => {
-        const updateSpy = spyOn(projectService, 'list').and.returnValue(throwError(() => new Error('Error occured')));
+        const updateSpy = spyOn(projectService, 'listProjectTasks').and.returnValue(
+          throwError(() => new Error('Error occured'))
+        );
         const patchSpy = spyOn(service, 'patchState').and.callThrough();
 
-        service.listProjectsAsync('1');
-        service.projects$.subscribe(x => {
+        service.listProjectTasksAsync('1');
+        service.projectTasks$.subscribe(x => {
           expect(updateSpy).toHaveBeenCalled();
           expect(patchSpy).toHaveBeenCalledTimes(2);
           expect(x.length).toBe(0);
@@ -257,11 +291,7 @@ describe('ProjectPageStoreService', () => {
     beforeEach(
       waitForAsync(() => {
         service.patchState({
-          projects: [
-            { id: '1', name: 'a', role: ProjectRole.OWNER },
-            { id: '2', name: 'b', role: ProjectRole.OWNER },
-            { id: '3', name: 'c', role: ProjectRole.OWNER },
-          ],
+          projectTasks: mockTaskList,
         });
       })
     );
@@ -271,14 +301,14 @@ describe('ProjectPageStoreService', () => {
     });
 
     it('should select proper project', () => {
-      service.selectProject('2');
-      service.selectedProject$.pipe(take(1)).subscribe(x => expect(x?.name).toBe('b'));
+      service.selectProjectTask('2');
+      service.selectedProject$.pipe(take(1)).subscribe(x => expect(x?.title).toBe('test2'));
 
-      service.selectProject('3');
-      service.selectedProject$.pipe(take(1)).subscribe(x => expect(x?.name).toBe('c'));
+      service.selectProjectTask('3');
+      service.selectedProject$.pipe(take(1)).subscribe(x => expect(x?.title).toBe('test3'));
 
-      service.selectProject('1');
-      service.selectedProject$.pipe(take(2)).subscribe(x => expect(x?.name).toBe('a'));
+      service.selectProjectTask('1');
+      service.selectedProject$.pipe(take(2)).subscribe(x => expect(x?.title).toBe('test1'));
     });
   });
 
