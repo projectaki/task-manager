@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProjectListItem } from '../../core/models/project-list-item.interface';
-import { ProjectCardOptions } from './project-card-options.interface.';
+import { CardCrudOptions } from '../../core/models/project-card-options.interface.';
 
 @Component({
   selector: 'app-project-card',
@@ -11,7 +11,7 @@ import { ProjectCardOptions } from './project-card-options.interface.';
 export class ProjectCardComponent implements OnInit {
   @Input() project!: ProjectListItem;
   @Input() isDeleteLoading!: boolean;
-  @Input() options!: ProjectCardOptions;
+  @Input() options!: CardCrudOptions;
 
   @Output() delete = new EventEmitter();
   @Output() edit = new EventEmitter();

@@ -1,8 +1,25 @@
-<app-modal [showPopup]="showModal" (closed)="onClose()">
-  <div fxLayout="column" fxLayoutGap="40px">
-    <input type="text" pInputText style="width: 270px" />
+<app-modal [showPopup]="showModal" [title]="title" (closed)="onClose()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div fxLayout="column" fxLayoutGap="40px" class="form-cont">
+      <span class="p-float-label">
+        <input id="float-input" type="text" pInputText style="width: 270px" formControlName="title" />
+        <label for="float-input">Title</label>
+      </span>
+      <span style="position: relative">
+        <label *ngIf="form.controls['tag']?.value?.length > 0" class="p-float-label-copy" for="float-dropdown"
+          >Tag</label
+        >
 
-    <textarea pInputTextarea></textarea>
-    <button pButton type="button" label="Submit"></button>
-  </div>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ width: '270px' }"
+          id="float-dropdown"
+          [options]="tags"
+          formControlName="tag"
+          placeholder="Select a tag"></p-dropdown>
+      </span>
+
+      <button [loading]="isLoading" pButton type="submit" label="Submit" [disabled]="!form.valid"></button>
+    </div>
+  </form>
 </app-modal>

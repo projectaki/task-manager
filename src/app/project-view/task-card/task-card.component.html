@@ -1,6 +1,33 @@
-<div class="task" [routerLink]="['task/1']">
+<div class="task">
   <div>
-    <h2>title</h2>
-    tags
+    <h2>{{ projectTaskItem.title }}</h2>
+    {{ projectTaskItem.tag }}
+  </div>
+  <div class="actions" fxLayout="row" fxLayoutGap="5px">
+    <button
+      *ngIf="options.showView"
+      style="color: var(--primary)"
+      pButton
+      type="button"
+      icon="pi pi-eye"
+      class="p-button-outlined p-button-rounded"
+      [routerLink]="['task/1']"></button>
+    <button
+      *ngIf="options.showEdit"
+      style="color: var(--accent)"
+      pButton
+      type="button"
+      icon="pi pi-pencil"
+      class="p-button-outlined p-button-rounded"
+      (click)="onEdit(projectTaskItem.id)"></button>
+    <button
+      *ngIf="options.showDelete"
+      style="color: var(--warn)"
+      pButton
+      type="button"
+      [icon]="isDeleteLoading ? 'pi pi-spin pi-spinner' : 'pi pi-times'"
+      [disabled]="isDeleteLoading"
+      class="p-button-outlined p-button-rounded"
+      (click)="onDelete($event)"></button>
   </div>
 </div>

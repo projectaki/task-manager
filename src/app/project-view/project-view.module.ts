@@ -7,9 +7,10 @@ import { SharedModule } from '../shared/shared.module';
 import { MembersModule } from '../members/members.module';
 import { ProjectViewRoutingModule } from './project-view-routing.module';
 import { ProjectuserToMemberPipe } from './projectuser-to-member.pipe';
+import { FilterCompletedTaskPipe } from './filter-completed-task.pipe';
 
 @NgModule({
-  declarations: [ProjectComponent, TaskCardComponent, TaskCreateComponent, ProjectuserToMemberPipe],
+  declarations: [ProjectComponent, TaskCardComponent, TaskCreateComponent, ProjectuserToMemberPipe, FilterCompletedTaskPipe],
   imports: [CommonModule, SharedModule, MembersModule, ProjectViewRoutingModule],
 })
 export class ProjectViewModule {}

@@ -6,7 +6,7 @@ import { ProjectRole } from '../core/enums/project-role.enum';
 import { ProjectUser } from '../core/models/project-user.interface';
 import { ProjectService } from '../core/services/project.service';
 
-export interface ProjectViewState {
+export interface ProjectMemberState {
   //projectId: string | null;
   projectUsers: ProjectUser[];
   selectedProjectUser: ProjectUser | null;
@@ -16,7 +16,7 @@ export interface ProjectViewState {
   error: Error | null;
 }
 
-const initialState: ProjectViewState = {
+const initialState: ProjectMemberState = {
   // projectId: null,
   error: null,
   projectUserInviteLoadingState: LoadingState.INITIAL,
@@ -29,7 +29,7 @@ const initialState: ProjectViewState = {
 @Injectable({
   providedIn: 'root',
 })
-export class ProjectViewStoreService extends ComponentStore<ProjectViewState> {
+export class ProjectMemberStoreService extends ComponentStore<ProjectMemberState> {
   readonly projectUsers$: Observable<ProjectUser[]> = this.select(state => state.projectUsers);
   //readonly projectId$: Observable<string | null> = this.select(state => state.projectId);
   readonly errors$: Observable<Error | null> = this.select(state => state.error);
