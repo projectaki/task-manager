@@ -19,7 +19,7 @@ describe('FilterProjectPipe', () => {
 
     const res = pipe.transform(projects, ProjectRole.OWNER);
     expect(res.length).toBe(2);
-    res.forEach(x => expect(x.projectType).toBe(ProjectRole.OWNER));
+    res.forEach(x => expect(x.role).toBe(ProjectRole.OWNER));
   });
 
   it('should filter proper project users', () => {
@@ -53,6 +53,6 @@ describe('FilterProjectPipe', () => {
 
     const res = pipe.transform(projectUsers, ProjectRole.OWNER);
     expect(res.length).toBe(1);
-    res.forEach(x => expect(x.projectType).toBe(ProjectRole.OWNER));
+    res.forEach(x => expect(x.role).toBe(ProjectRole.OWNER));
   });
 });

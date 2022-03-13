@@ -8,14 +8,22 @@ describe('MemberItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MemberItemComponent ]
-    })
-    .compileComponents();
+      declarations: [MemberItemComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MemberItemComponent);
     component = fixture.componentInstance;
+    component.member = {
+      id: '1',
+      accepted: true,
+      company: 'test',
+      email: 'tesst',
+      name: 'test',
+    };
+    component.avatarColor = '#000000';
+    component.isDeleteLoading = false;
     fixture.detectChanges();
   });
 

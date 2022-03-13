@@ -7,7 +7,7 @@ import { ProjectUser } from 'src/app/core/models/project-user.interface';
   name: 'filterProjectRole',
 })
 export class FilterProjectRolePipe implements PipeTransform {
-  transform(value: ProjectListItem[] | ProjectUser[], arg: ProjectRole): any[] {
+  transform<T extends ProjectListItem | ProjectUser>(value: T[], arg: ProjectRole): T[] {
     return value.filter(x => x.role === arg);
   }
 }

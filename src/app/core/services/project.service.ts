@@ -48,14 +48,14 @@ export class ProjectService {
   }
 
   add(project: ProjectListItem): Observable<ProjectListItem> {
-    return of({ ...project, id: '99' }).pipe(
+    return of({ ...project, id: '99', role: ProjectRole.OWNER }).pipe(
       delay(500)
       //switchMap(() => throwError(() => new Error('erropr')))
     );
   }
 
   update(project: ProjectListItem): Observable<ProjectListItem> {
-    return of(project).pipe(delay(500));
+    return of({ ...project, role: ProjectRole.OWNER }).pipe(delay(500));
   }
 
   delete(id: string): Observable<string> {
