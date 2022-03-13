@@ -6,6 +6,7 @@ import { ProjectListItem } from '../../core/models/project-list-item.interface';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { ProjectRole } from '../../core/enums/project-role.enum';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-project-page',
@@ -25,13 +26,14 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   constructor(
     private store: ProjectPageStoreService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     this.store.listProjectsAsync('1');
     this.initObservables();
-    this.store.projects$.subscribe(x => console.log(x));
+    this.auth.userData$.subscribe(x => console.log(x));
   }
 
   ngOnDestroy() {

@@ -9,10 +9,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MembersModule } from './members/members.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { AuthConfigModule } from './auth/auth-config.module';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, LayoutComponent],
-  imports: [CoreModule, BrowserModule, SharedModule, BrowserAnimationsModule, AppRoutingModule, HomeModule],
+  imports: [CoreModule, BrowserModule, SharedModule, BrowserAnimationsModule, AppRoutingModule, HomeModule, AuthConfigModule],
   providers: [],
   bootstrap: [AppComponent],
 })
