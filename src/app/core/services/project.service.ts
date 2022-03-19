@@ -118,6 +118,16 @@ export class ProjectService {
     return of(projectTaskId).pipe(delay(500));
   }
 
+  getProjectTasks(projectId: string): Observable<ProjectTaskItem> {
+    return of({
+      id: '1',
+      title: 'Task 1',
+      completed: false,
+      tag: TaskTag.BUG,
+      description: 'test descripion',
+    }).pipe(delay(500));
+  }
+
   listProjectTasks(projectId: string): Observable<ProjectTaskItem[]> {
     return of([
       {

@@ -5,4 +5,5 @@ export interface ProjectTaskItem {
   title: string;
   completed: boolean;
   tag: TaskTag;
+  description?: string;
 }
