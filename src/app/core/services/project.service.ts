@@ -111,7 +111,7 @@ export class ProjectService {
   }
 
   updateProjectTask(projectId: string, projectTask: ProjectTaskItem): Observable<ProjectTaskItem> {
-    return of({ ...projectTask, completed: false }).pipe(delay(500));
+    return of({ ...projectTask }).pipe(delay(500));
   }
 
   removeProjectTask(projectId: string, projectTaskId: string): Observable<string> {

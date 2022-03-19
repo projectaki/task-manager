@@ -39,8 +39,6 @@ export class ProjectComponent implements OnInit {
     this.memberStore.listProjectUsersAsync('1');
     this.taskStore.listProjectTasksAsync('1');
     this.subscribeToEvents();
-
-    this.taskStore.projectTasks$.subscribe(x => console.log(x));
   }
 
   ngOnDestroy() {
@@ -106,8 +104,8 @@ export class ProjectComponent implements OnInit {
     this.showEditTaskModal = val;
   }
 
-  editEditTaskModal(id: string) {
-    this.taskStore.selectProjectTask(id);
+  editEditTaskModal(projectTaskItem: ProjectTaskItem) {
+    this.taskStore.selectProjectTask(projectTaskItem.id);
     this.openEditTaskModal();
   }
 
@@ -153,5 +151,10 @@ export class ProjectComponent implements OnInit {
       },
       reject: () => {},
     });
+  }
+
+  onProjectTaskSetComplete(projectTaskItem: ProjectTaskItem) {
+    this.taskStore.selectProjectTask(projectTaskItem.id);
+    this.taskStore.updateProjectTaskAsync({ id: '1', projectTaskItem });
   }
 }

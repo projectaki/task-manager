@@ -1,0 +1,18 @@
+.tag {
+  padding: 0.2em 0.5em;
+  border-radius: 5px;
+  display: grid;
+  align-items: center;
+  width: fit-content;
+  color: var(--bg-color);
+}
+
+.bug-gradient {
+  background: rgb(255, 0, 0);
+  background: linear-gradient(90deg, rgba(255, 0, 0, 1) 10%, rgba(255, 139, 139, 1) 100%);
+}
+
+.feature-gradient {
+  background: rgb(63, 0, 255);
+  background: linear-gradient(90deg, rgba(63, 0, 255, 1) 0%, rgba(209, 0, 255, 1) 63%);
+}

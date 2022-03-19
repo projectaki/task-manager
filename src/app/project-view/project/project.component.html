@@ -29,11 +29,13 @@
         <app-task
           [options]="{ showEdit: true, showView: true, showDelete: true }"
           [isDeleteLoading]="(tvm.isRemoveLoading | loadingState) && tvm.selectedProject?.id === item.id"
+          [isEditLoading]="(tvm.isUpdateLoading | loadingState) && tvm.selectedProject?.id === item.id"
           [projectTaskItem]="item"
           fxFlex
           *ngFor="let item of tvm.projectTasks | filterCompletedTask: false"
           (delete)="onProjectTaskDelete($event, item.id)"
-          (edit)="editEditTaskModal($event)"></app-task>
+          (edit)="editEditTaskModal($event)"
+          (setComplete)="onProjectTaskSetComplete($event)"></app-task>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Completed">
@@ -42,11 +44,13 @@
           fxFlex
           [options]="{ showEdit: true, showView: true, showDelete: true }"
           [isDeleteLoading]="(tvm.isRemoveLoading | loadingState) && tvm.selectedProject?.id === item.id"
+          [isEditLoading]="(tvm.isUpdateLoading | loadingState) && tvm.selectedProject?.id === item.id"
           [projectTaskItem]="item"
           fxFlex
           *ngFor="let item of tvm.projectTasks | filterCompletedTask: true"
           (delete)="onProjectTaskDelete($event, item.id)"
-          (edit)="editEditTaskModal($event)"></app-task>
+          (edit)="editEditTaskModal($event)"
+          (setComplete)="onProjectTaskSetComplete($event)"></app-task>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Members">

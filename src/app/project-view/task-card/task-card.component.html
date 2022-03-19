@@ -1,8 +1,19 @@
 <div class="task">
   <div>
     <h2>{{ projectTaskItem.title }}</h2>
-    {{ projectTaskItem.tag }}
+    <app-tag [options]="{ featureType: projectTaskItem.tag === TaskTag.BUG ? 'bug' : 'feature' }">
+      <div style="display: flex">
+        <div style="margin-right: 0.5em">{{ projectTaskItem.tag }}</div>
+        <mat-icon>{{ projectTaskItem.tag === TaskTag.BUG ? 'pest_control' : 'view_in_ar' }}</mat-icon>
+      </div>
+    </app-tag>
   </div>
+  <form [formGroup]="form">
+    <div class="completed-checkbox">
+      <p-checkbox formControlName="checked" [binary]="true"></p-checkbox>
+    </div>
+  </form>
+
   <div class="actions" fxLayout="row" fxLayoutGap="5px">
     <button
       *ngIf="options.showView"
@@ -19,7 +30,7 @@
       type="button"
       icon="pi pi-pencil"
       class="p-button-outlined p-button-rounded"
-      (click)="onEdit(projectTaskItem.id)"></button>
+      (click)="onEdit(projectTaskItem)"></button>
     <button
       *ngIf="options.showDelete"
       style="color: var(--warn)"

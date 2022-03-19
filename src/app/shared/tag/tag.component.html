@@ -1,0 +1,8 @@
+<div
+  class="tag"
+  [ngClass]="{
+    'bug-gradient': options.featureType === 'bug',
+    'feature-gradient': options.featureType === 'feature'
+  }">
+  <ng-content></ng-content>
+</div>

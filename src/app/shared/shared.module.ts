@@ -21,9 +21,12 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TileFlexGridComponent } from './tile-flex-grid/tile-flex-grid.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FilterProjectRolePipe } from './pipes/filter-project-role.pipe';
+import { CheckboxModule } from 'primeng/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { TagComponent } from './tag/tag.component';
 
 @NgModule({
-  declarations: [ModalComponent, LoadingStatePipe, TileFlexGridComponent, FilterProjectRolePipe],
+  declarations: [ModalComponent, LoadingStatePipe, TileFlexGridComponent, FilterProjectRolePipe, TagComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -44,6 +47,8 @@ import { FilterProjectRolePipe } from './pipes/filter-project-role.pipe';
     ToastModule,
     ConfirmDialogModule,
     DragDropModule,
+    CheckboxModule,
+    MatIconModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -68,6 +73,9 @@ import { FilterProjectRolePipe } from './pipes/filter-project-role.pipe';
     TileFlexGridComponent,
     DragDropModule,
     FilterProjectRolePipe,
+    CheckboxModule,
+    MatIconModule,
+    TagComponent,
   ],
 })
 export class SharedModule {}

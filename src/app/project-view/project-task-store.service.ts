@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, tap } from 'rxjs';
+import { concatMap, mergeMap, Observable, switchMap, tap } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
 import { ProjectTaskItem } from '../core/models/project-task-item.interface';
 import { ProjectService } from '../core/services/project.service';
@@ -64,7 +64,7 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
     (projectTask$: Observable<{ projectTaskItem: ProjectTaskItem; id: string }>) => {
       return projectTask$.pipe(
         tap(() => this.patchState({ projectTaskAddLoadingState: LoadingState.LOADING })),
-        switchMap(({ id, projectTaskItem }) =>
+        mergeMap(({ id, projectTaskItem }) =>
           this.projectService
             .addProjectTask(id, projectTaskItem)
             .pipe(tapResponse(this.onProjectTaskAddSuccess, this.onProjectTaskAddError))
@@ -77,7 +77,7 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
     (projectTaskId$: Observable<{ projectTaskId: string; id: string }>) => {
       return projectTaskId$.pipe(
         tap(() => this.patchState({ projectTaskRemoveLoadingState: LoadingState.LOADING })),
-        switchMap(({ id, projectTaskId }) =>
+        mergeMap(({ id, projectTaskId }) =>
           this.projectService
             .removeProjectTask(id, projectTaskId)
             .pipe(tapResponse(this.onRemoveProjectTaskSuccess, this.onRemoveProjectTaskError))
@@ -89,7 +89,7 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
   public readonly listProjectTasksAsync = this.effect((userId$: Observable<string>) => {
     return userId$.pipe(
       tap(() => this.patchState({ projectTaskListLoadingState: LoadingState.LOADING })),
-      switchMap(id =>
+      concatMap(id =>
         this.projectService
           .listProjectTasks(id)
           .pipe(tapResponse(this.onListProjectTaskSuccess, this.onListProjectTaskError))
@@ -101,7 +101,7 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
     (project$: Observable<{ projectTaskItem: ProjectTaskItem; id: string }>) => {
       return project$.pipe(
         tap(() => this.patchState({ projectTaskUpdateLoadingState: LoadingState.LOADING })),
-        switchMap(({ id, projectTaskItem }) =>
+        concatMap(({ id, projectTaskItem }) =>
           this.projectService
             .updateProjectTask(id, projectTaskItem)
             .pipe(tapResponse(this.onUpdateProjectTaskSuccess, this.onUpdateProjectTaskError))
