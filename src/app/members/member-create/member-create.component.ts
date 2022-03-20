@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectRole } from 'src/app/core/enums/project-role.enum';
-import { CreateModalBase } from 'src/app/core/models/create-modal-base';
+import { CreateModalBase } from 'src/app/core/models/create-modal-base.directive';
 import { Member } from '../member';
 
 @Component({
