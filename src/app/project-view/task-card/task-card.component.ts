@@ -15,7 +15,7 @@ export class TaskCardComponent implements OnInit, OnDestroy {
   @Input() isDeleteLoading!: boolean;
   @Input() set isEditLoading(val: boolean) {
     const checkBox = this.form.get('checked');
-    val ? checkBox?.disable() : checkBox?.enable();
+    val ? checkBox?.disable({ emitEvent: false }) : checkBox?.enable({ emitEvent: false });
   }
   @Input() options!: CardCrudOptions;
 
@@ -30,7 +30,7 @@ export class TaskCardComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder) {
     this.form = fb.group({
-      checked: [''],
+      checked: ['', false],
     });
   }
 
@@ -40,9 +40,12 @@ export class TaskCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.form.patchValue({
-      checked: this.projectTaskItem.completed,
-    });
+    this.form.patchValue(
+      {
+        checked: this.projectTaskItem.completed,
+      },
+      { emitEvent: false }
+    );
 
     this.initObservers();
   }
@@ -51,7 +54,9 @@ export class TaskCardComponent implements OnInit, OnDestroy {
     this.form
       .get('checked')
       ?.valueChanges.pipe(takeUntil(this.unsub$))
-      .subscribe((completed: boolean) => this.setComplete.emit({ ...this.projectTaskItem, completed }));
+      .subscribe((completed: boolean) => {
+        this.setComplete.emit({ ...this.projectTaskItem, completed });
+      });
   }
 
   onDelete($event: Event) {

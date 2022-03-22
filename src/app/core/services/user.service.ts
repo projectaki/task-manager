@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { delay, EMPTY, Observable, of } from 'rxjs';
+import { ProjectRole } from '../enums/project-role.enum';
+import { ProjectListItem } from '../models/project-list-item.interface';
 import { User } from '../models/user.interface';
 
 @Injectable({
@@ -8,28 +10,27 @@ import { User } from '../models/user.interface';
 export class UserService {
   constructor() {}
 
-  get(id: string): Observable<User> {
-    return EMPTY;
-    // return of({
-    //   id: '1',
-    //   name: 'Project 1',
-    //   projectUsers: [
-    //     {
-    //       id: '1',
-    //       accepted: true,
-    //       role: ProjectRole.OWNER,
-    //     },
-    //     {
-    //       id: '2',
-    //       accepted: false,
-    //       role: ProjectRole.PARTICIPANT,
-    //     },
-    //     {
-    //       id: '3',
-    //       accepted: true,
-    //       role: ProjectRole.CLIENT,
-    //     },
-    //   ],
-    // } as Project).pipe(delay(500));
+  get(): Observable<User> {
+    return of({
+      id: '1',
+      email: 'user@user.com',
+      projects: [
+        {
+          id: '1',
+          name: 'Project 1',
+          role: ProjectRole.OWNER,
+        },
+        {
+          id: '2',
+          name: 'Project 2',
+          role: ProjectRole.PARTICIPANT,
+        },
+        {
+          id: '3',
+          name: 'Project 3',
+          role: ProjectRole.CLIENT,
+        },
+      ],
+    } as User).pipe(delay(500));
   }
 }

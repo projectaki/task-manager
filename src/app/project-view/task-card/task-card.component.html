@@ -22,7 +22,7 @@
       type="button"
       icon="pi pi-eye"
       class="p-button-outlined p-button-rounded"
-      [routerLink]="['task/1']"></button>
+      [routerLink]="['task/' + projectTaskItem.id]"></button>
     <button
       *ngIf="options.showEdit"
       style="color: var(--accent)"

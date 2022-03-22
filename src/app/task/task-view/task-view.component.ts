@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { ProjectListItem } from 'src/app/core/models/project-list-item.interface';
 import { ProjectTaskItem } from 'src/app/core/models/project-task-item.interface';
 import { TaskStoreService } from '../task-store.service';
 
@@ -16,14 +16,19 @@ export class TaskViewComponent implements OnInit {
 
   vm$ = this.store.vm$;
 
-  constructor(private fb: FormBuilder, private store: TaskStoreService) {
+  private taskId!: string;
+
+  constructor(private fb: FormBuilder, private store: TaskStoreService, private route: ActivatedRoute) {
     this.form = fb.group({
       description: [''],
     });
   }
 
   ngOnInit(): void {
-    this.store.getProjectTasksAsync('1');
+    this.route.params.subscribe(({ taskId }) => {
+      this.taskId = taskId;
+      this.store.getProjectTasksAsync(taskId);
+    });
 
     this.store.taskView$
       .pipe(
@@ -39,7 +44,7 @@ export class TaskViewComponent implements OnInit {
 
   submit(item: ProjectTaskItem) {
     this.store.updateTaskViewAsync({
-      id: '1',
+      id: this.taskId,
       taskView: item,
     });
   }

@@ -3,6 +3,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { concatMap, Observable, tap } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
 import { ProjectTaskItem } from '../core/models/project-task-item.interface';
+import { ProjectTaskService } from '../core/services/project-task.service';
 import { ProjectService } from '../core/services/project.service';
 
 export interface TaskViewState {
@@ -38,7 +39,7 @@ export class TaskStoreService extends ComponentStore<TaskViewState> {
       isUpdateLoading,
     })
   );
-  constructor(private projectService: ProjectService) {
+  constructor(private taskService: ProjectTaskService) {
     super(initialState);
   }
 
@@ -46,8 +47,8 @@ export class TaskStoreService extends ComponentStore<TaskViewState> {
     return task$.pipe(
       tap(() => this.patchState({ taskViewUpdateLoadingState: LoadingState.LOADING })),
       concatMap(({ id, taskView }) =>
-        this.projectService
-          .updateProjectTask(id, taskView)
+        this.taskService
+          .update(id, taskView)
           .pipe(tapResponse(this.onUpdateProjectTaskSuccess, this.onUpdateProjectTaskError))
       )
     );
@@ -57,9 +58,7 @@ export class TaskStoreService extends ComponentStore<TaskViewState> {
     return userId$.pipe(
       tap(() => this.patchState({ taskViewUpdateLoadingState: LoadingState.LOADING })),
       concatMap(id =>
-        this.projectService
-          .getProjectTasks(id)
-          .pipe(tapResponse(this.onGetProjectTaskSuccess, this.onGetProjectTaskError))
+        this.taskService.get(id).pipe(tapResponse(this.onGetProjectTaskSuccess, this.onGetProjectTaskError))
       )
     );
   });

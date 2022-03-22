@@ -1,5 +1,5 @@
 <div class="cont" *ngIf="vm$ | async as vm">
-  <h2>title</h2>
+  <h2>{{ vm.taskView?.title }}</h2>
   <form [formGroup]="form" (ngSubmit)="submit(vm.taskView!)">
     <div style="display: flex; flex-direction: column; row-gap: 2em">
       <textarea pInputTextarea formControlName="description" [autoResize]="true"></textarea>

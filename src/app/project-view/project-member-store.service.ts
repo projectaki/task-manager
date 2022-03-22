@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, tap } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
-import { ProjectRole } from '../core/enums/project-role.enum';
 import { ProjectUser } from '../core/models/project-user.interface';
-import { ProjectService } from '../core/services/project.service';
+import { ProjectMemberService } from '../core/services/project-member.service';
+import { MemberCreate } from '../members/member-create';
 
 export interface ProjectMemberState {
   //projectId: string | null;
@@ -71,31 +71,27 @@ export class ProjectMemberStoreService extends ComponentStore<ProjectMemberState
     })
   );
 
-  constructor(private projectService: ProjectService) {
+  constructor(private memberService: ProjectMemberService) {
     super(initialState);
   }
 
-  public readonly inviteProjectUserAsync = this.effect(
-    (project$: Observable<{ email: string; role: ProjectRole; id: string }>) => {
-      return project$.pipe(
-        tap(() => this.patchState({ projectUserInviteLoadingState: LoadingState.LOADING })),
+  public readonly inviteProjectUserAsync = this.effect((project$: Observable<MemberCreate>) => {
+    return project$.pipe(
+      tap(() => this.patchState({ projectUserInviteLoadingState: LoadingState.LOADING })),
 
-        switchMap(({ email, id, role }) =>
-          this.projectService
-            .addProjectUser(id!, email, role)
-            .pipe(tapResponse(this.onProjectUserInviteSuccess, this.onProjectUserInviteError))
-        )
-      );
-    }
-  );
+      switchMap(x =>
+        this.memberService.add(x).pipe(tapResponse(this.onProjectUserInviteSuccess, this.onProjectUserInviteError))
+      )
+    );
+  });
 
   public readonly removeProjectUserAsync = this.effect((project$: Observable<{ userId: string; id: string }>) => {
     return project$.pipe(
       tap(() => this.patchState({ projectUserRemoveLoadingState: LoadingState.LOADING })),
 
       switchMap(({ userId, id }) =>
-        this.projectService
-          .removeProjectUser(id!, userId)
+        this.memberService
+          .delete(id!, userId)
           .pipe(tapResponse(this.onRemoveProjectUserSuccess, this.onRemoveProjectUserError))
       )
     );
@@ -105,9 +101,7 @@ export class ProjectMemberStoreService extends ComponentStore<ProjectMemberState
     return projectId$.pipe(
       tap(() => this.patchState({ projectUserListLoadingState: LoadingState.LOADING })),
       switchMap(id =>
-        this.projectService
-          .listProjectUsers(id)
-          .pipe(tapResponse(this.onListProjectUserSuccess, this.onListProjectUserError))
+        this.memberService.list(id).pipe(tapResponse(this.onListProjectUserSuccess, this.onListProjectUserError))
       )
     );
   });

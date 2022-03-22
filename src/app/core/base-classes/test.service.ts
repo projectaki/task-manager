@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { tapResponse } from '@ngrx/component-store';
-import { Observable, of, switchMap, tap } from 'rxjs';
 import { LoadingState } from '../enums/loading-state.enum';
 import { ProjectListItem } from '../models/project-list-item.interface';
 import { ProjectService } from '../services/project.service';
-import { BaseState, ItemService, TemplateStateService } from './entities-state-base.class';
+import { BaseState, TemplateStateService } from './entities-state-base.class';
 
 interface XState extends BaseState<ProjectListItem> {}
 

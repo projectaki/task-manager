@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProjectRole } from 'src/app/core/enums/project-role.enum';
+import { Component, Input } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { CreateModalBase } from 'src/app/core/base-classes/create-modal-base.directive';
-import { Member } from '../member';
+import { ProjectRole } from 'src/app/core/enums/project-role.enum';
+import { MemberCreate } from '../member-create';
 
 @Component({
   selector: 'app-member-create',
   templateUrl: './member-create.component.html',
   styleUrls: ['./member-create.component.scss'],
 })
-export class MemberCreateComponent extends CreateModalBase<{ email: string; role: ProjectRole }> {
+export class MemberCreateComponent extends CreateModalBase<MemberCreate> {
   @Input() roles: ProjectRole[] = [];
 
   constructor(private fb: FormBuilder) {

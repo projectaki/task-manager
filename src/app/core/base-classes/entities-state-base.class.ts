@@ -1,7 +1,6 @@
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, tap } from 'rxjs';
 import { LoadingState } from '../enums/loading-state.enum';
-import { ProjectListItem } from '../models/project-list-item.interface';
 
 export interface ItemService<T> {
   add: (x: T) => Observable<T>;

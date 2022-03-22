@@ -74,12 +74,10 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
-  public readonly listProjectsAsync = this.effect((userId$: Observable<string>) => {
-    return userId$.pipe(
+  public readonly listProjectsAsync = this.effect((void$: Observable<void>) => {
+    return void$.pipe(
       tap(() => this.patchState({ projectListLoadingState: LoadingState.LOADING })),
-      switchMap(id =>
-        this.projectService.list(id).pipe(tapResponse(this.onListProjectSuccess, this.onListProjectError))
-      )
+      switchMap(() => this.projectService.list().pipe(tapResponse(this.onListProjectSuccess, this.onListProjectError)))
     );
   });
 

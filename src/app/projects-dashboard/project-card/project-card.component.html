@@ -9,7 +9,7 @@
       type="button"
       icon="pi pi-eye"
       class="p-button-outlined p-button-rounded"
-      [routerLink]="['/projects/1']"></button>
+      [routerLink]="['/projects/' + project.id]"></button>
     <button
       *ngIf="options.showEdit"
       style="color: var(--accent)"

@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { combineLatest, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { LoadingState } from 'src/app/core/enums/loading-state.enum';
 import { ProjectRole } from 'src/app/core/enums/project-role.enum';
 import { ProjectTaskItem } from 'src/app/core/models/project-task-item.interface';
+import { MemberCreate } from 'src/app/members/member-create';
 import { ProjectMemberStoreService } from '../project-member-store.service';
 import { ProjectTaskStoreService } from '../project-task-store.service';
 
@@ -20,6 +22,7 @@ export class ProjectComponent implements OnInit {
   public showEditTaskModal = false;
   public showInviteModal = false;
   public roles: ProjectRole[] = [ProjectRole.CLIENT, ProjectRole.OWNER, ProjectRole.PARTICIPANT];
+  private projectId!: string;
 
   public memberVM$ = this.memberStore.vm$;
   public taskVM$ = this.taskStore.vm$;
@@ -32,12 +35,18 @@ export class ProjectComponent implements OnInit {
     public memberStore: ProjectMemberStoreService,
     public taskStore: ProjectTaskStoreService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.memberStore.listProjectUsersAsync('1');
-    this.taskStore.listProjectTasksAsync('1');
+    this.route.params.subscribe(({ projectId }) => {
+      console.log('project Id', projectId);
+      this.projectId = projectId;
+      this.memberStore.listProjectUsersAsync(projectId);
+      this.taskStore.listProjectTasksAsync(projectId);
+    });
+
     this.subscribeToEvents();
   }
 
@@ -113,8 +122,8 @@ export class ProjectComponent implements OnInit {
     this.showInviteModal = val;
   }
 
-  onProjectUserInvite(event: { email: string; role: ProjectRole }) {
-    this.memberStore.inviteProjectUserAsync({ id: '1', email: event.email, role: event.role });
+  onProjectUserInvite(event: MemberCreate) {
+    this.memberStore.inviteProjectUserAsync(event);
   }
 
   onProjectUserDelete($event: any) {
@@ -126,18 +135,18 @@ export class ProjectComponent implements OnInit {
       message: 'Are you sure that you want to delete this user?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.memberStore.removeProjectUserAsync({ id: '1', userId: $event.id });
+        this.memberStore.removeProjectUserAsync({ id: this.projectId, userId: $event.id });
       },
       reject: () => {},
     });
   }
 
   onProjectTaskCreate(projectTaskItem: ProjectTaskItem) {
-    this.taskStore.addProjectTaskAsync({ id: '1', projectTaskItem });
+    this.taskStore.addProjectTaskAsync({ id: this.projectId, projectTaskItem });
   }
 
   onProjectTaskUpdate(projectTaskItem: ProjectTaskItem) {
-    this.taskStore.updateProjectTaskAsync({ id: '1', projectTaskItem });
+    this.taskStore.updateProjectTaskAsync({ id: this.projectId, projectTaskItem });
   }
 
   onProjectTaskDelete($event: any, id: string) {
@@ -147,7 +156,7 @@ export class ProjectComponent implements OnInit {
       message: 'Are you sure that you want to delete this task?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.taskStore.removeProjectTaskAsync({ id: '1', projectTaskId: id });
+        this.taskStore.removeProjectTaskAsync({ id: this.projectId, projectTaskId: id });
       },
       reject: () => {},
     });
@@ -155,6 +164,6 @@ export class ProjectComponent implements OnInit {
 
   onProjectTaskSetComplete(projectTaskItem: ProjectTaskItem) {
     this.taskStore.selectProjectTask(projectTaskItem.id);
-    this.taskStore.updateProjectTaskAsync({ id: '1', projectTaskItem });
+    this.taskStore.updateProjectTaskAsync({ id: this.projectId, projectTaskItem });
   }
 }
