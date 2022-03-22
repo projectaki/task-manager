@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TaskTag } from 'src/app/core/enums/task-tag.enum';
-import { CreateModalBase } from 'src/app/core/models/create-modal-base.directive';
+import { CreateModalBase } from 'src/app/core/base-classes/create-modal-base.directive';
 import { ProjectTaskItem } from 'src/app/core/models/project-task-item.interface';
 
 @Component({

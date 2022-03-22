@@ -6,11 +6,12 @@ import { Project } from '../models/project.interface';
 import { ProjectUser } from '../models/project-user.interface';
 import { TaskTag } from '../enums/task-tag.enum';
 import { ProjectTaskItem } from '../models/project-task-item.interface';
+import { ItemService } from '../base-classes/entities-state-base.class';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProjectService {
+export class ProjectService implements ItemService<ProjectListItem> {
   constructor() {}
 
   get(id: string): Observable<Project> {
