@@ -28,7 +28,7 @@ export class ProjectMemberService {
   list(projectId: string): Observable<ProjectUser[]> {
     return of([
       {
-        id: '1',
+        id: 'auth0|622e71a6d36bbb0069373531',
         name: 'Akos',
         email: 'a@a.com',
         company: 'HR',

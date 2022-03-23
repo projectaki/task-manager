@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { LoadingState } from 'src/app/core/enums/loading-state.enum';
 import { ProjectRole } from 'src/app/core/enums/project-role.enum';
 import { ProjectTaskItem } from 'src/app/core/models/project-task-item.interface';
@@ -22,6 +23,7 @@ export class ProjectComponent implements OnInit {
   public showEditTaskModal = false;
   public showInviteModal = false;
   public roles: ProjectRole[] = [ProjectRole.CLIENT, ProjectRole.OWNER, ProjectRole.PARTICIPANT];
+  public role!: ProjectRole;
   private projectId!: string;
 
   public memberVM$ = this.memberStore.vm$;
@@ -36,7 +38,8 @@ export class ProjectComponent implements OnInit {
     public taskStore: ProjectTaskStoreService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthOptions, OidcSecurityService } from 'angular-auth-oidc-client';
-import { BehaviorSubject, catchError, combineLatest, filter, map, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

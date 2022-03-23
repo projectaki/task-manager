@@ -8,9 +8,10 @@ import { MembersModule } from '../members/members.module';
 import { ProjectViewRoutingModule } from './project-view-routing.module';
 import { ProjectuserToMemberPipe } from './projectuser-to-member.pipe';
 import { FilterCompletedTaskPipe } from './filter-completed-task.pipe';
+import { CheckTaskMembershipPipe } from './check-task-membership.pipe';
 
 @NgModule({
-  declarations: [ProjectComponent, TaskCardComponent, TaskCreateComponent, ProjectuserToMemberPipe, FilterCompletedTaskPipe],
+  declarations: [ProjectComponent, TaskCardComponent, TaskCreateComponent, ProjectuserToMemberPipe, FilterCompletedTaskPipe, CheckTaskMembershipPipe],
   imports: [CommonModule, SharedModule, MembersModule, ProjectViewRoutingModule],
 })
 export class ProjectViewModule {}
