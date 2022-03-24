@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { delay, EMPTY, Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { ProjectRole } from '../enums/project-role.enum';
-import { ProjectListItem } from '../models/project-list-item.interface';
 import { User } from '../models/user.interface';
 
 @Injectable({
@@ -33,4 +32,11 @@ export class UserService {
       ],
     } as User).pipe(delay(500));
   }
+
+  create() {}
+  update() {}
+  createProject() {}
+  updateProject() {}
+  deleteProject() {}
+  listProjects() {}
 }

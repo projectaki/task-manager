@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { delay, from, Observable, of, switchMap, throwError } from 'rxjs';
-import { ProjectListItem } from '../models/project-list-item.interface';
-import { ProjectRole } from '../enums/project-role.enum';
-import { Project } from '../models/project.interface';
-import { ProjectUser } from '../models/project-user.interface';
-import { TaskTag } from '../enums/task-tag.enum';
-import { ProjectTaskItem } from '../models/project-task-item.interface';
+import { delay, Observable, of } from 'rxjs';
 import { ItemService } from '../base-classes/entities-state-base.class';
+import { ProjectRole } from '../enums/project-role.enum';
+import { ProjectListItem } from '../models/project-list-item.interface';
+import { Project } from '../models/project.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -62,4 +59,13 @@ export class ProjectService implements ItemService<ProjectListItem> {
   delete(id: string): Observable<string> {
     return of(id).pipe(delay(500));
   }
+
+  createTask() {}
+  updateTask() {}
+  deleteTask() {}
+  listTasks() {}
+
+  inviteUser() {}
+  uninviteUser() {}
+  listUsers() {}
 }
