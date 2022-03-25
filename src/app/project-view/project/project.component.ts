@@ -9,13 +9,20 @@ import { ProjectTaskItem } from 'src/app/core/models/project-task-item.interface
 import { MemberCreate } from 'src/app/members/member-create';
 import { ProjectMemberStoreService } from '../project-member-store.service';
 import { ProjectTaskStoreService } from '../project-task-store.service';
+import { ProjectViewStoreService } from '../project-view-store.service';
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ProjectMemberStoreService, ProjectTaskStoreService, ConfirmationService, MessageService],
+  providers: [
+    ProjectMemberStoreService,
+    ProjectTaskStoreService,
+    ProjectViewStoreService,
+    ConfirmationService,
+    MessageService,
+  ],
 })
 export class ProjectComponent implements OnInit {
   public readonly gridGap = 40;
@@ -23,12 +30,11 @@ export class ProjectComponent implements OnInit {
   public showEditTaskModal = false;
   public showInviteModal = false;
   public roles: ProjectRole[] = [ProjectRole.CLIENT, ProjectRole.OWNER, ProjectRole.PARTICIPANT];
-  public role!: ProjectRole;
   private projectId!: string;
 
   public memberVM$ = this.memberStore.vm$;
   public taskVM$ = this.taskStore.vm$;
-
+  public projectVM$ = this.projectStore.vm$;
   private unsub$ = new Subject<void>();
 
   ProjectRole = ProjectRole;
@@ -37,6 +43,7 @@ export class ProjectComponent implements OnInit {
     public memberStore: ProjectMemberStoreService,
     public taskStore: ProjectTaskStoreService,
     private confirmationService: ConfirmationService,
+    private projectStore: ProjectViewStoreService,
     private messageService: MessageService,
     private route: ActivatedRoute,
     public auth: AuthService
@@ -48,6 +55,7 @@ export class ProjectComponent implements OnInit {
       this.projectId = projectId;
       this.memberStore.listProjectUsersAsync(projectId);
       this.taskStore.listProjectTasksAsync(projectId);
+      this.projectStore.getProjectAsync(this.projectId);
     });
 
     this.subscribeToEvents();

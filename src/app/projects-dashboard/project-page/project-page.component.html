@@ -28,12 +28,12 @@
   <p-tabView>
     <p-tabPanel header="Owned">
       <div fxLayout="row wrap" fxLayoutGap.gt-xs="40px grid" fxLayoutGap.xs="20px grid">
-        <ng-container *ngIf="!(vm.isListLoading | loadingState); else skeleton">
+        <ng-container *ngIf="!(vm.isListOwnedLoading | loadingState); else skeleton">
           <div
             fxFlex="0 0 calc(33.3%)"
             fxFlex.lt-lg="0 0 calc(50%)"
             fxFlex.lt-md="calc(100%)"
-            *ngFor="let project of vm.projects | filterProjectRole: ProjectRole.OWNER">
+            *ngFor="let project of vm.ownedProjects">
             <app-project-card
               [options]="{ showEdit: true, showView: true, showDelete: true }"
               [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"
@@ -52,7 +52,7 @@
           fxFlex="0 0 calc(33.3%)"
           fxFlex.lt-lg="0 0 calc(50%)"
           fxFlex.lt-md="calc(100%)"
-          *ngFor="let project of vm.projects | filterProjectRole: ProjectRole.PARTICIPANT">
+          *ngFor="let project of vm.participantProjects">
           <app-project-card
             [options]="{ showEdit: false, showView: true, showDelete: false }"
             [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"
@@ -68,7 +68,7 @@
           fxFlex="0 0 calc(33.3%)"
           fxFlex.lt-lg="0 0 calc(50%)"
           fxFlex.lt-md="calc(100%)"
-          *ngFor="let project of vm.projects | filterProjectRole: ProjectRole.CLIENT">
+          *ngFor="let project of vm.clientProjects">
           <app-project-card
             [options]="{ showEdit: false, showView: true, showDelete: false }"
             [isDeleteLoading]="(vm.isRemoveLoading | loadingState) && vm.selectedProject?.id === project.id"

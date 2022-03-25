@@ -3,8 +3,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { concatMap, Observable, tap } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
 import { ProjectTaskItem } from '../core/models/project-task-item.interface';
-import { ProjectTaskService } from '../core/services/project-task.service';
-import { ProjectService } from '../core/services/project.service';
+import { TaskService } from '../core/services/task.service';
 
 export interface TaskViewState {
   taskView: ProjectTaskItem | null;
@@ -39,7 +38,7 @@ export class TaskStoreService extends ComponentStore<TaskViewState> {
       isUpdateLoading,
     })
   );
-  constructor(private taskService: ProjectTaskService) {
+  constructor(private taskService: TaskService) {
     super(initialState);
   }
 

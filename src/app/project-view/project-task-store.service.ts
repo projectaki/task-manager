@@ -3,7 +3,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { concatMap, mergeMap, Observable, tap } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
 import { ProjectTaskItem } from '../core/models/project-task-item.interface';
-import { ProjectTaskService } from '../core/services/project-task.service';
+import { ProjectService } from '../core/services/project.service';
 
 export interface ProjectTaskState {
   projectTasks: ProjectTaskItem[];
@@ -56,7 +56,7 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
     })
   );
 
-  constructor(private taskService: ProjectTaskService) {
+  constructor(private projectService: ProjectService) {
     super(initialState);
   }
 
@@ -65,8 +65,8 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
       return projectTask$.pipe(
         tap(() => this.patchState({ projectTaskAddLoadingState: LoadingState.LOADING })),
         mergeMap(({ id, projectTaskItem }) =>
-          this.taskService
-            .add(id, projectTaskItem)
+          this.projectService
+            .createTask(id, projectTaskItem)
             .pipe(tapResponse(this.onProjectTaskAddSuccess, this.onProjectTaskAddError))
         )
       );
@@ -78,8 +78,8 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
       return projectTaskId$.pipe(
         tap(() => this.patchState({ projectTaskRemoveLoadingState: LoadingState.LOADING })),
         mergeMap(({ id, projectTaskId }) =>
-          this.taskService
-            .delete(id, projectTaskId)
+          this.projectService
+            .deleteTask(id, projectTaskId)
             .pipe(tapResponse(this.onRemoveProjectTaskSuccess, this.onRemoveProjectTaskError))
         )
       );
@@ -90,7 +90,7 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
     return userId$.pipe(
       tap(() => this.patchState({ projectTaskListLoadingState: LoadingState.LOADING })),
       concatMap(id =>
-        this.taskService.list(id).pipe(tapResponse(this.onListProjectTaskSuccess, this.onListProjectTaskError))
+        this.projectService.listTasks(id).pipe(tapResponse(this.onListProjectTaskSuccess, this.onListProjectTaskError))
       )
     );
   });
@@ -100,8 +100,8 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
       return project$.pipe(
         tap(() => this.patchState({ projectTaskUpdateLoadingState: LoadingState.LOADING })),
         concatMap(({ id, projectTaskItem }) =>
-          this.taskService
-            .update(id, projectTaskItem)
+          this.projectService
+            .updateTask(id, projectTaskItem)
             .pipe(tapResponse(this.onUpdateProjectTaskSuccess, this.onUpdateProjectTaskError))
         )
       );

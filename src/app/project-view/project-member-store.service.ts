@@ -3,7 +3,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, tap } from 'rxjs';
 import { LoadingState } from '../core/enums/loading-state.enum';
 import { ProjectUser } from '../core/models/project-user.interface';
-import { ProjectMemberService } from '../core/services/project-member.service';
+import { ProjectService } from '../core/services/project.service';
 import { MemberCreate } from '../members/member-create';
 
 export interface ProjectMemberState {
@@ -71,7 +71,7 @@ export class ProjectMemberStoreService extends ComponentStore<ProjectMemberState
     })
   );
 
-  constructor(private memberService: ProjectMemberService) {
+  constructor(private projectService: ProjectService) {
     super(initialState);
   }
 
@@ -80,7 +80,9 @@ export class ProjectMemberStoreService extends ComponentStore<ProjectMemberState
       tap(() => this.patchState({ projectUserInviteLoadingState: LoadingState.LOADING })),
 
       switchMap(x =>
-        this.memberService.add(x).pipe(tapResponse(this.onProjectUserInviteSuccess, this.onProjectUserInviteError))
+        this.projectService
+          .inviteUser(x)
+          .pipe(tapResponse(this.onProjectUserInviteSuccess, this.onProjectUserInviteError))
       )
     );
   });
@@ -90,8 +92,8 @@ export class ProjectMemberStoreService extends ComponentStore<ProjectMemberState
       tap(() => this.patchState({ projectUserRemoveLoadingState: LoadingState.LOADING })),
 
       switchMap(({ userId, id }) =>
-        this.memberService
-          .delete(id!, userId)
+        this.projectService
+          .uninviteUser(id!, userId)
           .pipe(tapResponse(this.onRemoveProjectUserSuccess, this.onRemoveProjectUserError))
       )
     );
@@ -101,7 +103,7 @@ export class ProjectMemberStoreService extends ComponentStore<ProjectMemberState
     return projectId$.pipe(
       tap(() => this.patchState({ projectUserListLoadingState: LoadingState.LOADING })),
       switchMap(id =>
-        this.memberService.list(id).pipe(tapResponse(this.onListProjectUserSuccess, this.onListProjectUserError))
+        this.projectService.listUsers(id).pipe(tapResponse(this.onListProjectUserSuccess, this.onListProjectUserError))
       )
     );
   });

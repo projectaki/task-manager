@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { LoadingState } from 'src/app/core/enums/loading-state.enum';
-import { ProjectPageStoreService } from '../project-page-store.service';
-import { ProjectListItem } from '../../core/models/project-list-item.interface';
-import { MessageService } from 'primeng/api';
-import { ConfirmationService } from 'primeng/api';
-import { ProjectRole } from '../../core/enums/project-role.enum';
 import { AuthService } from 'src/app/auth/auth.service';
+import { LoadingState } from 'src/app/core/enums/loading-state.enum';
+import { ProjectRole } from '../../core/enums/project-role.enum';
+import { ProjectListItem } from '../../core/models/project-list-item.interface';
+import { ProjectPageStoreService } from '../project-page-store.service';
 
 @Component({
   selector: 'app-project-page',
@@ -31,7 +30,9 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.listProjectsAsync();
+    this.store.listOwnedProjectsAsync();
+    this.store.listParticipantProjectsAsync();
+    this.store.listClientProjectsAsync();
     this.initObservables();
     this.auth.userData$.pipe(takeUntil(this.unsub$)).subscribe(x => console.log(x));
   }
@@ -81,7 +82,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   onProjectCreate(project: ProjectListItem) {
-    const ownedProject: ProjectListItem = { ...project, role: ProjectRole.OWNER };
+    const ownedProject: ProjectListItem = { ...project };
     this.store.addProjectAsync(ownedProject);
   }
 

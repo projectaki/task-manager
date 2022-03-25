@@ -9,7 +9,7 @@
     </app-tag>
   </div>
   <form [formGroup]="form">
-    <div class="completed-checkbox">
+    <div class="completed-checkbox" *ngIf="options.showEdit">
       <p-checkbox formControlName="checked" [binary]="true"></p-checkbox>
     </div>
   </form>

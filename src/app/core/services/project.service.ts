@@ -1,71 +1,102 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
-import { ItemService } from '../base-classes/entities-state-base.class';
+import { MemberCreate } from 'src/app/members/member-create';
 import { ProjectRole } from '../enums/project-role.enum';
-import { ProjectListItem } from '../models/project-list-item.interface';
+import { TaskTag } from '../enums/task-tag.enum';
+import { ProjectTaskItem } from '../models/project-task-item.interface';
+import { ProjectUser } from '../models/project-user.interface';
 import { Project } from '../models/project.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProjectService implements ItemService<ProjectListItem> {
+export class ProjectService {
   constructor() {}
 
   get(id: string): Observable<Project> {
     return of({
-      id: '1',
-      name: 'Project 1',
-      projectUsers: [
-        {
-          id: '1',
-          accepted: true,
-          role: ProjectRole.OWNER,
-        },
-        {
-          id: '2',
-          accepted: false,
-          role: ProjectRole.PARTICIPANT,
-        },
-        {
-          id: '3',
-          accepted: true,
-          role: ProjectRole.CLIENT,
-        },
-      ],
+      id,
+      name: 'Project' + id,
+      ownerIds: ['auth0|622e71a6d36bbb0069373531'],
+      clientIds: [],
+      participantIds: [],
     } as Project).pipe(delay(500));
   }
 
-  list(): Observable<ProjectListItem[]> {
+  createTask(projectId: string, task: ProjectTaskItem): Observable<ProjectTaskItem> {
+    return of({ ...task, completed: false }).pipe(delay(500));
+  }
+
+  updateTask(projectId: string, task: ProjectTaskItem): Observable<ProjectTaskItem> {
+    return of({ ...task, completed: true }).pipe(delay(500));
+  }
+
+  deleteTask(projectId: string, taskId: string): Observable<string> {
+    return of(taskId).pipe(delay(500));
+  }
+
+  listTasks(projectId: string): Observable<ProjectTaskItem[]> {
     return of([
-      { id: '1', name: 'Project 1', role: ProjectRole.OWNER },
-      { id: '2', name: 'Project 2', role: ProjectRole.OWNER },
-      { id: '3', name: 'Project 3', role: ProjectRole.PARTICIPANT },
-      { id: '4', name: 'Project 4', role: ProjectRole.PARTICIPANT },
-      { id: '5', name: 'Project 5', role: ProjectRole.CLIENT },
+      {
+        id: '1',
+        title: 'Task 1',
+        completed: false,
+        tag: TaskTag.BUG,
+      },
+      {
+        id: '2',
+        title: 'Task 2',
+        completed: false,
+        tag: TaskTag.FEATURE,
+      },
+      {
+        id: '3',
+        title: 'Task 3',
+        completed: true,
+        tag: TaskTag.BUG,
+      },
     ]).pipe(delay(500));
   }
 
-  add(project: ProjectListItem): Observable<ProjectListItem> {
-    return of({ ...project, id: '99', role: ProjectRole.OWNER }).pipe(
-      delay(500)
-      //switchMap(() => throwError(() => new Error('erropr')))
-    );
+  inviteUser(memberCreate: MemberCreate): Observable<ProjectUser> {
+    return of(<ProjectUser>{
+      id: '1',
+      accepted: false,
+      company: 'Test',
+      email: memberCreate.email,
+      name: memberCreate.email,
+      role: memberCreate.role,
+    }).pipe(delay(500));
   }
-
-  update(project: ProjectListItem): Observable<ProjectListItem> {
-    return of({ ...project, role: ProjectRole.OWNER }).pipe(delay(500));
+  uninviteUser(projectId: string, memberId: string): Observable<string> {
+    return of(memberId).pipe(delay(500));
   }
-
-  delete(id: string): Observable<string> {
-    return of(id).pipe(delay(500));
+  listUsers(projectId: string): Observable<ProjectUser[]> {
+    return of([
+      {
+        id: 'auth0|622e71a6d36bbb0069373531',
+        name: 'Akos',
+        email: 'a@a.com',
+        company: 'HR',
+        accepted: true,
+        role: ProjectRole.OWNER,
+      },
+      {
+        id: '2',
+        name: 'Marysia',
+        email: 'a@a.com',
+        company: 'JAPAN',
+        accepted: false,
+        role: ProjectRole.PARTICIPANT,
+      },
+      {
+        id: '3',
+        name: 'Jeff',
+        email: 'a@a.com',
+        company: 'MY HOSUE',
+        accepted: true,
+        role: ProjectRole.CLIENT,
+      },
+    ]).pipe(delay(500));
   }
-
-  createTask() {}
-  updateTask() {}
-  deleteTask() {}
-  listTasks() {}
-
-  inviteUser() {}
-  uninviteUser() {}
-  listUsers() {}
 }

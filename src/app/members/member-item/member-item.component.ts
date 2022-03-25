@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Member } from '../member';
+import { MemberItemOptions } from './member-item-options.interface';
 
 @Component({
   selector: 'app-member-item',
@@ -14,6 +15,8 @@ export class MemberItemComponent implements OnInit {
   public get isDeleteLoading() {
     return this._isDeleteLoading;
   }
+
+  @Input() options!: MemberItemOptions;
 
   @Output() delete = new EventEmitter<any>();
 
