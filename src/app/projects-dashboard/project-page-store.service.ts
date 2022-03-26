@@ -112,34 +112,34 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
-  public readonly listOwnedProjectsAsync = this.effect((void$: Observable<void>) => {
-    return void$.pipe(
+  public readonly listOwnedProjectsAsync = this.effect((userId$: Observable<string>) => {
+    return userId$.pipe(
       tap(() => this.patchState({ projectListOwnedLoadingState: LoadingState.LOADING })),
-      switchMap(() =>
+      switchMap(userId =>
         this.userService
-          .listOwnedProjects()
+          .listOwnedProjects(userId)
           .pipe(tapResponse(this.onListOwnedProjectSuccess, this.onListOwnedProjectError))
       )
     );
   });
 
-  public readonly listParticipantProjectsAsync = this.effect((void$: Observable<void>) => {
-    return void$.pipe(
+  public readonly listParticipantProjectsAsync = this.effect((userId$: Observable<string>) => {
+    return userId$.pipe(
       tap(() => this.patchState({ projectListParticipantLoadingState: LoadingState.LOADING })),
-      switchMap(() =>
+      switchMap(userId =>
         this.userService
-          .listParticipantProjects()
+          .listParticipantProjects(userId)
           .pipe(tapResponse(this.onListParticipantProjectSuccess, this.onListParticipantProjectError))
       )
     );
   });
 
-  public readonly listClientProjectsAsync = this.effect((void$: Observable<void>) => {
-    return void$.pipe(
+  public readonly listClientProjectsAsync = this.effect((userId$: Observable<string>) => {
+    return userId$.pipe(
       tap(() => this.patchState({ projectListClientLoadingState: LoadingState.LOADING })),
-      switchMap(() =>
+      switchMap(userId =>
         this.userService
-          .listClientProjects()
+          .listClientProjects(userId)
           .pipe(tapResponse(this.onListClientProjectSuccess, this.onListClientProjectError))
       )
     );

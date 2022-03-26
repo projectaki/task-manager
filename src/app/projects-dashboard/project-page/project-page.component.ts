@@ -3,6 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { LoadingState } from 'src/app/core/enums/loading-state.enum';
+import { UserService } from 'src/app/core/services/user.service';
 import { ProjectRole } from '../../core/enums/project-role.enum';
 import { ProjectListItem } from '../../core/models/project-list-item.interface';
 import { ProjectPageStoreService } from '../project-page-store.service';
@@ -26,15 +27,17 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     private store: ProjectPageStoreService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private auth: AuthService
+    private auth: AuthService,
+    private test: UserService
   ) {}
 
   ngOnInit(): void {
-    this.store.listOwnedProjectsAsync();
-    this.store.listParticipantProjectsAsync();
-    this.store.listClientProjectsAsync();
-    this.initObservables();
-    this.auth.userData$.pipe(takeUntil(this.unsub$)).subscribe(x => console.log(x));
+    this.auth.userData$.pipe(takeUntil(this.unsub$)).subscribe(({ userData }) => {
+      this.store.listOwnedProjectsAsync(userData.sub);
+      this.store.listParticipantProjectsAsync(userData.sub);
+      this.store.listClientProjectsAsync(userData.sub);
+      this.initObservables();
+    });
   }
 
   ngOnDestroy() {

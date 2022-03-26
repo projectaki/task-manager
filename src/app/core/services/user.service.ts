@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
-import { ProjectRole } from '../enums/project-role.enum';
+import { AppConfig, APP_CONFIG } from 'src/app.config';
 import { ProjectListItem } from '../models/project-list-item.interface';
 import { User } from '../models/user.interface';
 
@@ -8,7 +9,7 @@ import { User } from '../models/user.interface';
   providedIn: 'root',
 })
 export class UserService {
-  constructor() {}
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) {}
 
   get(): Observable<User> {
     return of({
@@ -21,36 +22,42 @@ export class UserService {
   update() {}
 
   createProject(project: ProjectListItem): Observable<ProjectListItem> {
-    return of({ ...project, id: '99', role: ProjectRole.OWNER }).pipe(delay(500));
+    return this.http.post<ProjectListItem>(`${this.config.apiUrl}/api/projects`, project);
   }
 
   updateProject(project: ProjectListItem): Observable<ProjectListItem> {
-    return of({ ...project, role: ProjectRole.OWNER }).pipe(delay(500));
+    return this.http.patch<ProjectListItem>(`${this.config.apiUrl}/api/projects/${project.id}`, project);
   }
 
   deleteProject(id: string): Observable<string> {
-    return of(id).pipe(delay(500));
+    return this.http.delete(`${this.config.apiUrl}/api/projects/${id}`, { responseType: 'text' });
   }
 
-  listOwnedProjects(): Observable<ProjectListItem[]> {
-    return of([
-      { id: '1', name: 'Project 1' },
-      { id: '2', name: 'Project 2' },
-      { id: '3', name: 'Project 3' },
-    ]).pipe(delay(500));
+  // listOwnedProjects = (userId: string): Observable<ProjectListItem[]> => {
+  //   let listOwnedProjects$: Observable<ProjectListItem[]> | null = null;
+
+  //   return (() => {
+  //     console.log(listOwnedProjects$);
+  //     if (!listOwnedProjects$)
+  //       listOwnedProjects$ = this.http.get<ProjectListItem[]>(
+  //         `${this.config.apiUrl}/api/users/${userId}/projects/listOwnedProjects`
+  //       );
+
+  //     return listOwnedProjects$;
+  //   })();
+  // };
+
+  listOwnedProjects(userId: string) {
+    return this.http.get<ProjectListItem[]>(`${this.config.apiUrl}/api/users/${userId}/projects/listOwnedProjects`);
   }
 
-  listParticipantProjects(): Observable<ProjectListItem[]> {
-    return of([
-      { id: '4', name: 'Project 4' },
-      { id: '5', name: 'Project 5' },
-    ]).pipe(delay(500));
+  listParticipantProjects(userId: string): Observable<ProjectListItem[]> {
+    return this.http.get<ProjectListItem[]>(
+      `${this.config.apiUrl}/api/users/${userId}/projects/listParticipantProjects`
+    );
   }
 
-  listClientProjects(): Observable<ProjectListItem[]> {
-    return of([
-      { id: '6', name: 'Project 6' },
-      { id: '7', name: 'Project 7' },
-    ]).pipe(delay(500));
+  listClientProjects(userId: string): Observable<ProjectListItem[]> {
+    return this.http.get<ProjectListItem[]>(`${this.config.apiUrl}/api/users/${userId}/projects/listClientProjects`);
   }
 }
