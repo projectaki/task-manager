@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AppConfig, APP_CONFIG } from 'src/app.config';
 import { MemberCreate } from 'src/app/members/member-create';
-import { ProjectRole } from '../enums/project-role.enum';
-import { TaskTag } from '../enums/task-tag.enum';
 import { ProjectTaskItem } from '../models/project-task-item.interface';
 import { ProjectUser } from '../models/project-user.interface';
 import { Project } from '../models/project.interface';
@@ -11,92 +11,42 @@ import { Project } from '../models/project.interface';
   providedIn: 'root',
 })
 export class ProjectService {
-  constructor() {}
+  private baseUrl: string = `${this.config.apiUrl}/api/projects`;
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) {}
 
   get(id: string): Observable<Project> {
-    return of({
-      id,
-      name: 'Project' + id,
-      ownerIds: ['auth0|622e71a6d36bbb0069373531'],
-      clientIds: [],
-      participantIds: [],
-    } as Project).pipe(delay(500));
+    return this.http.get<Project>(`${this.baseUrl}/${id}`);
+  }
+
+  getTask(projectId: string, taskId: string): Observable<ProjectTaskItem> {
+    return this.http.get<ProjectTaskItem>(`${this.baseUrl}/${projectId}/tasks/${taskId}`);
   }
 
   createTask(projectId: string, task: ProjectTaskItem): Observable<ProjectTaskItem> {
-    return of({ ...task, completed: false }).pipe(delay(500));
+    return this.http.post<ProjectTaskItem>(`${this.baseUrl}/${projectId}/tasks`, task);
   }
 
   updateTask(projectId: string, task: ProjectTaskItem): Observable<ProjectTaskItem> {
-    return of({ ...task, completed: true }).pipe(delay(500));
+    return this.http.patch<ProjectTaskItem>(`${this.baseUrl}/${projectId}/tasks/${task.id}`, task);
   }
 
   deleteTask(projectId: string, taskId: string): Observable<string> {
-    return of(taskId).pipe(delay(500));
+    return this.http.delete(`${this.baseUrl}/${projectId}/tasks/${taskId}`, { responseType: 'text' });
   }
 
   listTasks(projectId: string): Observable<ProjectTaskItem[]> {
-    return of([
-      {
-        id: '1',
-        title: 'Task 1',
-        completed: false,
-        tag: TaskTag.BUG,
-      },
-      {
-        id: '2',
-        title: 'Task 2',
-        completed: false,
-        tag: TaskTag.FEATURE,
-      },
-      {
-        id: '3',
-        title: 'Task 3',
-        completed: true,
-        tag: TaskTag.BUG,
-      },
-    ]).pipe(delay(500));
+    return this.http.get<ProjectTaskItem[]>(`${this.baseUrl}/${projectId}/tasks`);
   }
 
   inviteUser(memberCreate: MemberCreate): Observable<ProjectUser> {
-    return of(<ProjectUser>{
-      id: '1',
-      accepted: false,
-      company: 'Test',
-      email: memberCreate.email,
-      name: memberCreate.email,
-      role: memberCreate.role,
-    }).pipe(delay(500));
+    return this.http.post<ProjectUser>(`${this.baseUrl}/${memberCreate.projectId}/users`, memberCreate);
   }
+
   uninviteUser(projectId: string, memberId: string): Observable<string> {
-    return of(memberId).pipe(delay(500));
+    return this.http.delete(`${this.baseUrl}/${projectId}/users/${memberId}`, { responseType: 'text' });
   }
+
   listUsers(projectId: string): Observable<ProjectUser[]> {
-    return of([
-      {
-        id: 'auth0|622e71a6d36bbb0069373531',
-        name: 'Akos',
-        email: 'a@a.com',
-        company: 'HR',
-        accepted: true,
-        role: ProjectRole.OWNER,
-      },
-      {
-        id: '2',
-        name: 'Marysia',
-        email: 'a@a.com',
-        company: 'JAPAN',
-        accepted: false,
-        role: ProjectRole.PARTICIPANT,
-      },
-      {
-        id: '3',
-        name: 'Jeff',
-        email: 'a@a.com',
-        company: 'MY HOSUE',
-        accepted: true,
-        role: ProjectRole.CLIENT,
-      },
-    ]).pipe(delay(500));
+    return this.http.get<ProjectUser[]>(`${this.baseUrl}/${projectId}/users/listInvitedUsers`);
   }
 }

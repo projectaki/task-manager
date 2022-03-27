@@ -112,35 +112,35 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     );
   });
 
-  public readonly listOwnedProjectsAsync = this.effect((userId$: Observable<string>) => {
-    return userId$.pipe(
+  public readonly listOwnedProjectsAsync = this.effect((void$: Observable<void>) => {
+    return void$.pipe(
       tap(() => this.patchState({ projectListOwnedLoadingState: LoadingState.LOADING })),
-      switchMap(userId =>
-        this.userService
-          .listOwnedProjects(userId)
-          .pipe(tapResponse(this.onListOwnedProjectSuccess, this.onListOwnedProjectError))
+      switchMap(() =>
+        this.userService.listOwnedProjects$.pipe(
+          tapResponse(this.onListOwnedProjectSuccess, this.onListOwnedProjectError)
+        )
       )
     );
   });
 
-  public readonly listParticipantProjectsAsync = this.effect((userId$: Observable<string>) => {
-    return userId$.pipe(
+  public readonly listParticipantProjectsAsync = this.effect((void$: Observable<void>) => {
+    return void$.pipe(
       tap(() => this.patchState({ projectListParticipantLoadingState: LoadingState.LOADING })),
-      switchMap(userId =>
-        this.userService
-          .listParticipantProjects(userId)
-          .pipe(tapResponse(this.onListParticipantProjectSuccess, this.onListParticipantProjectError))
+      switchMap(() =>
+        this.userService.listParticipantProjects$.pipe(
+          tapResponse(this.onListParticipantProjectSuccess, this.onListParticipantProjectError)
+        )
       )
     );
   });
 
-  public readonly listClientProjectsAsync = this.effect((userId$: Observable<string>) => {
-    return userId$.pipe(
+  public readonly listClientProjectsAsync = this.effect((void$: Observable<void>) => {
+    return void$.pipe(
       tap(() => this.patchState({ projectListClientLoadingState: LoadingState.LOADING })),
-      switchMap(userId =>
-        this.userService
-          .listClientProjects(userId)
-          .pipe(tapResponse(this.onListClientProjectSuccess, this.onListClientProjectError))
+      switchMap(() =>
+        this.userService.listClientProjects$.pipe(
+          tapResponse(this.onListClientProjectSuccess, this.onListClientProjectError)
+        )
       )
     );
   });

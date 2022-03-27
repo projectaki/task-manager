@@ -25,9 +25,10 @@ export class TaskViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(({ taskId }) => {
+    this.route.params.subscribe(({ taskId, projectId }) => {
+      console.log(taskId, projectId);
       this.taskId = taskId;
-      this.store.getProjectTasksAsync(taskId);
+      this.store.getProjectTasksAsync({ taskId, projectId });
     });
 
     this.store.taskView$

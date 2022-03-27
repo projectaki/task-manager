@@ -155,9 +155,10 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
 
   private readonly updateProjectTask = this.updater((state, project: ProjectTaskItem) => {
     const index = state.projectTasks.findIndex(x => x.id === project.id);
+    const merged = { ...state.projectTasks[index], ...project }; // can delete this when backend return correct data
     return {
       ...state,
-      projectTasks: [...state.projectTasks.slice(0, index), project, ...state.projectTasks.slice(index + 1)],
+      projectTasks: [...state.projectTasks.slice(0, index), merged, ...state.projectTasks.slice(index + 1)],
     };
   });
 

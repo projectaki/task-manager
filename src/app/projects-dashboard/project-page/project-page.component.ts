@@ -32,12 +32,10 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.auth.userData$.pipe(takeUntil(this.unsub$)).subscribe(({ userData }) => {
-      this.store.listOwnedProjectsAsync(userData.sub);
-      this.store.listParticipantProjectsAsync(userData.sub);
-      this.store.listClientProjectsAsync(userData.sub);
-      this.initObservables();
-    });
+    this.store.listOwnedProjectsAsync();
+    this.store.listParticipantProjectsAsync();
+    this.store.listClientProjectsAsync();
+    this.initObservables();
   }
 
   ngOnDestroy() {
