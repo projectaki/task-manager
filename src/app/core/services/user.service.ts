@@ -11,17 +11,13 @@ import { User } from '../models/user.interface';
 export class UserService {
   private baseUrl: string = `${this.config.apiUrl}/api/users`;
 
-  listOwnedProjects$ = this.http
-    .get<ProjectListItem[]>(`${this.baseUrl}/projects/listOwnedProjects`)
-    .pipe(shareReplay(1));
+  listOwnedProjects$ = this.http.get<ProjectListItem[]>(`${this.baseUrl}/listOwnedProjects`).pipe(shareReplay(1));
 
   listParticipantProjects$ = this.http
-    .get<ProjectListItem[]>(`${this.baseUrl}/projects/listParticipantProjects`)
+    .get<ProjectListItem[]>(`${this.baseUrl}/listParticipantProjects`)
     .pipe(shareReplay(1));
 
-  listClientProjects$ = this.http
-    .get<ProjectListItem[]>(`${this.baseUrl}/projects/listClientProjects`)
-    .pipe(shareReplay(1));
+  listClientProjects$ = this.http.get<ProjectListItem[]>(`${this.baseUrl}/listClientProjects`).pipe(shareReplay(1));
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) {}
 
   get(): Observable<User> {
