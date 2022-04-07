@@ -36,7 +36,7 @@ export class ProjectCreateComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.projectCreateForm = fb.group({
       id: [''],
-      name: ['', Validators.required],
+      title: ['', Validators.required],
     });
   }
 
@@ -46,7 +46,7 @@ export class ProjectCreateComponent implements OnInit {
     if (this.project) {
       this.projectCreateForm.patchValue({
         id: this.project.id,
-        name: this.project.name,
+        title: this.project.title,
       });
     }
   }

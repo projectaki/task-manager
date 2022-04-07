@@ -2,7 +2,7 @@
   <form [formGroup]="projectCreateForm" (ngSubmit)="onSubmit($event)">
     <div fxLayout="column" fxLayoutGap="40px" class="form-cont">
       <span class="p-float-label username">
-        <input id="float-input" type="text" pInputText style="width: 270px" formControlName="name" />
+        <input id="float-input" type="text" pInputText style="width: 270px" formControlName="title" />
         <label for="float-input">Title</label>
       </span>
       <ng-container *ngIf="!isLoading; else loading">
