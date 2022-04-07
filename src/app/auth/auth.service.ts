@@ -6,6 +6,14 @@ import { BehaviorSubject, combineLatest, filter, map, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
+  public get sub() {
+    return this._sub;
+  }
+  private set sub(val: string) {
+    this._sub = val;
+  }
+  private _sub: string = '';
+
   private readonly error = new BehaviorSubject<any>(false);
   private readonly isLoading = new BehaviorSubject(true);
 
@@ -39,8 +47,13 @@ export class AuthService {
   constructor(private auth: OidcSecurityService) {}
 
   initializeAuth() {
-    return this.auth.checkAuth().pipe(tap(() => this.isLoading.next(false)));
+    return this.auth.checkAuth().pipe(tap(this.authCompleteCallback));
   }
+
+  authCompleteCallback = () => {
+    this.isLoading.next(false);
+    this.setStaticDataFromIdToken();
+  };
 
   /**
    * Log out and revoke tokens (also refresh tokens).
@@ -64,5 +77,10 @@ export class AuthService {
    */
   getAccessToken() {
     return this.auth.getAccessToken();
+  }
+
+  setStaticDataFromIdToken() {
+    const payload = this.auth.getPayloadFromIdToken();
+    this.sub = payload.sub;
   }
 }
