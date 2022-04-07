@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { AuthConfigModule } from './auth/auth-config.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AttachTokenInterceptor } from './auth/attach-token.interceptor';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, LayoutComponent],
@@ -21,7 +23,7 @@ import { AuthConfigModule } from './auth/auth-config.module';
     HomeModule,
     AuthConfigModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AttachTokenInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
