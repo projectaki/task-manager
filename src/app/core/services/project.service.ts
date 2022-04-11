@@ -47,6 +47,6 @@ export class ProjectService {
   }
 
   listUsers(projectId: string): Observable<ProjectUser[]> {
-    return this.http.get<ProjectUser[]>(`${this.baseUrl}/${projectId}/users/listInvitedUsers`);
+    return this.http.get<ProjectUser[]>(`${this.baseUrl}/${projectId}/members/listInvitedUsers`);
   }
 }
