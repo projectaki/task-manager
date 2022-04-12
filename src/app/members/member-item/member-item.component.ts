@@ -25,8 +25,14 @@ export class MemberItemComponent implements OnInit {
   private _isDeleteLoading!: boolean;
 
   ngOnInit(): void {
-    this.avatarColor = this.generateRandomVibrantColorFromName(this.member.name);
-    this.initials = this.member.name[0].toUpperCase();
+    this.avatarColor = this.member.name
+      ? this.generateRandomVibrantColorFromName(this.member.name)
+      : this.generateRandomVibrantColorFromName(this.member.email ?? '');
+    this.initials = this.member.name
+      ? this.member.name[0].toUpperCase()
+      : this.member.email
+      ? this.member.email[0].toUpperCase()
+      : '';
   }
 
   onDelete($event: Event, id: string) {
@@ -40,6 +46,7 @@ export class MemberItemComponent implements OnInit {
   }
 
   private generateRandomVibrantColorFromName = (name: string) => {
+    if (!name) return 'pink';
     const sum = [...name].reduce((acc, curr) => (acc += curr.charCodeAt(0)), 0);
 
     var h = sum % 360;

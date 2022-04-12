@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ProjectRole } from 'src/app/core/enums/project-role.enum';
 import { Member } from '../member';
 
 @Component({
@@ -9,7 +10,7 @@ import { Member } from '../member';
 })
 export class MemberListComponent implements OnInit {
   @Input() members: Member[] = [];
-  @Input() ownerIds: string[] = [];
+  @Input() canDelete!: boolean;
   @Input() set isDeleteLoading(val: boolean) {
     this._isDeleteLoading = val;
   }
@@ -27,6 +28,8 @@ export class MemberListComponent implements OnInit {
   private _selectedProjectUserId!: string;
 
   @Output() deleted = new EventEmitter<any>();
+
+  ProjectRole = ProjectRole;
 
   constructor(public auth: AuthService) {}
 

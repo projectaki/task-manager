@@ -4,4 +4,6 @@ export interface User {
   id: string;
   email: string;
   projects: ProjectListItem[];
+  name: string;
+  company: string;
 }

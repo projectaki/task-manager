@@ -149,7 +149,9 @@ export class ProjectPageStoreService extends ComponentStore<ProjectPageState> {
     return project$.pipe(
       tap(() => this.patchState({ projectUpdateLoadingState: LoadingState.LOADING })),
       switchMap(p =>
-        this.userService.updateProject(p).pipe(tapResponse(this.onUpdateProjectSuccess, this.onUpdateProjectError))
+        this.userService
+          .updateProject(p.id, p)
+          .pipe(tapResponse(this.onUpdateProjectSuccess, this.onUpdateProjectError))
       )
     );
   });

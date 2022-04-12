@@ -2,7 +2,9 @@
   <p-divider [style]="{ margin: '4px' }"></p-divider>
   <div *ngFor="let member of members">
     <app-member-item
-      [options]="{ showDelete: (ownerIds | checkTaskMembership: user.userData.sub) && user.userData.sub !== member.id }"
+      [options]="{
+        showDelete: canDelete && user.userData.sub !== member.id
+      }"
       [member]="member"
       (delete)="onDelete($event)"
       [isDeleteLoading]="isDeleteLoading && member.id === selectedProjectUserId"></app-member-item>
