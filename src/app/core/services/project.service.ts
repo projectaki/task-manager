@@ -23,7 +23,8 @@ export class ProjectService {
   }
 
   createTask(projectId: string, task: ProjectTaskItem): Observable<ProjectTaskItem> {
-    return this.http.post<ProjectTaskItem>(`${this.baseUrl}/${projectId}/tasks`, task);
+    const taskWithCompletedSet = { ...task, completed: false };
+    return this.http.post<ProjectTaskItem>(`${this.baseUrl}/${projectId}/tasks`, taskWithCompletedSet);
   }
 
   updateTask(projectId: string, task: ProjectTaskItem): Observable<ProjectTaskItem> {
