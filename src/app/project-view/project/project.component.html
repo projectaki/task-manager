@@ -6,8 +6,8 @@
       <div class="create-project-button">
         <button
           *ngIf="
-            (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER) ||
-            (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.CLIENT)
+            (pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER) ||
+            (pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.CLIENT)
           "
           pButton
           class="p-button-raised"
@@ -36,10 +36,10 @@
             <app-task
               [options]="{
                 showEdit:
-                  (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.CLIENT) ||
-                  (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER),
+                  (pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.CLIENT) ||
+                  (pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER),
                 showView: true,
-                showDelete: (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER)
+                showDelete: (pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER)
               }"
               [isDeleteLoading]="(tvm.isRemoveLoading | loadingState) && tvm.selectedProject?.id === item.id"
               [isEditLoading]="(tvm.isUpdateLoading | loadingState) && tvm.selectedProject?.id === item.id"
@@ -57,8 +57,8 @@
               fxFlex
               [options]="{
                 showEdit:
-                  (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.CLIENT) ||
-                  (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER),
+                  (pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.CLIENT) ||
+                  (pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER),
                 showView: true,
                 showDelete: (pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER)
               }"
@@ -75,9 +75,8 @@
         <p-tabPanel header="Members">
           <div fxLayout="row wrap" fxLayoutGap="{{ gridGap }}px grid" *ngIf="memberVM$ | async as vm">
             <div fxFlex="100%" class="button-cont">
-              <div>{{ pvm | json }}</div>
               <button
-                *ngIf="pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER"
+                *ngIf="pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER"
                 class="button"
                 pButton
                 type="button"
@@ -97,7 +96,7 @@
               fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
               <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Owners"></p-chip>
               <app-member-list
-                [canDelete]="pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER"
+                [canDelete]="pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER"
                 [members]="vm.projectUsers | filterProjectRole: ProjectRole.OWNER | projectuserToMember"
                 [isDeleteLoading]="vm.projectUserRemoveLoadingState | loadingState"
                 [selectedProjectUserId]="vm.selectedProjectUser?.id!"
@@ -109,7 +108,7 @@
               fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
               <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Participant"></p-chip>
               <app-member-list
-                [canDelete]="pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER"
+                [canDelete]="pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER"
                 [members]="vm.projectUsers | filterProjectRole: ProjectRole.PARTICIPANT | projectuserToMember"
                 [isDeleteLoading]="vm.projectUserRemoveLoadingState | loadingState"
                 [selectedProjectUserId]="vm.selectedProjectUser?.id!"
@@ -121,7 +120,7 @@
               fxFlex.lt-md="calc(100% - {{ gridGap }}px)">
               <p-chip [style]="{ backgroundColor: 'var(--primary)', color: 'white' }" label="Clients"></p-chip>
               <app-member-list
-                [canDelete]="pvm.project?.members | checkTaskMembership: user.userData.sub:ProjectRole.OWNER"
+                [canDelete]="pvm.project?.members | checkTaskMembership: user.userData?.sub:ProjectRole.OWNER"
                 [members]="vm.projectUsers | filterProjectRole: ProjectRole.CLIENT | projectuserToMember"
                 [isDeleteLoading]="vm.projectUserRemoveLoadingState | loadingState"
                 [selectedProjectUserId]="vm.selectedProjectUser?.id!"

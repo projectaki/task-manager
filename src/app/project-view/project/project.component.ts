@@ -134,7 +134,8 @@ export class ProjectComponent implements OnInit {
   }
 
   onProjectUserInvite(event: MemberCreate) {
-    this.memberStore.inviteProjectUserAsync(event);
+    const memberCreateWithProjId = { ...event, projectId: this.projectId };
+    this.memberStore.inviteProjectUserAsync(memberCreateWithProjId);
   }
 
   onProjectUserDelete($event: any) {

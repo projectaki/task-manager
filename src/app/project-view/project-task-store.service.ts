@@ -162,8 +162,12 @@ export class ProjectTaskStoreService extends ComponentStore<ProjectTaskState> {
     };
   });
 
-  private readonly deleteProjectTask = this.updater((state, id: string) => ({
-    ...state,
-    projectTasks: state.projectTasks.filter(x => x.id !== id),
-  }));
+  private readonly deleteProjectTask = this.updater((state, id: string) => {
+    console.log(state.projectTasks);
+    console.log(id);
+    return {
+      ...state,
+      projectTasks: state.projectTasks.filter(x => x.id !== id),
+    };
+  });
 }

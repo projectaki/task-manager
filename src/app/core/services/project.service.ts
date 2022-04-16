@@ -40,7 +40,10 @@ export class ProjectService {
   }
 
   inviteUser(memberCreate: MemberCreate): Observable<ProjectUser> {
-    return this.http.post<ProjectUser>(`${this.baseUrl}/${memberCreate.projectId}/users`, memberCreate);
+    return this.http.post<ProjectUser>(
+      `${this.baseUrl}/${memberCreate.projectId}/members/${memberCreate.email}`,
+      memberCreate
+    );
   }
 
   uninviteUser(projectId: string, memberId: string): Observable<string> {
